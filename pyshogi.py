@@ -16,14 +16,12 @@ class KomaCanNotPlaceError(Error):
 class Koma:
     KACHI    = None
     UGOKI    = [None, None]
+    masu     = None
     narikoma = False
 
-    def __init__(self, ban, masu, sente):
+    def __init__(self, ban, sente):
         self.ban   = ban
-        self.masu  = masu
         self.sente = sente
-
-        if self.masu: masu.koma = self
 
     def __str__(self):
         return "%s:%s" % (self.__class__.__name__, self.sente)
@@ -31,7 +29,7 @@ class Koma:
     def __cmp__(self, other):
         return cmp(self.KACHI, other.KACHI)
 
-    def naru(self):
+    def nari(self):
         if self.UGOKI[1]: self.narikoma = True
 
     def is_movable(self, x, y):
@@ -40,10 +38,33 @@ class Koma:
             return masu
         return None;
 
-    def movables(self):
-        masus = []
+    def move(self, masu):
+        if masu not in self.movables():
+            raise KomaCanNotPlaceError(self, masu)
 
-        if not self.sente: self.masu.ban.round()
+        koma = masu.koma
+        if koma:
+            koma.masu     = None
+            koma.sente    = self.sente
+            koma.narikoma = False
+
+        masu.koma = self
+        self.masu = masu
+
+    def movables(self):
+        if not self.sente: self.ban.round()
+
+        if self.masu:
+            masus = self.__movables()
+        else:
+            masus = self.__placeables()
+
+        if not self.sente: self.ban.round()
+
+        return frozenset(masus)
+
+    def __movables(self):
+        masus = []
 
         if self.narikoma:
             ugokis = self.UGOKI[1]
@@ -64,21 +85,10 @@ class Koma:
                 else:
                     masus.append(masu)
 
-        if not self.sente: self.masu.ban.round()
+        return masus
 
-        return frozenset(masus)
-
-    def move(self, masu):
-        if masu not in self.movables():
-            raise KomaCanNotPlaceError, self, masu
-
-        koma = masu.koma
-        if koma:
-            koma.masu     = None
-            koma.sente    = self.sente
-            koma.narikoma = False
-
-        masu.koma = self
+    def __placeables(self):
+        return [masu for masu in self.ban if masu.koma is None]
 
 # 8 7 6 5 4 3 2 1 0
 #                 1
@@ -280,10 +290,10 @@ class Ban:
 
         self.komas = []
         for sente, koma_class, masu in data:
+            koma = eval(koma_class)(self, sente)
             if masu:
                 x, y = masu
-                masu = self.masus[x][y]
-            koma = eval(koma_class)(self, masu, sente)
+                koma.move(self.masus[x][y])
             self.komas.append(koma)
 
     def __iter__(self):

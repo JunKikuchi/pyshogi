@@ -26,7 +26,7 @@ class SenteFuTestCase(unittest.TestCase):
         self.assertEqual(self.koma.movables(), frozenset([self.ban.masu(4, 3)]))
 
     def test_narikoma_movables(self):
-        self.koma.naru()
+        self.koma.nari()
 
         self.assertEqual(
             self.koma.movables(),
@@ -61,7 +61,7 @@ class SenteKyosyaTestCase(unittest.TestCase):
             ]))
 
     def test_narikoma_movables(self):
-        self.koma.naru()
+        self.koma.nari()
 
         self.assertEqual(
             self.koma.movables(),
@@ -94,7 +94,7 @@ class SenteKeimaTestCase(unittest.TestCase):
             ]))
 
     def test_narikoma_movables(self):
-        self.koma.naru()
+        self.koma.nari()
 
         self.assertEqual(
             self.koma.movables(),
@@ -128,7 +128,7 @@ class SenteGinTestCase(unittest.TestCase):
             ]))
 
     def test_narikoma_movables(self):
-        self.koma.naru()
+        self.koma.nari()
 
         self.assertEqual(
             self.koma.movables(),
@@ -162,7 +162,7 @@ class SenteKinTestCase(unittest.TestCase):
             ]))
 
     def test_narikoma_movables(self):
-        self.koma.naru()
+        self.koma.nari()
 
         self.assertEqual(
             self.koma.movables(),
@@ -202,7 +202,7 @@ class SenteKakuTestCase(unittest.TestCase):
             ]))
 
     def test_narikoma_movables(self):
-        self.koma.naru()
+        self.koma.nari()
 
         self.assertEqual(
             self.koma.movables(),
@@ -251,7 +251,7 @@ class SenteHisyaTestCase(unittest.TestCase):
             ]))
 
     def test_narikoma_movables(self):
-        self.koma.naru()
+        self.koma.nari()
 
         self.assertEqual(
             self.koma.movables(),
@@ -294,7 +294,7 @@ class SenteGyokuTestCase(unittest.TestCase):
             ]))
 
     def test_narikoma_movables(self):
-        self.koma.naru()
+        self.koma.nari()
 
         self.assertEqual(
             self.koma.movables(),
@@ -379,5 +379,9 @@ class HirateBanTestCase(unittest.TestCase):
                 self.assertTrue(masu.koma.sente)
             else:
                 self.assertFalse(masu.koma.sente)
+
+    def test_mochigoma(self):
+        self.assertEqual(self.ban.mochigoma(True), [])
+        self.assertEqual(self.ban.mochigoma(False), [])
 
 if __name__ == '__main__': unittest.main()
