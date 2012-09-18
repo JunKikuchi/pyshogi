@@ -32,12 +32,6 @@ class Koma:
     def nari(self):
         if self.UGOKI[1]: self.narikoma = True
 
-    def is_movable(self, x, y):
-        masu = self.ban.masu(self.masu.x + x, self.masu.y + y)
-        if masu and (masu.koma is None or masu.koma.sente <> self.sente):
-            return masu
-        return None;
-
     def move(self, masu):
         if masu not in self.movables():
             raise CanNotPlaceKomaError(self, masu)
@@ -74,14 +68,14 @@ class Koma:
         for hashiru, ugoki in ugokis:
             for mx, my in ugoki:
                 x, y = mx, my
-                masu = self.is_movable(x, y)
+                masu = self.__is_movable(x, y)
                 if hashiru:
                     while(masu):
                         masus.append(masu)
                         if masu.koma and masu.koma.sente <> self.sente: break
                         x += mx
                         y += my
-                        masu = self.is_movable(x, y)
+                        masu = self.__is_movable(x, y)
                 else:
                     masus.append(masu)
 
@@ -89,6 +83,12 @@ class Koma:
 
     def placeables(self):
         return [masu for masu in self.ban if masu.koma is None]
+
+    def __is_movable(self, x, y):
+        masu = self.ban.masu(self.masu.x + x, self.masu.y + y)
+        if masu and (masu.koma is None or masu.koma.sente <> self.sente):
+            return masu
+        return None;
 
 # 8 7 6 5 4 3 2 1 0
 #                 1
