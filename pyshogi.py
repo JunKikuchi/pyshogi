@@ -8,13 +8,14 @@
 class Error(Exception):
     pass
 
-class KomaCanNotMoveError(Error):
+class KomaCanNotPlaceError(Error):
     def __init__(self, koma, masu):
         self.koma = koma
         self.masu = masu
 
 class Koma:
-    UGOKI = [None, None]
+    KACHI    = None
+    UGOKI    = [None, None]
     narikoma = False
 
     def __init__(self, ban, masu, sente):
@@ -26,6 +27,9 @@ class Koma:
 
     def __str__(self):
         return "%s:%s" % (self.__class__.__name__, self.sente)
+
+    def __cmp__(self, other):
+        return cmp(self.KACHI, other.KACHI)
 
     def naru(self):
         if self.UGOKI[1]: self.narikoma = True
@@ -66,7 +70,7 @@ class Koma:
 
     def move(self, masu):
         if masu not in self.movables():
-            raise KomaCanNotMoveError, self, masu
+            raise KomaCanNotPlaceError, self, masu
 
         koma = masu.koma
         if koma:
@@ -87,6 +91,7 @@ class Koma:
 #                 8
 
 class Gyoku(Koma):
+    KACHI = 1
     UGOKI = [
         [
             (False, frozenset([
@@ -99,6 +104,7 @@ class Gyoku(Koma):
     ]
 
 class Hisya(Koma):
+    KACHI = 2
     UGOKI = [
         [
             (True, frozenset([
@@ -122,6 +128,7 @@ class Hisya(Koma):
     ]
 
 class Kaku(Koma):
+    KACHI = 3
     UGOKI = [
         [
             (True, frozenset([
@@ -145,6 +152,7 @@ class Kaku(Koma):
     ]
 
 class Kin(Koma):
+    KACHI = 4
     UGOKI = [
         [
             (False, frozenset([
@@ -157,6 +165,7 @@ class Kin(Koma):
     ]
 
 class Gin(Koma):
+    KACHI = 5
     UGOKI = [
         [
             (False, frozenset([
@@ -169,6 +178,7 @@ class Gin(Koma):
     ]
 
 class Keima(Koma):
+    KACHI = 6
     UGOKI = [
         [
             (False, frozenset([
@@ -181,6 +191,7 @@ class Keima(Koma):
     ]
 
 class Kyosya(Koma):
+    KACHI = 7
     UGOKI = [
         [
             (True, frozenset([
@@ -191,6 +202,7 @@ class Kyosya(Koma):
     ]
 
 class Fu(Koma):
+    KACHI = 8
     UGOKI = [
         [
             (False, frozenset([
@@ -266,17 +278,12 @@ class Ban:
             ] for x in range(0, 9)
         ]
 
-        self.mochigomas = {True: [], False: []}
-
         self.komas = []
         for sente, koma_class, masu in data:
             if masu:
                 x, y = masu
                 masu = self.masus[x][y]
-                koma = eval(koma_class)(self, masu, sente)
-            else:
-                koma = eval(koma_class)(self, masu, sente)
-                self.mochigomas[sente].append(koma)
+            koma = eval(koma_class)(self, masu, sente)
             self.komas.append(koma)
 
     def __iter__(self):
@@ -308,3 +315,7 @@ class Ban:
                 masu.round()
         self.masus.reverse()
 
+    def mochigoma(self, sente):
+        xs = [a for a in self.komas if a.sente == sente and a.masu is None]
+        xs.sort()
+        return xs

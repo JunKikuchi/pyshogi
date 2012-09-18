@@ -11,8 +11,6 @@ import unittest
 class SenteFuTestCase(unittest.TestCase):
     BAN = [
         (True,  'Fu', (4, 4)),
-        (True,  'Fu', None  ),
-        (False, 'Fu', None  ),
     ]
 
     def setUp(self):
@@ -21,6 +19,7 @@ class SenteFuTestCase(unittest.TestCase):
 
     def test_koma(self):
         self.assertIsInstance(self.koma, pyshogi.Fu)
+        self.assertIsNotNone(self.koma.masu)
         self.assertFalse(self.koma.narikoma)
 
     def test_movables(self):
@@ -48,6 +47,7 @@ class SenteKyosyaTestCase(unittest.TestCase):
 
     def test_koma(self):
         self.assertIsInstance(self.koma, pyshogi.Kyosya)
+        self.assertIsNotNone(self.koma.masu)
         self.assertFalse(self.koma.narikoma)
 
     def test_movables(self):
@@ -82,6 +82,7 @@ class SenteKeimaTestCase(unittest.TestCase):
 
     def test_koma(self):
         self.assertIsInstance(self.koma, pyshogi.Keima)
+        self.assertIsNotNone(self.koma.masu)
         self.assertFalse(self.koma.narikoma)
 
     def test_movables(self):
@@ -114,6 +115,7 @@ class SenteGinTestCase(unittest.TestCase):
 
     def test_koma(self):
         self.assertIsInstance(self.koma, pyshogi.Gin)
+        self.assertIsNotNone(self.koma.masu)
         self.assertFalse(self.koma.narikoma)
 
     def test_movables(self):
@@ -147,6 +149,7 @@ class SenteKinTestCase(unittest.TestCase):
 
     def test_koma(self):
         self.assertIsInstance(self.koma, pyshogi.Kin)
+        self.assertIsNotNone(self.koma.masu)
         self.assertFalse(self.koma.narikoma)
 
     def test_movables(self):
@@ -180,6 +183,7 @@ class SenteKakuTestCase(unittest.TestCase):
 
     def test_koma(self):
         self.assertIsInstance(self.koma, pyshogi.Kaku)
+        self.assertIsNotNone(self.koma.masu)
         self.assertFalse(self.koma.narikoma)
 
     def test_movables(self):
@@ -225,6 +229,7 @@ class SenteHisyaTestCase(unittest.TestCase):
 
     def test_koma(self):
         self.assertIsInstance(self.koma, pyshogi.Hisya)
+        self.assertIsNotNone(self.koma.masu)
         self.assertFalse(self.koma.narikoma)
 
     def test_movables(self):
@@ -276,6 +281,7 @@ class SenteGyokuTestCase(unittest.TestCase):
 
     def test_koma(self):
         self.assertIsInstance(self.koma, pyshogi.Gyoku)
+        self.assertIsNotNone(self.koma.masu)
         self.assertFalse(self.koma.narikoma)
 
     def test_movables(self):
