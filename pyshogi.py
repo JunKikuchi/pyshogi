@@ -6,7 +6,7 @@
 #
 
 class Koma:
-    MOVABLES = frozenset([])
+    UGOKI = [None, None]
     narikoma = False
 
     def __init__(self, ban, masu, sente):
@@ -19,80 +19,166 @@ class Koma:
     def __str__(self):
         return "%s:%s" % (self.__class__.__name__, self.sente)
 
+    def naru(self):
+        if self.UGOKI[1]: self.narikoma = True
+
     def is_movable(self, x, y):
         masu = self.ban.masu(self.masu.x + x, self.masu.y + y)
         if masu and (masu.koma is None or masu.koma.sente <> self.sente):
             return masu
         return None;
 
-    def movable_masus(self):
+    def movables(self):
         masus = []
 
         if not self.sente: self.masu.ban.round()
 
         if self.narikoma:
-            movables = self.MOVABLES | Kin.MOVABLES
+            ugokis = self.UGOKI[1]
         else:
-            movables = self.MOVABLES
+            ugokis = self.UGOKI[0]
 
-        for x, y in movables:
-            masu = self.is_movable(x, y)
-            if masu:
-                masus.append(masu)
-
-        if not self.sente: self.masu.ban.round()
-
-        return frozenset(masus)
-
-class HashiriGoma(Koma):
-    def movable_masus(self):
-        masus = []
-
-        if not self.sente: self.masu.ban.round()
-
-        for mx, my in self.MOVABLES:
-            x, y = mx, my
-            masu = self.is_movable(x, y)
-            while(masu):
-                masus.append(masu)
-                if masu.koma and masu.koma.sente <> self.sente: break
-                x += mx
-                y += my
+        for hashiru, ugoki in ugokis:
+            for mx, my in ugoki:
+                x, y = mx, my
                 masu = self.is_movable(x, y)
-
-        if self.narikoma:
-            for x, y in Kin.MOVABLES:
-                masu = self.is_movable(x, y)
-                if masu:
+                if hashiru:
+                    while(masu):
+                        masus.append(masu)
+                        if masu.koma and masu.koma.sente <> self.sente: break
+                        x += mx
+                        y += my
+                        masu = self.is_movable(x, y)
+                else:
                     masus.append(masu)
 
         if not self.sente: self.masu.ban.round()
 
         return frozenset(masus)
 
-class Fu(Koma):
-    MOVABLES = frozenset([(0, -1)])
-
-class Kyosya(HashiriGoma):
-    MOVABLES = frozenset([(0, -1)])
-
-class Keima(Koma):
-    MOVABLES = frozenset([(-1, -2), (1, -2)])
-
-class Gin(Koma):
-    MOVABLES = frozenset([(1, -1), (0, -1), (-1, -1), (1, 1), (-1, 1)])
-
-class Kin(Koma):
-    MOVABLES = frozenset([(1, -1), (0, -1), (-1, -1), (1, 0), (-1, 0), (0, 1)])
-
-class Kaku(HashiriGoma):
-    MOVABLES = frozenset([(1, -1), (-1, -1), (-1, 1), (1, 1)])
-
-class Hisya(HashiriGoma):
-    MOVABLES = frozenset([(0, -1), (0, 1), (-1, 0), (1, 0)])
+# 8 7 6 5 4 3 2 1 0
+#                 1
+#                 2
+#                 3
+#                 4
+#                 5
+#                 6
+#                 7
+#                 8
 
 class Gyoku(Koma):
-    MOVABLES = frozenset([(1, -1), (0, -1), (-1, -1), (1, 0), (-1, 0), (1, 1), (0, 1), (-1, 1)])
+    UGOKI = [
+        [
+            (False, frozenset([
+                (1, -1), (0, -1), (-1, -1),
+                (1,  0),          (-1,  0),
+                (1,  1), (0,  1), (-1,  1),
+            ]))
+        ],
+        None
+    ]
+
+class Hisya(Koma):
+    UGOKI = [
+        [
+            (True, frozenset([
+                         (0, -1),
+                (1,  0),          (-1,  0),
+                         (0,  1)
+            ]))
+        ],
+        [
+            (True, frozenset([
+                         (0, -1),
+                (1,  0),          (-1,  0),
+                         (0,  1)
+            ])),
+            (False, frozenset([
+                (1, -1),          (-1, -1),
+
+                (1,  1),          (-1,  1),
+            ]))
+        ]
+    ]
+
+class Kaku(Koma):
+    UGOKI = [
+        [
+            (True, frozenset([
+                (1, -1),          (-1, -1),
+
+                (1,  1),          (-1,  1)
+            ]))
+        ],
+        [
+            (True, frozenset([
+                (1, -1),          (-1, -1),
+
+                (1,  1),          (-1,  1)
+            ])),
+            (False, frozenset([
+                         (0, -1),
+                (1,  0),          (-1,  0),
+                         (0,  1)
+            ])),
+        ]
+    ]
+
+class Kin(Koma):
+    UGOKI = [
+        [
+            (False, frozenset([
+                (1, -1), (0, -1), (-1, -1),
+                (1,  0),          (-1,  0),
+                         (0,  1)
+            ]))
+        ],
+        None
+    ]
+
+class Gin(Koma):
+    UGOKI = [
+        [
+            (False, frozenset([
+                (1, -1), (0, -1), (-1, -1),
+
+                (1,  1),          (-1,  1),
+            ]))
+        ],
+        Kin.UGOKI[0]
+    ]
+
+class Keima(Koma):
+    UGOKI = [
+        [
+            (False, frozenset([
+                (1, -2),          (-1, -2)
+
+
+            ]))
+        ],
+        Kin.UGOKI[0]
+    ]
+
+class Kyosya(Koma):
+    UGOKI = [
+        [
+            (True, frozenset([
+                         (0, -1),
+            ]))
+        ],
+        Kin.UGOKI[0]
+    ]
+
+class Fu(Koma):
+    UGOKI = [
+        [
+            (False, frozenset([
+                         (0, -1),
+            ]))
+        ],
+        Kin.UGOKI[0]
+    ]
 
 class Masu:
     koma = None
@@ -151,16 +237,6 @@ HIRATE = [
     ((1, 8), Keima,  True),
     ((0, 8), Kyosya, True),
 ]
-
-# 8 7 6 5 4 3 2 1 0
-#                 1
-#                 2
-#                 3
-#                 4
-#                 5
-#                 6
-#                 7
-#                 8
 
 class Ban:
     def __init__(self, data=HIRATE):

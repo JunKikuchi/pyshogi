@@ -8,6 +8,105 @@
 import pyshogi
 import unittest
 
+class SenteFuTestCase(unittest.TestCase):
+    BAN = [
+        ((4, 4), pyshogi.Fu, True),
+    ]
+
+    def setUp(self):
+        self.ban  = pyshogi.Ban(self.BAN)
+        self.koma = self.ban.masu(4, 4).koma
+
+    def test_koma(self):
+        self.assertIsInstance(self.koma, pyshogi.Fu)
+
+    def test_movables(self):
+        self.assertEqual(self.koma.movables(), frozenset([self.ban.masu(4, 3)]))
+
+    def test_narikoma_movables(self):
+        self.koma.naru()
+
+        self.assertEqual(
+            self.koma.movables(),
+            frozenset([
+                self.ban.masu(5, 3),
+                self.ban.masu(4, 3),
+                self.ban.masu(3, 3),
+                self.ban.masu(5, 4),
+                self.ban.masu(3, 4),
+                self.ban.masu(4, 5),
+            ]))
+
+class SenteKyosyaTestCase(unittest.TestCase):
+    BAN = [
+        ((4, 4), pyshogi.Kyosya, True),
+    ]
+
+    def setUp(self):
+        self.ban  = pyshogi.Ban(self.BAN)
+        self.koma = self.ban.masu(4, 4).koma
+
+    def test_koma(self):
+        self.assertIsInstance(self.koma, pyshogi.Kyosya)
+
+    def test_movables(self):
+        self.assertEqual(
+            self.koma.movables(),
+            frozenset([
+                self.ban.masu(4, 3),
+                self.ban.masu(4, 2),
+                self.ban.masu(4, 1),
+                self.ban.masu(4, 0),
+            ]))
+
+    def test_narikoma_movables(self):
+        self.koma.naru()
+
+        self.assertEqual(
+            self.koma.movables(),
+            frozenset([
+                self.ban.masu(5, 3),
+                self.ban.masu(4, 3),
+                self.ban.masu(3, 3),
+                self.ban.masu(5, 4),
+                self.ban.masu(3, 4),
+                self.ban.masu(4, 5),
+            ]))
+
+class SenteKeimaTestCase(unittest.TestCase):
+    BAN = [
+        ((4, 4), pyshogi.Keima, True),
+    ]
+
+    def setUp(self):
+        self.ban  = pyshogi.Ban(self.BAN)
+        self.koma = self.ban.masu(4, 4).koma
+
+    def test_koma(self):
+        self.assertIsInstance(self.koma, pyshogi.Keima)
+
+    def test_movables(self):
+        self.assertEqual(
+            self.koma.movables(),
+            frozenset([
+                self.ban.masu(5, 2),
+                self.ban.masu(3, 2),
+            ]))
+
+    def test_narikoma_movables(self):
+        self.koma.naru()
+
+        self.assertEqual(
+            self.koma.movables(),
+            frozenset([
+                self.ban.masu(5, 3),
+                self.ban.masu(4, 3),
+                self.ban.masu(3, 3),
+                self.ban.masu(5, 4),
+                self.ban.masu(3, 4),
+                self.ban.masu(4, 5),
+            ]))
+
 class HirateBanTestCase(unittest.TestCase):
     def setUp(self):
         self.ban = pyshogi.Ban()
