@@ -69,17 +69,36 @@ class SenteFuTestCase(unittest.TestCase):
 
 class SenteKyosyaTestCase(unittest.TestCase):
     BAN = [
-        (True, 'Kyosya', (4, 4)),
+        (True,  'Kyosya', (4, 4)),
+        (True,  'Kyosya', None),
+        (False, 'Kyosya', None),
     ]
 
     def setUp(self):
         self.ban  = pyshogi.Ban(self.BAN)
         self.koma = self.ban.masu(4, 4).koma
+        self.tegoma_sente = self.ban.mochigoma(True)[0]
+        self.tegoma_gote  = self.ban.mochigoma(False)[0]
 
     def test_koma(self):
         self.assertIsInstance(self.koma, pyshogi.Kyosya)
         self.assertIsNotNone(self.koma.masu)
         self.assertFalse(self.koma.narikoma)
+
+    def test_move(self):
+        with self.assertRaises(pyshogi.CanNotPlaceKomaError):
+            self.tegoma_sente.move(self.ban.masu(4, 4))
+
+        for x in range(0, 9):
+            with self.assertRaises(pyshogi.CanNotPlaceKomaError):
+                self.tegoma_sente.move(self.ban.masu(x, 0))
+
+        with self.assertRaises(pyshogi.CanNotPlaceKomaError):
+            self.tegoma_gote.move(self.ban.masu(4, 4))
+
+        for x in range(0, 9):
+            with self.assertRaises(pyshogi.CanNotPlaceKomaError):
+                self.tegoma_gote.move(self.ban.masu(x, 8))
 
     def test_movables(self):
         self.assertEqual(
@@ -90,6 +109,15 @@ class SenteKyosyaTestCase(unittest.TestCase):
                 self.ban.masu(4, 1),
                 self.ban.masu(4, 0),
             ]))
+
+        movables_sente = self.tegoma_sente.movables()
+        movables_gote  = self.tegoma_gote.movables()
+        for i in range(0, 9):
+            self.assertNotIn(self.ban.masu(i, 0), movables_sente)
+            self.assertNotIn(self.ban.masu(i, 8), movables_gote)
+
+        self.assertNotIn(self.ban.masu(4, 4), self.tegoma_sente.movables())
+        self.assertNotIn(self.ban.masu(4, 4), self.tegoma_gote.movables())
 
     def test_narikoma_movables(self):
         self.koma.nari()
