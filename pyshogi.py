@@ -240,7 +240,11 @@ HIRATE = [
 
 class Ban:
     def __init__(self, data=HIRATE):
-        self.masus = [[Masu(self, x, y) for y in range(0, 9)] for x in range(0, 9)]
+        self.masus = [
+            [
+                Masu(self, x, y) for y in range(0, 9)
+            ] for x in range(0, 9)
+        ]
         self.komas = []
         for masu, koma, sente in data:
             if masu:
@@ -254,7 +258,15 @@ class Ban:
                 yield self.masus[x][y]
 
     def __str__(self):
-        return "\n".join([" ".join([str(self.masus[x][y]) for x in range(8, -1, -1)])for y in range(0, 9)])
+        return "\n".join(
+            [
+                " ".join(
+                    [
+                        str(self.masus[x][y]) for x in range(8, -1, -1)
+                    ]
+                ) for y in range(0, 9)
+            ]
+        )
 
     def masu(self, x, y):
         if 0 <= x <= 8 and 0 <= y <= 8:
