@@ -9,7 +9,7 @@ class Koma:
     MOVABLES = frozenset([])
     narikoma = False
 
-    def __init__(self, ban, sente, masu):
+    def __init__(self, ban, masu, sente):
         self.ban   = ban
         self.masu  = masu
         self.sente = sente
@@ -170,7 +170,7 @@ class Ban:
             if masu:
                 x, y = masu
                 masu = self.masus[x][y]
-            self.komas.append(koma(self, sente, masu))
+            self.komas.append(koma(self, masu, sente))
 
     def __iter__(self):
         for x in range(0, 9):
