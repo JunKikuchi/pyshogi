@@ -200,6 +200,9 @@ class Keima(Koma):
         Kin.UGOKI[0]
     ]
 
+    def placeables(self):
+        return [masu for masu in self.ban if masu.koma is None and masu.y > 1]
+
 class Kyosya(Koma):
     KACHI = 7
     UGOKI = [
