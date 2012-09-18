@@ -49,15 +49,15 @@ class Koma:
         if not self.sente: self.ban.round()
 
         if self.masu:
-            masus = self.replaceables()
+            masus = self.banjyo_movables()
         else:
-            masus = self.placeables()
+            masus = self.tegoma_movables()
 
         if not self.sente: self.ban.round()
 
         return frozenset(masus)
 
-    def replaceables(self):
+    def banjyo_movables(self):
         masus = []
 
         if self.narikoma:
@@ -68,26 +68,27 @@ class Koma:
         for hashiru, ugoki in ugokis:
             for mx, my in ugoki:
                 x, y = mx, my
-                masu = self.__is_movable(x, y)
+                masu = self.__is_banjyo_movable(x, y)
                 if hashiru:
                     while(masu):
                         masus.append(masu)
                         if masu.koma and masu.koma.sente <> self.sente: break
                         x += mx
                         y += my
-                        masu = self.__is_movable(x, y)
+                        masu = self.__is_banjyo_movable(x, y)
                 else:
                     masus.append(masu)
 
         return masus
 
-    def placeables(self):
+    def tegoma_movables(self):
         return [masu for masu in self.ban if masu.koma is None]
 
-    def __is_movable(self, x, y):
-        masu = self.ban.masu(self.masu.x + x, self.masu.y + y)
-        if masu and (masu.koma is None or masu.koma.sente <> self.sente):
-            return masu
+    def __is_banjyo_movable(self, x, y):
+        if self.masu:
+            masu = self.ban.masu(self.masu.x + x, self.masu.y + y)
+            if masu and (masu.koma is None or masu.koma.sente <> self.sente):
+                return masu
         return None;
 
 # 8 7 6 5 4 3 2 1 0
@@ -200,7 +201,7 @@ class Keima(Koma):
         Kin.UGOKI[0]
     ]
 
-    def placeables(self):
+    def tegoma_movables(self):
         return [masu for masu in self.ban if masu.koma is None and masu.y > 1]
 
 class Kyosya(Koma):
@@ -214,7 +215,7 @@ class Kyosya(Koma):
         Kin.UGOKI[0]
     ]
 
-    def placeables(self):
+    def tegoma_movables(self):
         return [masu for masu in self.ban if masu.koma is None and masu.y > 0]
 
 class Fu(Koma):
@@ -228,7 +229,7 @@ class Fu(Koma):
         Kin.UGOKI[0]
     ]
 
-    def placeables(self):
+    def tegoma_movables(self):
         fu_x = set([
             masu.x for masu in self.ban
                 if masu.koma and
