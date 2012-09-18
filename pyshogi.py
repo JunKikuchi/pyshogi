@@ -8,7 +8,7 @@
 class Error(Exception):
     pass
 
-class KomaCanNotPlaceError(Error):
+class CanNotPlaceKomaError(Error):
     def __init__(self, koma, masu):
         self.koma = koma
         self.masu = masu
@@ -40,7 +40,7 @@ class Koma:
 
     def move(self, masu):
         if masu not in self.movables():
-            raise KomaCanNotPlaceError(self, masu)
+            raise CanNotPlaceKomaError(self, masu)
 
         koma = masu.koma
         if koma:
@@ -55,15 +55,15 @@ class Koma:
         if not self.sente: self.ban.round()
 
         if self.masu:
-            masus = self.__movables()
+            masus = self.replaceables()
         else:
-            masus = self.__placeables()
+            masus = self.placeables()
 
         if not self.sente: self.ban.round()
 
         return frozenset(masus)
 
-    def __movables(self):
+    def replaceables(self):
         masus = []
 
         if self.narikoma:
@@ -87,7 +87,7 @@ class Koma:
 
         return masus
 
-    def __placeables(self):
+    def placeables(self):
         return [masu for masu in self.ban if masu.koma is None]
 
 # 8 7 6 5 4 3 2 1 0
@@ -221,6 +221,21 @@ class Fu(Koma):
         ],
         Kin.UGOKI[0]
     ]
+
+    def placeables(self):
+        fu_x = set([
+            masu.x for masu in self.ban
+                if masu.koma and
+                   masu.koma.sente == self.sente and
+                   isinstance(masu.koma, self.__class__)
+        ])
+
+        return [
+            masu for masu in self.ban
+                if masu.koma is None and
+                   masu.y > 0 and
+                   masu.x not in fu_x
+        ]
 
 class Masu:
     koma = None
