@@ -14,14 +14,23 @@ class CanNotPlaceKomaError(Error):
         self.masu = masu
 
 class Koma:
-    KACHI    = None
-    UGOKI    = [None, None]
-    masu     = None
-    narikoma = False
+    KACHI = None
+    UGOKI = [None, None]
 
-    def __init__(self, ban, sente):
+    def __init__(self, ban, sente, masu=None, narikoma=False):
         self.ban   = ban
         self.sente = sente
+
+        if masu:
+            if narikoma:
+                masus = [masu for masu in self.ban if masu.koma is None]
+            else:
+                masus = self.tegoma_movables()
+            if masu not in masus: raise CanNotPlaceKomaError(self, masu)
+            masu.koma = self
+
+        self.masu     = masu
+        self.narikoma = narikoma
 
     def __str__(self):
         return "%s:%s" % (self.__class__.__name__, self.sente)
@@ -46,19 +55,17 @@ class Koma:
         self.masu = masu
 
     def movables(self):
-        if not self.sente: self.ban.round()
-
         if self.masu:
             masus = self.banjyo_movables()
         else:
             masus = self.tegoma_movables()
 
-        if not self.sente: self.ban.round()
-
         return frozenset(masus)
 
     def banjyo_movables(self):
         masus = []
+
+        if not self.sente: self.ban.round()
 
         if self.narikoma:
             ugokis = self.UGOKI[1]
@@ -78,6 +85,8 @@ class Koma:
                         masu = self.__is_banjyo_movable(x, y)
                 else:
                     masus.append(masu)
+
+        if not self.sente: self.ban.round()
 
         return masus
 
@@ -202,7 +211,11 @@ class Keima(Koma):
     ]
 
     def tegoma_movables(self):
-        return [masu for masu in self.ban if masu.koma is None and masu.y > 1]
+        if not self.sente: self.ban.round()
+        masus = [masu for masu in self.ban if masu.koma is None and masu.y > 1]
+        if not self.sente: self.ban.round()
+
+        return masus
 
 class Kyosya(Koma):
     KACHI = 7
@@ -216,7 +229,11 @@ class Kyosya(Koma):
     ]
 
     def tegoma_movables(self):
-        return [masu for masu in self.ban if masu.koma is None and masu.y > 0]
+        if not self.sente: self.ban.round()
+        masus = [masu for masu in self.ban if masu.koma is None and masu.y > 0]
+        if not self.sente: self.ban.round()
+
+        return masus
 
 class Fu(Koma):
     KACHI = 8
@@ -230,19 +247,22 @@ class Fu(Koma):
     ]
 
     def tegoma_movables(self):
+        if not self.sente: self.ban.round()
         fu_x = set([
             masu.x for masu in self.ban
                 if masu.koma and
                    masu.koma.sente == self.sente and
                    isinstance(masu.koma, self.__class__)
         ])
-
-        return [
+        masus = [
             masu for masu in self.ban
                 if masu.koma is None and
                    masu.y > 0 and
                    masu.x not in fu_x
         ]
+        if not self.sente: self.ban.round()
+
+        return masus
 
 class Masu:
     koma = None
@@ -312,10 +332,10 @@ class Ban:
 
         self.komas = []
         for sente, koma_class, masu in data:
-            koma = eval(koma_class)(self, sente)
             if masu:
                 x, y = masu
-                koma.move(self.masus[x][y])
+                masu = self.masus[x][y]
+            koma = eval(koma_class)(self, sente, masu)
             self.komas.append(koma)
 
     def __iter__(self):
