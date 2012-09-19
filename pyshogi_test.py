@@ -57,7 +57,7 @@ class SenteFuTestCase(unittest.TestCase):
         self.assertNotIn(self.ban.masu(4, 4), self.tegoma_gote.movables())
 
     def test_narikoma_movables(self):
-        self.koma.nari()
+        self.koma.naru()
 
         self.assertEqual(
             self.koma.movables(),
@@ -120,7 +120,7 @@ class SenteKyosyaTestCase(unittest.TestCase):
         self.assertNotIn(self.ban.masu(4, 4), self.tegoma_gote.movables())
 
     def test_narikoma_movables(self):
-        self.koma.nari()
+        self.koma.naru()
 
         self.assertEqual(
             self.koma.movables(),
@@ -177,7 +177,7 @@ class SenteKeimaTestCase(unittest.TestCase):
         self.assertNotIn(self.ban.masu(4, 4), self.tegoma_gote.movables())
 
     def test_narikoma_movables(self):
-        self.koma.nari()
+        self.koma.naru()
 
         self.assertEqual(
             self.koma.movables(),
@@ -211,7 +211,7 @@ class SenteGinTestCase(unittest.TestCase):
             ]))
 
     def test_narikoma_movables(self):
-        self.koma.nari()
+        self.koma.naru()
 
         self.assertEqual(
             self.koma.movables(),
@@ -245,7 +245,7 @@ class SenteKinTestCase(unittest.TestCase):
             ]))
 
     def test_narikoma_movables(self):
-        self.koma.nari()
+        self.koma.naru()
 
         self.assertEqual(
             self.koma.movables(),
@@ -285,7 +285,7 @@ class SenteKakuTestCase(unittest.TestCase):
             ]))
 
     def test_narikoma_movables(self):
-        self.koma.nari()
+        self.koma.naru()
 
         self.assertEqual(
             self.koma.movables(),
@@ -334,7 +334,7 @@ class SenteHisyaTestCase(unittest.TestCase):
             ]))
 
     def test_narikoma_movables(self):
-        self.koma.nari()
+        self.koma.naru()
 
         self.assertEqual(
             self.koma.movables(),
@@ -377,7 +377,7 @@ class SenteGyokuTestCase(unittest.TestCase):
             ]))
 
     def test_narikoma_movables(self):
-        self.koma.nari()
+        self.koma.naru()
 
         self.assertEqual(
             self.koma.movables(),

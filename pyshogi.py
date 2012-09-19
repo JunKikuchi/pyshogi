@@ -38,7 +38,7 @@ class Koma:
     def __cmp__(self, other):
         return cmp(self.KACHI, other.KACHI)
 
-    def nari(self):
+    def naru(self):
         if self.UGOKI[1]: self.narikoma = True
 
     def move(self, masu):
