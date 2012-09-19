@@ -75,14 +75,14 @@ class Koma:
         for hashiru, ugoki in ugokis:
             for mx, my in ugoki:
                 x, y = mx, my
-                masu = self.__is_banjyo_movable(x, y)
+                masu = self.can_banjyo_move(x, y)
                 if hashiru:
                     while(masu):
                         masus.append(masu)
                         if masu.koma and masu.koma.sente <> self.sente: break
                         x += mx
                         y += my
-                        masu = self.__is_banjyo_movable(x, y)
+                        masu = self.can_banjyo_move(x, y)
                 else:
                     masus.append(masu)
 
@@ -93,7 +93,7 @@ class Koma:
     def tegoma_movables(self):
         return [masu for masu in self.ban if masu.koma is None]
 
-    def __is_banjyo_movable(self, x, y):
+    def can_banjyo_move(self, x, y):
         if self.masu:
             masu = self.ban.masu(self.masu.x + x, self.masu.y + y)
             if masu and (masu.koma is None or masu.koma.sente <> self.sente):
