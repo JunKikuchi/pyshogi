@@ -42,8 +42,7 @@ class Koma:
         if self.UGOKI[1]: self.narikoma = True
 
     def move(self, masu):
-        if masu not in self.movables():
-            raise CanNotPlaceKomaError(self, masu)
+        if masu not in self.movables(): raise CanNotPlaceKomaError(self, masu)
 
         koma = masu.koma
         if koma:
@@ -56,11 +55,9 @@ class Koma:
 
     def movables(self):
         if self.masu:
-            masus = self.banjyo_movables()
+            return self.banjyo_movables()
         else:
-            masus = self.tegoma_movables()
-
-        return frozenset(masus)
+            return self.tegoma_movables()
 
     def banjyo_movables(self):
         masus = []
@@ -88,10 +85,10 @@ class Koma:
 
         if not self.sente: self.ban.round()
 
-        return masus
+        return frozenset(masus)
 
     def tegoma_movables(self):
-        return [masu for masu in self.ban if masu.koma is None]
+        return frozenset([masu for masu in self.ban if masu.koma is None])
 
     def can_banjyo_move(self, x, y):
         if self.masu:
@@ -215,7 +212,7 @@ class Keima(Koma):
         masus = [masu for masu in self.ban if masu.koma is None and masu.y > 1]
         if not self.sente: self.ban.round()
 
-        return masus
+        return frozenset(masus)
 
 class Kyosya(Koma):
     KACHI = 7
@@ -233,7 +230,7 @@ class Kyosya(Koma):
         masus = [masu for masu in self.ban if masu.koma is None and masu.y > 0]
         if not self.sente: self.ban.round()
 
-        return masus
+        return frozenset(masus)
 
 class Fu(Koma):
     KACHI = 8
@@ -262,7 +259,7 @@ class Fu(Koma):
         ]
         if not self.sente: self.ban.round()
 
-        return masus
+        return frozenset(masus)
 
 class Masu:
     koma = None
