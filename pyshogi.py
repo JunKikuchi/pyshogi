@@ -41,8 +41,17 @@ class Koma:
     def naru(self):
         if self.UGOKI[1]: self.narikoma = True
 
+    def nareru(self, masu):
+        if masu not in self.banjyo_movables():
+            raise CanNotPlaceKomaError(self, masu)
+        if self.narikoma or self.masu is None: return None
+        if self.masu.y < 3 or masu.y < 3: return [False, True]
+        return None
+
     def move(self, masu):
         if masu not in self.movables(): raise CanNotPlaceKomaError(self, masu)
+
+        if self.masu and self.masu.koma: self.masu.koma = None
 
         koma = masu.koma
         if koma:
@@ -81,7 +90,7 @@ class Koma:
                         y += my
                         masu = self.can_banjyo_move(x, y)
                 else:
-                    masus.append(masu)
+                    if masu: masus.append(masu)
 
         if not self.sente: self.ban.round()
 
@@ -207,6 +216,14 @@ class Keima(Koma):
         Kin.UGOKI[0]
     ]
 
+    def nareru(self, masu):
+        if masu not in self.banjyo_movables():
+            raise CanNotPlaceKomaError(self, masu)
+        if self.narikoma or self.masu is None: return None
+        if masu.y < 2: return [True]
+        if self.masu.y < 3 or masu.y < 3: return [False, True]
+        return None
+
     def tegoma_movables(self):
         if not self.sente: self.ban.round()
         masus = [masu for masu in self.ban if masu.koma is None and masu.y > 1]
@@ -225,6 +242,14 @@ class Kyosya(Koma):
         Kin.UGOKI[0]
     ]
 
+    def nareru(self, masu):
+        if masu not in self.banjyo_movables():
+            raise CanNotPlaceKomaError(self, masu)
+        if self.narikoma or self.masu is None: return None
+        if masu.y == 0: return [True]
+        if self.masu.y < 3 or masu.y < 3: return [False, True]
+        return None
+
     def tegoma_movables(self):
         if not self.sente: self.ban.round()
         masus = [masu for masu in self.ban if masu.koma is None and masu.y > 0]
@@ -242,6 +267,14 @@ class Fu(Koma):
         ],
         Kin.UGOKI[0]
     ]
+
+    def nareru(self, masu):
+        if masu not in self.banjyo_movables():
+            raise CanNotPlaceKomaError(self, masu)
+        if self.narikoma or self.masu is None: return None
+        if masu.y == 0: return [True]
+        if self.masu.y < 3 or masu.y < 3: return [False, True]
+        return None
 
     def tegoma_movables(self):
         if not self.sente: self.ban.round()

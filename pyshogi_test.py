@@ -26,6 +26,18 @@ class SenteFuTestCase(unittest.TestCase):
         self.assertIsNotNone(self.koma.masu)
         self.assertFalse(self.koma.narikoma)
 
+    def test_nareru(self):
+        self.assertIsNone(self.koma.nareru(self.ban.masu(4, 3)))
+
+        self.koma.move(self.ban.masu(4, 3))
+        self.assertEqual(self.koma.nareru(self.ban.masu(4, 2)), [False, True])
+
+        self.koma.move(self.ban.masu(4, 2))
+        self.assertEqual(self.koma.nareru(self.ban.masu(4, 1)), [False, True])
+
+        self.koma.move(self.ban.masu(4, 1))
+        self.assertEqual(self.koma.nareru(self.ban.masu(4, 0)), [True])
+
     def test_move(self):
         with self.assertRaises(pyshogi.CanNotPlaceKomaError):
             self.tegoma_sente.move(self.ban.masu(4, 4))
@@ -84,6 +96,23 @@ class SenteKyosyaTestCase(unittest.TestCase):
         self.assertIsInstance(self.koma, pyshogi.Kyosya)
         self.assertIsNotNone(self.koma.masu)
         self.assertFalse(self.koma.narikoma)
+
+    def test_nareru(self):
+        self.assertEqual(self.koma.nareru(self.ban.masu(4, 3)), None)
+        self.assertEqual(self.koma.nareru(self.ban.masu(4, 2)), [False, True])
+        self.assertEqual(self.koma.nareru(self.ban.masu(4, 1)), [False, True])
+        self.assertEqual(self.koma.nareru(self.ban.masu(4, 0)), [True])
+
+        self.assertIsNone(self.koma.nareru(self.ban.masu(4, 3)))
+
+        self.koma.move(self.ban.masu(4, 3))
+        self.assertEqual(self.koma.nareru(self.ban.masu(4, 2)), [False, True])
+
+        self.koma.move(self.ban.masu(4, 2))
+        self.assertEqual(self.koma.nareru(self.ban.masu(4, 1)), [False, True])
+
+        self.koma.move(self.ban.masu(4, 1))
+        self.assertEqual(self.koma.nareru(self.ban.masu(4, 0)), [True])
 
     def test_move(self):
         with self.assertRaises(pyshogi.CanNotPlaceKomaError):
@@ -148,6 +177,14 @@ class SenteKeimaTestCase(unittest.TestCase):
         self.assertIsNotNone(self.koma.masu)
         self.assertFalse(self.koma.narikoma)
 
+    def test_nareru(self):
+        self.assertEqual(self.koma.nareru(self.ban.masu(5, 2)), [False, True])
+        self.assertEqual(self.koma.nareru(self.ban.masu(3, 2)), [False, True])
+
+        self.koma.move(self.ban.masu(5, 2))
+        self.assertEqual(self.koma.nareru(self.ban.masu(6, 0)), [True])
+        self.assertEqual(self.koma.nareru(self.ban.masu(4, 0)), [True])
+
     def test_move(self):
         with self.assertRaises(pyshogi.CanNotPlaceKomaError):
             self.tegoma_sente.move(self.ban.masu(4, 4))
@@ -200,6 +237,59 @@ class SenteGinTestCase(unittest.TestCase):
         self.assertIsInstance(self.koma, pyshogi.Gin)
         self.assertIsNotNone(self.koma.masu)
         self.assertFalse(self.koma.narikoma)
+
+    def test_nareru(self):
+        self.assertIsNone(self.koma.nareru(self.ban.masu(5, 3)))
+        self.assertIsNone(self.koma.nareru(self.ban.masu(4, 3)))
+        self.assertIsNone(self.koma.nareru(self.ban.masu(3, 3)))
+        self.assertIsNone(self.koma.nareru(self.ban.masu(5, 5)))
+        self.assertIsNone(self.koma.nareru(self.ban.masu(3, 5)))
+
+        self.koma.move(self.ban.masu(4, 3))
+        self.assertEqual(self.koma.nareru(self.ban.masu(5, 2)), [False, True])
+        self.assertEqual(self.koma.nareru(self.ban.masu(4, 2)), [False, True])
+        self.assertEqual(self.koma.nareru(self.ban.masu(3, 2)), [False, True])
+        self.assertIsNone(self.koma.nareru(self.ban.masu(5, 4)))
+        self.assertIsNone(self.koma.nareru(self.ban.masu(3, 4)))
+
+        self.koma.move(self.ban.masu(4, 2))
+        self.assertEqual(self.koma.nareru(self.ban.masu(5, 1)), [False, True])
+        self.assertEqual(self.koma.nareru(self.ban.masu(4, 1)), [False, True])
+        self.assertEqual(self.koma.nareru(self.ban.masu(3, 1)), [False, True])
+        self.assertEqual(self.koma.nareru(self.ban.masu(5, 3)), [False, True])
+        self.assertEqual(self.koma.nareru(self.ban.masu(3, 3)), [False, True])
+
+        self.koma.move(self.ban.masu(4, 1))
+        self.assertEqual(self.koma.nareru(self.ban.masu(5, 0)), [False, True])
+        self.assertEqual(self.koma.nareru(self.ban.masu(4, 0)), [False, True])
+        self.assertEqual(self.koma.nareru(self.ban.masu(3, 0)), [False, True])
+        self.assertEqual(self.koma.nareru(self.ban.masu(5, 2)), [False, True])
+        self.assertEqual(self.koma.nareru(self.ban.masu(3, 2)), [False, True])
+
+        self.koma.move(self.ban.masu(4, 0))
+        self.assertEqual(self.koma.nareru(self.ban.masu(5, 1)), [False, True])
+        self.assertEqual(self.koma.nareru(self.ban.masu(3, 1)), [False, True])
+
+        self.koma.move(self.ban.masu(3, 1))
+        self.assertEqual(self.koma.nareru(self.ban.masu(4, 0)), [False, True])
+        self.assertEqual(self.koma.nareru(self.ban.masu(3, 0)), [False, True])
+        self.assertEqual(self.koma.nareru(self.ban.masu(2, 0)), [False, True])
+        self.assertEqual(self.koma.nareru(self.ban.masu(4, 2)), [False, True])
+        self.assertEqual(self.koma.nareru(self.ban.masu(2, 2)), [False, True])
+
+        self.koma.move(self.ban.masu(2, 0))
+        self.assertEqual(self.koma.nareru(self.ban.masu(3, 1)), [False, True])
+        self.assertEqual(self.koma.nareru(self.ban.masu(1, 1)), [False, True])
+
+        self.koma.move(self.ban.masu(1, 1))
+        self.assertEqual(self.koma.nareru(self.ban.masu(2, 0)), [False, True])
+        self.assertEqual(self.koma.nareru(self.ban.masu(1, 0)), [False, True])
+        self.assertEqual(self.koma.nareru(self.ban.masu(0, 0)), [False, True])
+        self.assertEqual(self.koma.nareru(self.ban.masu(2, 2)), [False, True])
+        self.assertEqual(self.koma.nareru(self.ban.masu(0, 2)), [False, True])
+
+        self.koma.move(self.ban.masu(0, 0))
+        self.assertEqual(self.koma.nareru(self.ban.masu(1, 1)), [False, True])
 
     def test_movables(self):
         self.assertEqual(
