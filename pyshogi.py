@@ -44,7 +44,8 @@ class Koma:
     def nareru(self, masu):
         if masu not in self.banjyo_movables():
             raise CanNotPlaceKomaError(self, masu)
-        if self.narikoma or self.masu is None: return None
+        if self.narikoma or self.masu is None or self.UGOKI[1] is None:
+            return None
         if self.masu.y < 3 or masu.y < 3: return [False, True]
         return None
 

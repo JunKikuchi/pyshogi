@@ -325,6 +325,62 @@ class SenteKinTestCase(unittest.TestCase):
         self.assertIsNotNone(self.koma.masu)
         self.assertFalse(self.koma.narikoma)
 
+    def test_nareru(self):
+        self.assertIsNone(self.koma.nareru(self.ban.masu(5, 3)))
+        self.assertIsNone(self.koma.nareru(self.ban.masu(4, 3)))
+        self.assertIsNone(self.koma.nareru(self.ban.masu(3, 3)))
+        self.assertIsNone(self.koma.nareru(self.ban.masu(5, 4)))
+        self.assertIsNone(self.koma.nareru(self.ban.masu(3, 4)))
+        self.assertIsNone(self.koma.nareru(self.ban.masu(4, 5)))
+
+        self.koma.move(self.ban.masu(4, 3))
+        self.assertIsNone(self.koma.nareru(self.ban.masu(5, 2)))
+        self.assertIsNone(self.koma.nareru(self.ban.masu(4, 2)))
+        self.assertIsNone(self.koma.nareru(self.ban.masu(3, 2)))
+        self.assertIsNone(self.koma.nareru(self.ban.masu(5, 3)))
+        self.assertIsNone(self.koma.nareru(self.ban.masu(3, 3)))
+        self.assertIsNone(self.koma.nareru(self.ban.masu(4, 4)))
+
+        self.koma.move(self.ban.masu(4, 2))
+        self.assertIsNone(self.koma.nareru(self.ban.masu(5, 1)))
+        self.assertIsNone(self.koma.nareru(self.ban.masu(4, 1)))
+        self.assertIsNone(self.koma.nareru(self.ban.masu(3, 1)))
+        self.assertIsNone(self.koma.nareru(self.ban.masu(5, 2)))
+        self.assertIsNone(self.koma.nareru(self.ban.masu(3, 2)))
+        self.assertIsNone(self.koma.nareru(self.ban.masu(4, 3)))
+
+        self.koma.move(self.ban.masu(4, 1))
+        self.assertIsNone(self.koma.nareru(self.ban.masu(5, 0)))
+        self.assertIsNone(self.koma.nareru(self.ban.masu(4, 0)))
+        self.assertIsNone(self.koma.nareru(self.ban.masu(3, 0)))
+        self.assertIsNone(self.koma.nareru(self.ban.masu(5, 1)))
+        self.assertIsNone(self.koma.nareru(self.ban.masu(3, 1)))
+        self.assertIsNone(self.koma.nareru(self.ban.masu(4, 2)))
+
+        self.koma.move(self.ban.masu(4, 0))
+        self.assertIsNone(self.koma.nareru(self.ban.masu(5, 0)))
+        self.assertIsNone(self.koma.nareru(self.ban.masu(3, 0)))
+        self.assertIsNone(self.koma.nareru(self.ban.masu(4, 1)))
+
+        self.koma.move(self.ban.masu(3, 0))
+        self.assertIsNone(self.koma.nareru(self.ban.masu(4, 0)))
+        self.assertIsNone(self.koma.nareru(self.ban.masu(2, 0)))
+        self.assertIsNone(self.koma.nareru(self.ban.masu(3, 1)))
+
+        self.koma.move(self.ban.masu(2, 0))
+        self.assertIsNone(self.koma.nareru(self.ban.masu(3, 0)))
+        self.assertIsNone(self.koma.nareru(self.ban.masu(1, 0)))
+        self.assertIsNone(self.koma.nareru(self.ban.masu(2, 1)))
+
+        self.koma.move(self.ban.masu(1, 0))
+        self.assertIsNone(self.koma.nareru(self.ban.masu(2, 0)))
+        self.assertIsNone(self.koma.nareru(self.ban.masu(0, 0)))
+        self.assertIsNone(self.koma.nareru(self.ban.masu(1, 1)))
+
+        self.koma.move(self.ban.masu(0, 0))
+        self.assertIsNone(self.koma.nareru(self.ban.masu(1, 0)))
+        self.assertIsNone(self.koma.nareru(self.ban.masu(0, 1)))
+
     def test_movables(self):
         self.assertEqual(
             self.koma.movables(),
