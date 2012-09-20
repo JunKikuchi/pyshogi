@@ -296,12 +296,11 @@ class Fu(Koma):
         return frozenset(masus)
 
 class Masu:
-    koma = None
-
     def __init__(self, ban, x, y):
-        self.ban = ban
-        self.x = x
-        self.y = y
+        self.ban  = ban
+        self.x    = x
+        self.y    = y
+        self.koma = None
 
     def __str__(self):
         return "%d,%d,%s" % (self.x, self.y, self.koma)
