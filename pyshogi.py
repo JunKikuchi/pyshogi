@@ -228,16 +228,16 @@ class Keima(Koma):
         Kin.UGOKI[0]
     ]
 
+    def _tegoma_ugoki(self):
+        return frozenset([
+            masu for masu in self.ban if masu.koma is None and masu.y > 1])
+
     def _nareru_check(self, masu):
         if masu.y < 2:
             return [True]
         if self.masu.y < 3 or masu.y < 3:
             return [False, True]
         return None
-
-    def _tegoma_ugoki(self):
-        return frozenset([
-            masu for masu in self.ban if masu.koma is None and masu.y > 1])
 
 class Kyosya(Koma):
     KACHI = 7
@@ -250,16 +250,16 @@ class Kyosya(Koma):
         Kin.UGOKI[0]
     ]
 
+    def _tegoma_ugoki(self):
+        return frozenset([
+            masu for masu in self.ban if masu.koma is None and masu.y > 0])
+
     def _nareru_check(self, masu):
         if masu.y == 0:
             return [True]
         if self.masu.y < 3 or masu.y < 3:
             return [False, True]
         return None
-
-    def _tegoma_ugoki(self):
-        return frozenset([
-            masu for masu in self.ban if masu.koma is None and masu.y > 0])
 
 class Fu(Koma):
     KACHI = 8
@@ -272,13 +272,6 @@ class Fu(Koma):
         Kin.UGOKI[0]
     ]
 
-    def _nareru_check(self, masu):
-        if masu.y == 0:
-            return [True]
-        if self.masu.y < 3 or masu.y < 3:
-            return [False, True]
-        return None
-
     def _tegoma_ugoki(self):
         fu_x = set([
             masu.x for masu in self.ban
@@ -290,6 +283,13 @@ class Fu(Koma):
                 if masu.koma is None and
                    masu.y > 0 and
                    masu.x not in fu_x])
+
+    def _nareru_check(self, masu):
+        if masu.y == 0:
+            return [True]
+        if self.masu.y < 3 or masu.y < 3:
+            return [False, True]
+        return None
 
 class Masu:
     def __init__(self, ban, x, y):
