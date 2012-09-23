@@ -8,6 +8,7 @@
 import pyshogi
 import unittest
 
+'''
 class SenteFuTestCase(unittest.TestCase):
     BAN = [
         (True,  'Fu', (4, 4)),
@@ -532,6 +533,7 @@ class SenteGyokuTestCase(unittest.TestCase):
                 self.ban.masu(5, 4),                      self.ban.masu(3, 4),
                 self.ban.masu(5, 5), self.ban.masu(4, 5), self.ban.masu(3, 5),
             ]))
+'''
 
 class HirateBanTestCase(unittest.TestCase):
     def setUp(self):
