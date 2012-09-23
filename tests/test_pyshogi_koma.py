@@ -64,28 +64,28 @@ class KomaTestCase:
         with self.assertRaises(pyshogi.CanNotPlaceKomaError):
             self.koma.move(self.ban.masu(9, 9))
 
-class SenteKomaCenterTestCase(unittest.TestCase, KomaTestCase):
+class SenteFuCenterTestCase(unittest.TestCase, KomaTestCase):
     def setUp(self):
         self.masume = (4, 4)
         self.ban    = pyshogi.Ban([(True, 'Fu', self.masume)])
         self.koma   = apply(self.ban.masu, self.masume).koma
         self.ugoki  = [((4, 3), None)]
 
-class SenteKomaNaruTestCase(unittest.TestCase, KomaTestCase):
+class SenteFuNariTestCase(unittest.TestCase, KomaTestCase):
     def setUp(self):
         self.masume = (4, 3)
         self.ban    = pyshogi.Ban([(True, 'Fu', self.masume)])
         self.koma   = apply(self.ban.masu, self.masume).koma
         self.ugoki  = [((4, 2), [False, True])]
 
-class GoteKomaCenterTestCase(unittest.TestCase, KomaTestCase):
+class GoteFuCenterTestCase(unittest.TestCase, KomaTestCase):
     def setUp(self):
         self.masume = (4, 4)
         self.ban    = pyshogi.Ban([(False, 'Fu', self.masume)])
         self.koma   = apply(self.ban.masu, self.masume).koma
         self.ugoki  = [((4, 5), None)]
 
-class GoteKomaNaruTestCase(unittest.TestCase, KomaTestCase):
+class GoteFuNariTestCase(unittest.TestCase, KomaTestCase):
     def setUp(self):
         self.masume = (4, 5)
         self.ban    = pyshogi.Ban([(False, 'Fu', self.masume)])
