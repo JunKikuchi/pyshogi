@@ -583,8 +583,8 @@ class HirateBanTestCase(unittest.TestCase):
             else:
                 self.assertTrue(masu.koma.sente)
 
-    def test_round(self):
-        self.ban.round()
+    def test_kaiten(self):
+        self.ban.kaiten()
 
         self.assertEqual(len(self.ban.komas), 9 * 4 + 4)
 

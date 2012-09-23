@@ -44,9 +44,9 @@ class Koma:
         if self.narikoma or self.masu is None or self.UGOKI[1] is None:
             return None
 
-        if not self.sente: self.ban.round()
+        if not self.sente: self.ban.kaiten()
         nareru = self._nareru(masu)
-        if not self.sente: self.ban.round()
+        if not self.sente: self.ban.kaiten()
 
         return nareru
 
@@ -85,7 +85,7 @@ class Koma:
     def banjyo_movables(self):
         masus = []
 
-        if not self.sente: self.ban.round()
+        if not self.sente: self.ban.kaiten()
 
         if self.narikoma:
             ugokis = self.UGOKI[1]
@@ -107,7 +107,7 @@ class Koma:
                     if masu:
                         masus.append(masu)
 
-        if not self.sente: self.ban.round()
+        if not self.sente: self.ban.kaiten()
 
         return frozenset(masus)
 
@@ -239,9 +239,9 @@ class Keima(Koma):
         return None
 
     def tegoma_movables(self):
-        if not self.sente: self.ban.round()
+        if not self.sente: self.ban.kaiten()
         masus = [masu for masu in self.ban if masu.koma is None and masu.y > 1]
-        if not self.sente: self.ban.round()
+        if not self.sente: self.ban.kaiten()
 
         return frozenset(masus)
 
@@ -264,9 +264,9 @@ class Kyosya(Koma):
         return None
 
     def tegoma_movables(self):
-        if not self.sente: self.ban.round()
+        if not self.sente: self.ban.kaiten()
         masus = [masu for masu in self.ban if masu.koma is None and masu.y > 0]
-        if not self.sente: self.ban.round()
+        if not self.sente: self.ban.kaiten()
 
         return frozenset(masus)
 
@@ -289,7 +289,7 @@ class Fu(Koma):
         return None
 
     def tegoma_movables(self):
-        if not self.sente: self.ban.round()
+        if not self.sente: self.ban.kaiten()
         fu_x = set([
             masu.x for masu in self.ban
                 if masu.koma and
@@ -302,7 +302,7 @@ class Fu(Koma):
                    masu.y > 0 and
                    masu.x not in fu_x
         ]
-        if not self.sente: self.ban.round()
+        if not self.sente: self.ban.kaiten()
 
         return frozenset(masus)
 
@@ -316,7 +316,7 @@ class Masu:
     def __str__(self):
         return "%d,%d,%s" % (self.x, self.y, self.koma)
 
-    def round(self):
+    def kaiten(self):
         self.x = 8 - self.x
         self.y = 8 - self.y
 
@@ -401,11 +401,11 @@ class Ban:
         else:
             return None
 
-    def round(self):
+    def kaiten(self):
         for xs in self.masus:
             xs.reverse()
             for masu in xs:
-                masu.round()
+                masu.kaiten()
         self.masus.reverse()
 
     def mochigoma(self, sente):
