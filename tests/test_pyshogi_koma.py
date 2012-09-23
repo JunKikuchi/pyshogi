@@ -26,8 +26,8 @@ class KomaTestCase:
             self.assertEqual(ugoki[masu], narikomi)
 
     def test_move(self):
-        for (x, y), narikomis in self.ugoki:
-            if narikomis is None:
+        for (x, y), narikomi in self.ugoki:
+            if narikomi is None:
                 self.setUp()
                 old_masu = self.koma.masu
                 masu = self.ban.masu(x, y)
@@ -37,7 +37,7 @@ class KomaTestCase:
                 self.assertFalse(self.koma.narikoma)
                 self.assertIsNone(old_masu.koma)
             else:
-                for narikomi in narikomis:
+                for narikomi in narikomi:
                     self.setUp()
                     old_masu = self.koma.masu
                     masu = self.ban.masu(x, y)
@@ -48,11 +48,15 @@ class KomaTestCase:
                     self.assertIsNone(old_masu.koma)
 
     def test_move_error(self):
+        ugoki = frozenset([
+            apply(self.ban.masu, masume) for masume, narikomi in self.ugoki])
+
         for x in range(9):
             for y in range(9):
-                if x <> 4 and y <> 3:
+                masu = self.ban.masu(x, y)
+                if masu not in ugoki:
                     with self.assertRaises(pyshogi.CanNotPlaceKomaError):
-                        self.koma.move(self.ban.masu(x, y))
+                        self.koma.move(masu)
 
         with self.assertRaises(pyshogi.CanNotPlaceKomaError):
             self.koma.move(self.ban.masu(-1, -1))
