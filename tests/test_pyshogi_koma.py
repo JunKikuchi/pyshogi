@@ -14,16 +14,16 @@ class KomaTestCase:
         self.assertEqual(masu.koma, self.koma)
         self.assertEqual(self.koma.masu, masu)
 
-    def test_movables(self):
-        movables = self.koma.movables()
+    def test_ugoki(self):
+        ugoki = self.koma.ugoki()
 
-        self.assertIsInstance(movables, dict)
-        self.assertEqual(len(movables), len(self.ugoki))
+        self.assertIsInstance(ugoki, dict)
+        self.assertEqual(len(ugoki), len(self.ugoki))
 
         for (x, y), narikomi in self.ugoki:
             masu = self.ban.masu(x, y)
-            self.assertIn(masu, movables)
-            self.assertEqual(movables[masu], narikomi)
+            self.assertIn(masu, ugoki)
+            self.assertEqual(ugoki[masu], narikomi)
 
     def test_move(self):
         for (x, y), narikomis in self.ugoki:

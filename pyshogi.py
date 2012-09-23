@@ -25,8 +25,10 @@ class Koma:
             if narikoma:
                 masus = [masu for masu in self.ban if masu.koma is None]
             else:
-                masus = self.tegoma_movables()
-            if masu not in masus: raise CanNotPlaceKomaError(self, masu)
+                if not self.sente: self.ban.kaiten()
+                ugoki = self._tegoma_ugoki()
+                if not self.sente: self.ban.kaiten()
+            if masu not in ugoki: raise CanNotPlaceKomaError(self, masu)
             masu.koma = self
 
         self.masu     = masu
@@ -38,25 +40,22 @@ class Koma:
     def __cmp__(self, other):
         return cmp(self.KACHI, other.KACHI)
 
-    def nareru(self, masu):
-        if masu not in self.banjyo_movables():
-            raise CanNotPlaceKomaError(self, masu)
-        if self.narikoma or self.masu is None or self.UGOKI[1] is None:
-            return None
-
-        if not self.sente: self.ban.kaiten()
-        nareru = self._nareru(masu)
+    def ugoki(self):
         if not self.sente: self.ban.kaiten()
 
-        return nareru
+        if self.masu:
+            ugoki = self._banjyo_ugoki()
+        else:
+            ugoki = self._tegoma_ugoki()
 
-    def _nareru(self, masu):
-        if self.masu.y < 3 or masu.y < 3:
-            return [False, True]
-        return None
+        ugoki = dict([(masu, self._nareru(masu)) for masu in ugoki])
+
+        if not self.sente: self.ban.kaiten()
+
+        return ugoki
 
     def move(self, masu, naru=False):
-        if masu not in self.movables():
+        if masu not in self.ugoki():
             raise CanNotPlaceKomaError(self, masu)
 
         if self.masu and self.masu.koma:
@@ -74,18 +73,8 @@ class Koma:
         if naru and self.UGOKI[1]:
             self.narikoma = True
 
-    def movables(self):
-        if self.masu:
-            movables = self.banjyo_movables()
-        else:
-            movables = self.tegoma_movables()
-
-        return dict([(masu, self.nareru(masu)) for masu in movables])
-
-    def banjyo_movables(self):
+    def _banjyo_ugoki(self):
         masus = []
-
-        if not self.sente: self.ban.kaiten()
 
         if self.narikoma:
             ugokis = self.UGOKI[1]
@@ -95,31 +84,39 @@ class Koma:
         for hashiru, ugoki in ugokis:
             for mx, my in ugoki:
                 x, y = mx, my
-                masu = self.can_banjyo_move(x, y)
+                masu = self._banjyo_ugoki_check(x, y)
                 if hashiru:
                     while(masu):
                         masus.append(masu)
                         if masu.koma and masu.koma.sente <> self.sente: break
                         x += mx
                         y += my
-                        masu = self.can_banjyo_move(x, y)
+                        masu = self._banjyo_ugoki_check(x, y)
                 else:
                     if masu:
                         masus.append(masu)
 
-        if not self.sente: self.ban.kaiten()
-
         return frozenset(masus)
 
-    def tegoma_movables(self):
+    def _tegoma_ugoki(self):
         return frozenset([masu for masu in self.ban if masu.koma is None])
 
-    def can_banjyo_move(self, x, y):
+    def _banjyo_ugoki_check(self, x, y):
         if self.masu:
             masu = self.ban.masu(self.masu.x + x, self.masu.y + y)
             if masu and (masu.koma is None or masu.koma.sente <> self.sente):
                 return masu
         return None;
+
+    def _nareru(self, masu):
+        if self.narikoma or self.masu is None or self.UGOKI[1] is None:
+            return None
+        return self._nareru_check(masu)
+
+    def _nareru_check(self, masu):
+        if self.masu.y < 3 or masu.y < 3:
+            return [False, True]
+        return None
 
 # 8 7 6 5 4 3 2 1 0
 #                 1
@@ -231,19 +228,16 @@ class Keima(Koma):
         Kin.UGOKI[0]
     ]
 
-    def _nareru(self, masu):
+    def _nareru_check(self, masu):
         if masu.y < 2:
             return [True]
         if self.masu.y < 3 or masu.y < 3:
             return [False, True]
         return None
 
-    def tegoma_movables(self):
-        if not self.sente: self.ban.kaiten()
-        masus = [masu for masu in self.ban if masu.koma is None and masu.y > 1]
-        if not self.sente: self.ban.kaiten()
-
-        return frozenset(masus)
+    def _tegoma_ugoki(self):
+        return frozenset([
+            masu for masu in self.ban if masu.koma is None and masu.y > 1])
 
 class Kyosya(Koma):
     KACHI = 7
@@ -256,19 +250,16 @@ class Kyosya(Koma):
         Kin.UGOKI[0]
     ]
 
-    def _nareru(self, masu):
+    def _nareru_check(self, masu):
         if masu.y == 0:
             return [True]
         if self.masu.y < 3 or masu.y < 3:
             return [False, True]
         return None
 
-    def tegoma_movables(self):
-        if not self.sente: self.ban.kaiten()
-        masus = [masu for masu in self.ban if masu.koma is None and masu.y > 0]
-        if not self.sente: self.ban.kaiten()
-
-        return frozenset(masus)
+    def _tegoma_ugoki(self):
+        return frozenset([
+            masu for masu in self.ban if masu.koma is None and masu.y > 0])
 
 class Fu(Koma):
     KACHI = 8
@@ -281,30 +272,24 @@ class Fu(Koma):
         Kin.UGOKI[0]
     ]
 
-    def _nareru(self, masu):
+    def _nareru_check(self, masu):
         if masu.y == 0:
             return [True]
         if self.masu.y < 3 or masu.y < 3:
             return [False, True]
         return None
 
-    def tegoma_movables(self):
-        if not self.sente: self.ban.kaiten()
+    def _tegoma_ugoki(self):
         fu_x = set([
             masu.x for masu in self.ban
                 if masu.koma and
                    masu.koma.sente == self.sente and
-                   isinstance(masu.koma, self.__class__)
-        ])
-        masus = [
+                   isinstance(masu.koma, self.__class__)])
+        return frozenset([
             masu for masu in self.ban
                 if masu.koma is None and
                    masu.y > 0 and
-                   masu.x not in fu_x
-        ]
-        if not self.sente: self.ban.kaiten()
-
-        return frozenset(masus)
+                   masu.x not in fu_x])
 
 class Masu:
     def __init__(self, ban, x, y):
