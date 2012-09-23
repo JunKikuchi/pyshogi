@@ -292,10 +292,9 @@ class Fu(Koma):
         return None
 
 class Masu:
-    def __init__(self, ban, x, y):
-        self.ban  = ban
-        self.x    = x
-        self.y    = y
+    def __init__(self, x, y):
+        self.x = x
+        self.y = y
         self.koma = None
 
     def __str__(self):
@@ -350,11 +349,7 @@ HIRATE = [
 
 class Ban:
     def __init__(self, data=HIRATE):
-        self.masus = [
-            [
-                Masu(self, x, y) for y in range(0, 9)
-            ] for x in range(0, 9)
-        ]
+        self.masus = [[Masu(x, y) for y in range(9)] for x in range(9)]
 
         self.komas = []
         for sente, koma_class, masu in data:
@@ -365,8 +360,8 @@ class Ban:
             self.komas.append(koma)
 
     def __iter__(self):
-        for x in range(0, 9):
-            for y in range(0, 9):
+        for x in range(9):
+            for y in range(9):
                 yield self.masus[x][y]
 
     def __str__(self):
@@ -376,7 +371,7 @@ class Ban:
                     [
                         str(self.masus[x][y]) for x in range(8, -1, -1)
                     ]
-                ) for y in range(0, 9)
+                ) for y in range(9)
             ]
         )
 
