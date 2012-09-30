@@ -572,11 +572,12 @@ class HirateBanTestCase(unittest.TestCase):
             else:
                 self.assertTrue(koma.sente)
 
-        for sente, koma, (x, y) in pyshogi.HIRATE:
+        for sente, koma, (x, y), narikoma in pyshogi.HIRATE:
             masu = self.ban.masu(x, y)
             self.assertIsNotNone(masu.koma)
             self.assertEqual(masu.koma.sente, sente)
             self.assertEqual(masu.koma.__class__.__name__, koma)
+            self.assertEqual(masu.koma.narikoma, narikoma)
 
             if y < 3:
                 self.assertFalse(masu.koma.sente)
@@ -600,11 +601,12 @@ class HirateBanTestCase(unittest.TestCase):
             else:
                 self.assertFalse(koma.sente)
 
-        for sente, koma, (x, y) in pyshogi.HIRATE:
+        for sente, koma, (x, y), narikoma in pyshogi.HIRATE:
             masu = self.ban.masu(x, y)
             self.assertIsNotNone(masu.koma)
             self.assertNotEqual(masu.koma.sente, sente)
             self.assertEqual(masu.koma.__class__.__name__, koma)
+            self.assertEqual(masu.koma.narikoma, narikoma)
 
             if y < 3:
                 self.assertTrue(masu.koma.sente)

@@ -23,12 +23,13 @@ class Koma:
 
         if masu:
             if narikoma:
-                ugoki = [masu for masu in self.ban if masu.koma is None]
+                ugoki = frozenset([m for m in self.ban if masu.koma is None])
             else:
                 if not self.sente: self.ban.kaiten()
                 ugoki = self._tegoma_ugoki()
                 if not self.sente: self.ban.kaiten()
-            if masu not in ugoki: raise CanNotPlaceKomaError(self, masu)
+            if masu not in ugoki:
+                raise CanNotPlaceKomaError(self, masu)
             masu.koma = self
 
         self.masu     = masu
@@ -305,46 +306,46 @@ class Masu:
         self.y = 8 - self.y
 
 HIRATE = [
-    (False, 'Kyosya', (8, 0)),
-    (False, 'Keima',  (7, 0)),
-    (False, 'Gin',    (6, 0)),
-    (False, 'Kin',    (5, 0)),
-    (False, 'Gyoku',  (4, 0)),
-    (False, 'Kin',    (3, 0)),
-    (False, 'Gin',    (2, 0)),
-    (False, 'Keima',  (1, 0)),
-    (False, 'Kyosya', (0, 0)),
-    (False, 'Hisya',  (7, 1)),
-    (False, 'Kaku',   (1, 1)),
-    (False, 'Fu',     (8, 2)),
-    (False, 'Fu',     (7, 2)),
-    (False, 'Fu',     (6, 2)),
-    (False, 'Fu',     (5, 2)),
-    (False, 'Fu',     (4, 2)),
-    (False, 'Fu',     (3, 2)),
-    (False, 'Fu',     (2, 2)),
-    (False, 'Fu',     (1, 2)),
-    (False, 'Fu',     (0, 2)),
-    (True,  'Fu',     (8, 6)),
-    (True,  'Fu',     (7, 6)),
-    (True,  'Fu',     (6, 6)),
-    (True,  'Fu',     (5, 6)),
-    (True,  'Fu',     (4, 6)),
-    (True,  'Fu',     (3, 6)),
-    (True,  'Fu',     (2, 6)),
-    (True,  'Fu',     (1, 6)),
-    (True,  'Fu',     (0, 6)),
-    (True,  'Kaku',   (7, 7)),
-    (True,  'Hisya',  (1, 7)),
-    (True,  'Kyosya', (8, 8)),
-    (True,  'Keima',  (7, 8)),
-    (True,  'Gin',    (6, 8)),
-    (True,  'Kin',    (5, 8)),
-    (True,  'Gyoku',  (4, 8)),
-    (True,  'Kin',    (3, 8)),
-    (True,  'Gin',    (2, 8)),
-    (True,  'Keima',  (1, 8)),
-    (True,  'Kyosya', (0, 8)),
+    (False, 'Kyosya', (8, 0), False),
+    (False, 'Keima',  (7, 0), False),
+    (False, 'Gin',    (6, 0), False),
+    (False, 'Kin',    (5, 0), False),
+    (False, 'Gyoku',  (4, 0), False),
+    (False, 'Kin',    (3, 0), False),
+    (False, 'Gin',    (2, 0), False),
+    (False, 'Keima',  (1, 0), False),
+    (False, 'Kyosya', (0, 0), False),
+    (False, 'Hisya',  (7, 1), False),
+    (False, 'Kaku',   (1, 1), False),
+    (False, 'Fu',     (8, 2), False),
+    (False, 'Fu',     (7, 2), False),
+    (False, 'Fu',     (6, 2), False),
+    (False, 'Fu',     (5, 2), False),
+    (False, 'Fu',     (4, 2), False),
+    (False, 'Fu',     (3, 2), False),
+    (False, 'Fu',     (2, 2), False),
+    (False, 'Fu',     (1, 2), False),
+    (False, 'Fu',     (0, 2), False),
+    (True,  'Fu',     (8, 6), False),
+    (True,  'Fu',     (7, 6), False),
+    (True,  'Fu',     (6, 6), False),
+    (True,  'Fu',     (5, 6), False),
+    (True,  'Fu',     (4, 6), False),
+    (True,  'Fu',     (3, 6), False),
+    (True,  'Fu',     (2, 6), False),
+    (True,  'Fu',     (1, 6), False),
+    (True,  'Fu',     (0, 6), False),
+    (True,  'Kaku',   (7, 7), False),
+    (True,  'Hisya',  (1, 7), False),
+    (True,  'Kyosya', (8, 8), False),
+    (True,  'Keima',  (7, 8), False),
+    (True,  'Gin',    (6, 8), False),
+    (True,  'Kin',    (5, 8), False),
+    (True,  'Gyoku',  (4, 8), False),
+    (True,  'Kin',    (3, 8), False),
+    (True,  'Gin',    (2, 8), False),
+    (True,  'Keima',  (1, 8), False),
+    (True,  'Kyosya', (0, 8), False),
 ]
 
 class Ban:
@@ -352,11 +353,11 @@ class Ban:
         self.masus = [[Masu(x, y) for y in range(9)] for x in range(9)]
 
         self.komas = []
-        for sente, koma_class, masu in data:
+        for sente, koma_class, masu, narikoma in data:
             if masu:
                 x, y = masu
                 masu = self.masus[x][y]
-            koma = eval(koma_class)(self, sente, masu)
+            koma = eval(koma_class)(self, sente, masu, narikoma)
             self.komas.append(koma)
 
     def __iter__(self):
