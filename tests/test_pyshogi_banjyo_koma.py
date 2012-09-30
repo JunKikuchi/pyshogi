@@ -908,5 +908,125 @@ class GoteKaku44T_TestCase(unittest.TestCase, BanjyoKomaTestCase):
                         ((7, 7), None),                 ((1, 7), None),
                         ((8, 8), None),                 ((0, 8), None),
                       ]
+# Hisya
+class SenteHisya44F_TestCase(unittest.TestCase, BanjyoKomaTestCase):
+    def setUp(self):
+        self.masume = (4, 4)
+        self.ban    = pyshogi.Ban([(True, 'Hisya', self.masume, False)])
+        self.koma   = apply(self.ban.masu, self.masume).koma
+        self.ugoki  = [
+                        ((4, 0), [False, True]),
+                        ((4, 1), [False, True]),
+                        ((4, 2), [False, True]),
+                        ((4, 3), None),
+
+                        ((8, 4), None),
+                        ((7, 4), None),
+                        ((6, 4), None),
+                        ((5, 4), None),
+
+                        ((3, 4), None),
+                        ((2, 4), None),
+                        ((1, 4), None),
+                        ((0, 4), None),
+
+                        ((4, 5), None),
+                        ((4, 6), None),
+                        ((4, 7), None),
+                        ((4, 8), None),
+                      ]
+
+class SenteHisya44T_TestCase(unittest.TestCase, BanjyoKomaTestCase):
+    def setUp(self):
+        self.masume = (4, 4)
+        self.ban    = pyshogi.Ban([(True, 'Hisya', self.masume, True)])
+        self.koma   = apply(self.ban.masu, self.masume).koma
+        self.ugoki  = [
+                        ((4, 0), None),
+                        ((4, 1), None),
+                        ((4, 2), None),
+                        ((4, 3), None),
+
+                        ((8, 4), None),
+                        ((7, 4), None),
+                        ((6, 4), None),
+                        ((5, 4), None),
+
+                        ((5, 3), None),
+                        ((3, 3), None),
+
+                        ((5, 5), None),
+                        ((3, 5), None),
+
+                        ((3, 4), None),
+                        ((2, 4), None),
+                        ((1, 4), None),
+                        ((0, 4), None),
+
+                        ((4, 5), None),
+                        ((4, 6), None),
+                        ((4, 7), None),
+                        ((4, 8), None),
+                      ]
+
+class GoteHisya44F_TestCase(unittest.TestCase, BanjyoKomaTestCase):
+    def setUp(self):
+        self.masume = (4, 4)
+        self.ban    = pyshogi.Ban([(False, 'Hisya', self.masume, False)])
+        self.koma   = apply(self.ban.masu, self.masume).koma
+        self.ugoki  = [
+                        ((4, 0), None),
+                        ((4, 1), None),
+                        ((4, 2), None),
+                        ((4, 3), None),
+
+                        ((8, 4), None),
+                        ((7, 4), None),
+                        ((6, 4), None),
+                        ((5, 4), None),
+
+                        ((3, 4), None),
+                        ((2, 4), None),
+                        ((1, 4), None),
+                        ((0, 4), None),
+
+                        ((4, 5), None),
+                        ((4, 6), [False, True]),
+                        ((4, 7), [False, True]),
+                        ((4, 8), [False, True]),
+                      ]
+
+class GoteHisya44T_TestCase(unittest.TestCase, BanjyoKomaTestCase):
+    def setUp(self):
+        self.masume = (4, 4)
+        self.ban    = pyshogi.Ban([(False, 'Hisya', self.masume, True)])
+        self.koma   = apply(self.ban.masu, self.masume).koma
+        self.ugoki  = [
+                        ((4, 0), None),
+                        ((4, 1), None),
+                        ((4, 2), None),
+                        ((4, 3), None),
+
+                        ((8, 4), None),
+                        ((7, 4), None),
+                        ((6, 4), None),
+                        ((5, 4), None),
+
+                        ((5, 3), None),
+                        ((3, 3), None),
+
+                        ((5, 5), None),
+                        ((3, 5), None),
+
+                        ((3, 4), None),
+                        ((2, 4), None),
+                        ((1, 4), None),
+                        ((0, 4), None),
+
+                        ((4, 5), None),
+                        ((4, 6), None),
+                        ((4, 7), None),
+                        ((4, 8), None),
+                      ]
 
 if __name__ == '__main__': unittest.main()
