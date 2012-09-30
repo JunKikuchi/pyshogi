@@ -1029,4 +1029,27 @@ class GoteHisya44T_TestCase(unittest.TestCase, BanjyoKomaTestCase):
                         ((4, 8), None),
                       ]
 
+# Gyoku
+class SenteGyoku44T_TestCase(unittest.TestCase, BanjyoKomaTestCase):
+    def setUp(self):
+        self.masume = (4, 4)
+        self.ban    = pyshogi.Ban([(True, 'Gyoku', self.masume, False)])
+        self.koma   = apply(self.ban.masu, self.masume).koma
+        self.ugoki  = [
+                        ((5, 3), None), ((4, 3), None), ((3, 3), None),
+                        ((5, 4), None),                 ((3, 4), None),
+                        ((5, 5), None), ((4, 5), None), ((3, 5), None),
+                      ]
+
+class GoteGyoku44T_TestCase(unittest.TestCase, BanjyoKomaTestCase):
+    def setUp(self):
+        self.masume = (4, 4)
+        self.ban    = pyshogi.Ban([(False, 'Gyoku', self.masume, False)])
+        self.koma   = apply(self.ban.masu, self.masume).koma
+        self.ugoki  = [
+                        ((5, 3), None), ((4, 3), None), ((3, 3), None),
+                        ((5, 4), None),                 ((3, 4), None),
+                        ((5, 5), None), ((4, 5), None), ((3, 5), None),
+                      ]
+
 if __name__ == '__main__': unittest.main()
