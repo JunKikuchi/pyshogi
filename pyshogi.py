@@ -23,7 +23,7 @@ class Koma:
 
         if masu:
             if narikoma:
-                masus = [masu for masu in self.ban if masu.koma is None]
+                ugoki = [masu for masu in self.ban if masu.koma is None]
             else:
                 if not self.sente: self.ban.kaiten()
                 ugoki = self._tegoma_ugoki()
