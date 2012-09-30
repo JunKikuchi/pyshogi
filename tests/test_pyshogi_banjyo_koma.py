@@ -840,4 +840,73 @@ class GoteKin48F_TestCase(unittest.TestCase, BanjyoKomaTestCase):
                         ((5, 8), None),                 ((3, 8), None),
                       ]
 
+# Kaku
+class SenteKaku44F_TestCase(unittest.TestCase, BanjyoKomaTestCase):
+    def setUp(self):
+        self.masume = (4, 4)
+        self.ban    = pyshogi.Ban([(True, 'Kaku', self.masume, False)])
+        self.koma   = apply(self.ban.masu, self.masume).koma
+        self.ugoki  = [
+                        ((8, 0), [False, True]), ((0, 0), [False, True]),
+                        ((7, 1), [False, True]), ((1, 1), [False, True]),
+                        ((6, 2), [False, True]), ((2, 2), [False, True]),
+                        ((5, 3), None),          ((3, 3), None),
+
+                        ((5, 5), None),          ((3, 5), None),
+                        ((6, 6), None),          ((2, 6), None),
+                        ((7, 7), None),          ((1, 7), None),
+                        ((8, 8), None),          ((0, 8), None),
+                      ]
+
+class SenteKaku44T_TestCase(unittest.TestCase, BanjyoKomaTestCase):
+    def setUp(self):
+        self.masume = (4, 4)
+        self.ban    = pyshogi.Ban([(True, 'Kaku', self.masume, True)])
+        self.koma   = apply(self.ban.masu, self.masume).koma
+        self.ugoki  = [
+                        ((8, 0), None),                 ((0, 0), None),
+                        ((7, 1), None),                 ((1, 1), None),
+                        ((6, 2), None),                 ((2, 2), None),
+                        ((5, 3), None), ((4, 3), None), ((3, 3), None),
+                        ((5, 4), None),                 ((3, 4), None),
+                        ((5, 5), None), ((4, 5), None), ((3, 5), None),
+                        ((6, 6), None),                 ((2, 6), None),
+                        ((7, 7), None),                 ((1, 7), None),
+                        ((8, 8), None),                 ((0, 8), None),
+                      ]
+
+class GoteKaku44F_TestCase(unittest.TestCase, BanjyoKomaTestCase):
+    def setUp(self):
+        self.masume = (4, 4)
+        self.ban    = pyshogi.Ban([(False, 'Kaku', self.masume, False)])
+        self.koma   = apply(self.ban.masu, self.masume).koma
+        self.ugoki  = [
+                        ((8, 0), None),          ((0, 0), None),
+                        ((7, 1), None),          ((1, 1), None),
+                        ((6, 2), None),          ((2, 2), None),
+                        ((5, 3), None),          ((3, 3), None),
+
+                        ((5, 5), None),          ((3, 5), None),
+                        ((6, 6), [False, True]), ((2, 6), [False, True]),
+                        ((7, 7), [False, True]), ((1, 7), [False, True]),
+                        ((8, 8), [False, True]), ((0, 8), [False, True]),
+                      ]
+
+class GoteKaku44T_TestCase(unittest.TestCase, BanjyoKomaTestCase):
+    def setUp(self):
+        self.masume = (4, 4)
+        self.ban    = pyshogi.Ban([(False, 'Kaku', self.masume, True)])
+        self.koma   = apply(self.ban.masu, self.masume).koma
+        self.ugoki  = [
+                        ((8, 0), None),                 ((0, 0), None),
+                        ((7, 1), None),                 ((1, 1), None),
+                        ((6, 2), None),                 ((2, 2), None),
+                        ((5, 3), None), ((4, 3), None), ((3, 3), None),
+                        ((5, 4), None),                 ((3, 4), None),
+                        ((5, 5), None), ((4, 5), None), ((3, 5), None),
+                        ((6, 6), None),                 ((2, 6), None),
+                        ((7, 7), None),                 ((1, 7), None),
+                        ((8, 8), None),                 ((0, 8), None),
+                      ]
+
 if __name__ == '__main__': unittest.main()
