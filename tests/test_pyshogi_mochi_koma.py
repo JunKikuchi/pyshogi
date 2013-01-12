@@ -12,6 +12,33 @@ class MochiKomaTestCase:
     def test_ugoki(self):
         self.assertEqual(self.ugoki, self.koma.ugoki())
 
+    def test_move(self):
+        for m in self.ugoki.keys():
+            self.setUp()
+            masu = self.ban.masu(m.x, m.y)
+
+            self.assertEqual(masu.koma, None)
+            self.assertEqual(self.koma.masu, None)
+
+            self.koma.move(masu)
+
+            self.assertEqual(masu.koma, self.koma)
+            self.assertEqual(self.koma.masu, masu)
+            self.assertEqual([], self.ban.mochigoma(True))
+            self.assertEqual([], self.ban.mochigoma(False))
+
+    def test_move_error(self):
+        ugokis = frozenset(self.ban).difference(frozenset(self.ugoki.keys()))
+        for m in ugokis:
+            self.setUp()
+            masu = self.ban.masu(m.x, m.y)
+
+            self.assertEqual(masu.koma, None)
+            self.assertEqual(self.koma.masu, None)
+
+            with self.assertRaises(pyshogi.CanNotPlaceKomaError):
+                self.koma.move(masu)
+
 ### Fu
 class SenteFu_TestCase(unittest.TestCase, MochiKomaTestCase):
     def setUp(self):
