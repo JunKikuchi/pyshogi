@@ -31,6 +31,7 @@ class BanjyoKomaTestCase:
                 self.setUp()
                 old_masu = self.koma.masu
                 masu = self.ban.masu(x, y)
+                self.ban.teban = self.koma.sente
                 self.koma.move(masu)
                 self.assertEqual(masu.koma, self.koma)
                 self.assertEqual(self.koma.masu, masu)
@@ -40,6 +41,7 @@ class BanjyoKomaTestCase:
                     self.setUp()
                     old_masu = self.koma.masu
                     masu = self.ban.masu(x, y)
+                    self.ban.teban = self.koma.sente
                     self.koma.move(masu, narikomi)
                     self.assertEqual(masu.koma, self.koma)
                     self.assertEqual(self.koma.masu, masu)
@@ -54,12 +56,15 @@ class BanjyoKomaTestCase:
             for y in range(9):
                 masu = self.ban.masu(x, y)
                 if masu not in ugoki:
+                    self.ban.teban = self.koma.sente
                     with self.assertRaises(pyshogi.CanNotPlaceKomaError):
                         self.koma.move(masu)
 
+        self.ban.teban = self.koma.sente
         with self.assertRaises(pyshogi.CanNotPlaceKomaError):
             self.koma.move(self.ban.masu(-1, -1))
 
+        self.ban.teban = self.koma.sente
         with self.assertRaises(pyshogi.CanNotPlaceKomaError):
             self.koma.move(self.ban.masu(9, 9))
 

@@ -1,8 +1,9 @@
+# -*- coding: utf-8 -*-
 #
 #  pyshogi.py
 #
 #  Created by Jun Kikuchi
-#  Copyright (c) 2012 Jun Kikuchi. All rights reserved.
+#  Copyright (c) 2012-2013 Jun Kikuchi. All rights reserved.
 #
 
 class Error(Exception):
@@ -16,8 +17,17 @@ class CanNotPlaceKomaError(Error):
     def __str__(self):
         return "%s %s %s" % (self.__class__.__name__, self.koma, self.masu)
 
+class TebanError(Error):
+    def __init__(self, koma, masu):
+        self.koma = koma
+        self.masu = masu
+
+    def __str__(self):
+        return "%s %s %s" % (self.__class__.__name__, self.koma, self.masu)
+
 class Koma:
     KACHI = None
+    YOMI  = [None, None]
     UGOKI = [None, None]
 
     def __init__(self, ban, sente, masu=None, narikoma=False):
@@ -39,7 +49,17 @@ class Koma:
         self.narikoma = narikoma
 
     def __str__(self):
-        return "%s:%s" % (self.__class__.__name__, self.sente)
+        if self.narikoma:
+            yomi = self.YOMI[1]
+        else:
+            yomi = self.YOMI[0]
+
+        if self.sente:
+            xs = ('[', yomi, ']')
+        else:
+            xs = ('(', yomi, ')')
+
+        return '%s%s%s' % xs
 
     def __cmp__(self, other):
         return cmp(self.KACHI, other.KACHI)
@@ -59,6 +79,9 @@ class Koma:
         return ugoki
 
     def move(self, masu, naru=False):
+        if self.sente <> self.ban.teban:
+            raise TebanError(self, masu)
+
         if masu not in self.ugoki():
             raise CanNotPlaceKomaError(self, masu)
 
@@ -76,6 +99,8 @@ class Koma:
 
         if naru and self.UGOKI[1]:
             self.narikoma = True
+
+        self.ban.teban = not self.ban.teban
 
     def _banjyo_ugoki(self):
         masus = []
@@ -134,6 +159,7 @@ class Koma:
 
 class Gyoku(Koma):
     KACHI = 1
+    YOMI  = ['王将', None]
     UGOKI = [
         [
             (False, frozenset([
@@ -147,6 +173,7 @@ class Gyoku(Koma):
 
 class Hisya(Koma):
     KACHI = 2
+    YOMI  = ['飛車', '竜王']
     UGOKI = [
         [
             (True, frozenset([
@@ -171,6 +198,7 @@ class Hisya(Koma):
 
 class Kaku(Koma):
     KACHI = 3
+    YOMI  = ['角行', '竜馬']
     UGOKI = [
         [
             (True, frozenset([
@@ -195,6 +223,7 @@ class Kaku(Koma):
 
 class Kin(Koma):
     KACHI = 4
+    YOMI  = ['金将', None]
     UGOKI = [
         [
             (False, frozenset([
@@ -208,6 +237,7 @@ class Kin(Koma):
 
 class Gin(Koma):
     KACHI = 5
+    YOMI  = ['銀将', '成銀']
     UGOKI = [
         [
             (False, frozenset([
@@ -221,6 +251,7 @@ class Gin(Koma):
 
 class Keima(Koma):
     KACHI = 6
+    YOMI  = ['桂馬', '成桂']
     UGOKI = [
         [
             (False, frozenset([
@@ -245,6 +276,7 @@ class Keima(Koma):
 
 class Kyosya(Koma):
     KACHI = 7
+    YOMI  = ['香車', '成香']
     UGOKI = [
         [
             (True, frozenset([
@@ -267,6 +299,7 @@ class Kyosya(Koma):
 
 class Fu(Koma):
     KACHI = 8
+    YOMI  = ['歩兵', 'と金']
     UGOKI = [
         [
             (False, frozenset([
@@ -302,7 +335,7 @@ class Masu:
         self.koma = None
 
     def __str__(self):
-        return "%d,%d,%s" % (self.x, self.y, self.koma)
+        return "(%d,%d):%s" % (self.x, self.y, self.koma)
 
     def kaiten(self):
         self.x = 8 - self.x
@@ -353,15 +386,18 @@ HIRATE = [
 
 class Ban:
     def __init__(self, data=HIRATE):
-        self.masus = [[Masu(x, y) for y in range(9)] for x in range(9)]
-
-        self.komas = []
+        self.teban  = True
+        self.masus  = [[Masu(x, y) for y in range(9)] for x in range(9)]
+        self.komas  = []
+        self.gyokus = []
         for sente, koma_class, masu, narikoma in data:
             if masu:
                 x, y = masu
                 masu = self.masus[x][y]
             koma = eval(koma_class)(self, sente, masu, narikoma)
             self.komas.append(koma)
+            if koma_class == 'Gyoku':
+                self.gyokus.append(koma)
 
     def __iter__(self):
         for x in range(9):
@@ -369,15 +405,30 @@ class Ban:
                 yield self.masus[x][y]
 
     def __str__(self):
+        teban = {True: '', False: ''}
+        if self.teban:
+            teban[self.teban] = '先手番'
+        else:
+            teban[self.teban] = '後手番'
+
+        gote  = '(後手)：' + ' '.join([str(a) for a in self.mochigoma(False)])
+        sente = '[先手]：' + ' '.join([str(a) for a in self.mochigoma(True)])
+
+        col = ' '.join([
+            '  %s  ' % (n)
+                for n in ['９', '８', '７', '６', '５', '４', '３', '２', '１']
+        ])
+        row = ['一', '二', '三', '四', '五', '六', '七', '八', '九']
+
+        ban = [
+            ' '.join([
+                str(self.masus[x][y].koma or ' ____ ') for x in range(8, -1, -1)
+            ]) + ' ' + row[y] for y in range(9)
+        ]
+
         return "\n".join(
-            [
-                " ".join(
-                    [
-                        str(self.masus[x][y]) for x in range(8, -1, -1)
-                    ]
-                ) for y in range(9)
-            ]
-        )
+            [teban[False]] + [gote] + [col] + ban + [sente] + [teban[True]]
+        ) + "\n"
 
     def masu(self, x, y):
         if 0 <= x <= 8 and 0 <= y <= 8:
@@ -396,3 +447,6 @@ class Ban:
         xs = [a for a in self.komas if a.sente == sente and a.masu is None]
         xs.sort()
         return xs
+
+    def tsumi(self, koma):
+        koma

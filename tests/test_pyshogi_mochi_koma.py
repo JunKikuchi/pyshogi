@@ -20,6 +20,7 @@ class MochiKomaTestCase:
             self.assertEqual(masu.koma, None)
             self.assertEqual(self.koma.masu, None)
 
+            self.ban.teban = self.koma.sente
             self.koma.move(masu)
 
             self.assertEqual(masu.koma, self.koma)
@@ -36,6 +37,7 @@ class MochiKomaTestCase:
             self.assertEqual(masu.koma, None)
             self.assertEqual(self.koma.masu, None)
 
+            self.ban.teban = self.koma.sente
             with self.assertRaises(pyshogi.CanNotPlaceKomaError):
                 self.koma.move(masu)
 
