@@ -64,6 +64,13 @@ class Koma:
     def __cmp__(self, other):
         return cmp(self.KACHI, other.KACHI)
 
+    def kiki(self):
+        if not self.sente: self.ban.kaiten()
+        kiki = self._banjyo_ugoki(True)
+        if not self.sente: self.ban.kaiten()
+
+        return kiki
+
     def ugoki(self):
         if not self.sente: self.ban.kaiten()
 
@@ -102,7 +109,7 @@ class Koma:
 
         self.ban.teban = not self.ban.teban
 
-    def _banjyo_ugoki(self):
+    def _banjyo_ugoki(self, kiki=False):
         masus = []
 
         if self.narikoma:
@@ -113,14 +120,14 @@ class Koma:
         for hashiru, ugoki in ugokis:
             for mx, my in ugoki:
                 x, y = mx, my
-                masu = self._banjyo_ugoki_check(x, y)
+                masu = self._banjyo_ugoki_check(x, y, kiki)
                 if hashiru:
                     while(masu):
                         masus.append(masu)
                         if masu.koma and masu.koma.sente <> self.sente: break
                         x += mx
                         y += my
-                        masu = self._banjyo_ugoki_check(x, y)
+                        masu = self._banjyo_ugoki_check(x, y, kiki)
                 else:
                     if masu:
                         masus.append(masu)
@@ -130,11 +137,14 @@ class Koma:
     def _tegoma_ugoki(self):
         return frozenset([masu for masu in self.ban if masu.koma is None])
 
-    def _banjyo_ugoki_check(self, x, y):
+    def _banjyo_ugoki_check(self, x, y, kiki=False):
         if self.masu:
             masu = self.ban.masu(self.masu.x + x, self.masu.y + y)
-            if masu and (masu.koma is None or masu.koma.sente <> self.sente):
-                return masu
+            if masu:
+                if kiki:
+                    return masu
+                if (masu.koma is None or masu.koma.sente <> self.sente):
+                    return masu
         return None;
 
     def _nareru(self, masu):
@@ -447,6 +457,12 @@ class Ban:
         xs = [a for a in self.komas if a.sente == sente and a.masu is None]
         xs.sort()
         return xs
+
+    def kiki(self, sente):
+        kiki = []
+        for koma in [a for a in self.komas if a.sente == sente]:
+            kiki += koma.kiki()
+        return frozenset(kiki)
 
     def tsumi(self, koma):
         koma
