@@ -10,6 +10,7 @@ import unittest
 
 class MochiKomaTestCase:
     def test_ugoki(self):
+        self.ban.teban = self.koma.sente
         self.assertEqual(
             dict([
                 (masu, self.koma.narikomi(masu)) for masu in self.koma.ugoki()

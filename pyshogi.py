@@ -47,6 +47,7 @@ class Koma:
 
         self.masu     = masu
         self.narikoma = narikoma
+        self.index    = None
 
     def __str__(self):
         if self.narikoma:
@@ -64,6 +65,13 @@ class Koma:
     def __cmp__(self, other):
         return cmp(self.KACHI, other.KACHI)
 
+    def dump(self):
+        if self.masu:
+            masu = self.masu.dump()
+        else:
+            masu = None
+        return (self.sente, self.__class__.__name__, masu, self.narikoma)
+
     def kiki(self):
         if not self.sente: self.ban.kaiten()
         kiki = self._banjyo_ugoki(True)
@@ -73,21 +81,29 @@ class Koma:
 
     def ugoki(self):
         if not self.sente: self.ban.kaiten()
-
         if self.masu:
             ugoki = self._banjyo_ugoki()
         else:
             ugoki = self._tegoma_ugoki()
-
         if not self.sente: self.ban.kaiten()
 
-        return ugoki
+        oute = set()
+        for masu in ugoki:
+            ban = self.ban.clone()
+            ban.sakiyomi = True
+            koma = ban.komas[self.index]
+            koma.move(ban.masu(masu.x, masu.y))
+            ban.teban = self.ban.teban
+            if ban.oute():
+                oute.add(masu)
+
+        return ugoki.difference(oute)
 
     def move(self, masu, naru=False):
         if self.sente <> self.ban.teban:
             raise TebanError(self, masu)
 
-        if masu not in self.ugoki():
+        if (not self.ban.sakiyomi) and (masu not in self.ugoki()):
             raise CanNotPlaceKomaError(self, masu)
 
         if self.masu and self.masu.koma:
@@ -352,6 +368,9 @@ class Masu:
     def __str__(self):
         return "(%d,%d):%s" % (self.x, self.y, self.koma)
 
+    def dump(self):
+        return (self.x, self.y)
+
     def kaiten(self):
         self.x = 8 - self.x
         self.y = 8 - self.y
@@ -401,18 +420,25 @@ HIRATE = [
 
 class Ban:
     def __init__(self, data=HIRATE):
-        self.teban  = True
-        self.masus  = [[Masu(x, y) for y in range(9)] for x in range(9)]
-        self.komas  = []
-        self.gyokus = []
-        for sente, koma_class, masu, narikoma in data:
+        if isinstance(data, list):
+            data = {'TEBAN': True, 'KOMA':  data}
+
+        self.sakiyomi = False
+        self.teban    = data['TEBAN']
+        self.masus    = [[Masu(x, y) for y in range(9)] for x in range(9)]
+        self.komas    = []
+        self.gyokus   = {}
+
+        koma_data = zip(data['KOMA'], range(0, len(data['KOMA'])))
+        for (sente, koma_class, masu, narikoma), (i) in koma_data:
             if masu:
                 x, y = masu
                 masu = self.masus[x][y]
             koma = eval(koma_class)(self, sente, masu, narikoma)
+            koma.index = i
             self.komas.append(koma)
             if koma_class == 'Gyoku':
-                self.gyokus.append(koma)
+                self.gyokus[koma.sente] = koma
 
     def __iter__(self):
         for x in range(9):
@@ -429,11 +455,16 @@ class Ban:
         gote  = '(後手)：' + ' '.join([str(a) for a in self.mochigoma(False)])
         sente = '[先手]：' + ' '.join([str(a) for a in self.mochigoma(True)])
 
+        '''
         col = ' '.join([
             '  %s  ' % (n)
                 for n in ['９', '８', '７', '６', '５', '４', '３', '２', '１']
         ])
         row = ['一', '二', '三', '四', '五', '六', '七', '八', '九']
+        '''
+
+        col = ' '.join(['   %s  ' % (n) for n in range(8, -1, -1)])
+        row = [str(n) for n in range(0, 9)]
 
         ban = [
             ' '.join([
@@ -444,6 +475,15 @@ class Ban:
         return "\n".join(
             [teban[False]] + [gote] + [col] + ban + [sente] + [teban[True]]
         ) + "\n"
+
+    def dump(self):
+        return {
+            'TEBAN': self.teban,
+            'KOMA':  [koma.dump() for koma in self.komas],
+        }
+
+    def clone(self):
+        return self.__class__(self.dump())
 
     def masu(self, x, y):
         if 0 <= x <= 8 and 0 <= y <= 8:
@@ -469,5 +509,16 @@ class Ban:
             kiki += koma.kiki()
         return frozenset(kiki)
 
-    def tsumi(self, koma):
-        koma
+    def oute(self):
+        if self.teban not in self.gyokus:
+            return None
+
+        gyoku = self.gyokus[self.teban]
+        return gyoku.masu in self.kiki(not self.teban)
+
+    def tsumi(self):
+        if self.teban not in self.gyokus:
+            return None
+
+        gyoku = self.gyokus[self.teban]
+        return self.oute() and gyoku.ugoki().issubset(self.kiki(not self.teban))

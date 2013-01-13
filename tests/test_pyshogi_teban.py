@@ -11,12 +11,12 @@ import unittest
 class TebanTestCase(unittest.TestCase):
     def test_teban(self):
         ban = pyshogi.Ban()
-        self.assertEqual(ban.teban, True)
+        self.assertTrue(ban.teban)
 
         with self.assertRaises(pyshogi.TebanError):
             ban.masu(1, 2).koma.move(ban.masu(1, 3))
 
         ban.masu(6, 6).koma.move(ban.masu(6, 5))
-        self.assertEqual(ban.teban, False)
+        self.assertFalse(ban.teban)
 
 if __name__ == '__main__': unittest.main()

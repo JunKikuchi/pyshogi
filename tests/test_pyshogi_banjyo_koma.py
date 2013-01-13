@@ -15,6 +15,8 @@ class BanjyoKomaTestCase:
         self.assertEqual(self.koma.masu, masu)
 
     def test_ugoki(self):
+        self.ban.teban = self.koma.sente
+
         ugoki = self.koma.ugoki()
 
         self.assertIsInstance(ugoki, frozenset)
