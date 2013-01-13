@@ -79,8 +79,6 @@ class Koma:
         else:
             ugoki = self._tegoma_ugoki()
 
-        ugoki = dict([(masu, self._nareru(masu)) for masu in ugoki])
-
         if not self.sente: self.ban.kaiten()
 
         return ugoki
@@ -147,12 +145,19 @@ class Koma:
                     return masu
         return None;
 
-    def _nareru(self, masu):
-        if self.narikoma or self.masu is None or self.UGOKI[1] is None:
-            return None
-        return self._nareru_check(masu)
+    def narikomi(self, masu):
+        if not self.sente: self.ban.kaiten()
 
-    def _nareru_check(self, masu):
+        if self.narikoma or self.masu is None or self.UGOKI[1] is None:
+            narikomi = None
+        else:
+            narikomi = self._narikomi_check(masu)
+
+        if not self.sente: self.ban.kaiten()
+
+        return narikomi
+
+    def _narikomi_check(self, masu):
         if self.masu.y < 3 or masu.y < 3:
             return [False, True]
         return None
@@ -277,7 +282,7 @@ class Keima(Koma):
         return frozenset([
             masu for masu in self.ban if masu.koma is None and masu.y > 1])
 
-    def _nareru_check(self, masu):
+    def _narikomi_check(self, masu):
         if masu.y < 2:
             return [True]
         if self.masu.y < 3 or masu.y < 3:
@@ -300,7 +305,7 @@ class Kyosya(Koma):
         return frozenset([
             masu for masu in self.ban if masu.koma is None and masu.y > 0])
 
-    def _nareru_check(self, masu):
+    def _narikomi_check(self, masu):
         if masu.y == 0:
             return [True]
         if self.masu.y < 3 or masu.y < 3:
@@ -331,7 +336,7 @@ class Fu(Koma):
                    masu.y > 0 and
                    masu.x not in fu_x])
 
-    def _nareru_check(self, masu):
+    def _narikomi_check(self, masu):
         if masu.y == 0:
             return [True]
         if self.masu.y < 3 or masu.y < 3:

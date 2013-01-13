@@ -17,13 +17,13 @@ class BanjyoKomaTestCase:
     def test_ugoki(self):
         ugoki = self.koma.ugoki()
 
-        self.assertIsInstance(ugoki, dict)
+        self.assertIsInstance(ugoki, frozenset)
         self.assertEqual(len(ugoki), len(self.ugoki))
 
         for (x, y), narikomi in self.ugoki:
             masu = self.ban.masu(x, y)
             self.assertIn(masu, ugoki)
-            self.assertEqual(ugoki[masu], narikomi)
+            self.assertEqual(self.koma.narikomi(masu), narikomi)
 
     def test_move(self):
         for (x, y), narikomi in self.ugoki:

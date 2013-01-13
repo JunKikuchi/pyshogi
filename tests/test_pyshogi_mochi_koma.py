@@ -10,7 +10,12 @@ import unittest
 
 class MochiKomaTestCase:
     def test_ugoki(self):
-        self.assertEqual(self.ugoki, self.koma.ugoki())
+        self.assertEqual(
+            dict([
+                (masu, self.koma.narikomi(masu)) for masu in self.koma.ugoki()
+            ]),
+            self.ugoki
+        )
 
     def test_move(self):
         for m in self.ugoki.keys():
