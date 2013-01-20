@@ -178,7 +178,7 @@ class Koma:
             return [False, True]
         return None
 
-# 8 7 6 5 4 3 2 1 0
+# 0 1 2 3 4 5 6 7 8
 #                 1
 #                 2
 #                 3
@@ -194,9 +194,9 @@ class Gyoku(Koma):
     UGOKI = [
         [
             (False, frozenset([
-                (1, -1), (0, -1), (-1, -1),
-                (1,  0),          (-1,  0),
-                (1,  1), (0,  1), (-1,  1),
+                (-1, -1), (0, -1), (1, -1),
+                (-1,  0),          (1,  0),
+                (-1,  1), (0,  1), (1,  1),
             ]))
         ],
         None
@@ -209,20 +209,20 @@ class Hisya(Koma):
         [
             (True, frozenset([
                          (0, -1),
-                (1,  0),          (-1,  0),
+                (-1,  0),          (1,  0),
                          (0,  1)
             ]))
         ],
         [
             (True, frozenset([
                          (0, -1),
-                (1,  0),          (-1,  0),
+                (-1,  0),          (1,  0),
                          (0,  1)
             ])),
             (False, frozenset([
-                (1, -1),          (-1, -1),
+                (-1, -1),          (1, -1),
 
-                (1,  1),          (-1,  1),
+                (-1,  1),          (1,  1),
             ]))
         ]
     ]
@@ -233,20 +233,20 @@ class Kaku(Koma):
     UGOKI = [
         [
             (True, frozenset([
-                (1, -1),          (-1, -1),
+                (-1, -1),          (1, -1),
 
-                (1,  1),          (-1,  1)
+                (-1,  1),          (1,  1)
             ]))
         ],
         [
             (True, frozenset([
-                (1, -1),          (-1, -1),
+                (-1, -1),          (1, -1),
 
-                (1,  1),          (-1,  1)
+                (-1,  1),          (1,  1)
             ])),
             (False, frozenset([
                          (0, -1),
-                (1,  0),          (-1,  0),
+                (-1,  0),          (1,  0),
                          (0,  1)
             ])),
         ]
@@ -258,8 +258,8 @@ class Kin(Koma):
     UGOKI = [
         [
             (False, frozenset([
-                (1, -1), (0, -1), (-1, -1),
-                (1,  0),          (-1,  0),
+                (-1, -1), (0, -1), (1, -1),
+                (-1,  0),          (1,  0),
                          (0,  1)
             ]))
         ],
@@ -272,9 +272,9 @@ class Gin(Koma):
     UGOKI = [
         [
             (False, frozenset([
-                (1, -1), (0, -1), (-1, -1),
+                (-1, -1), (0, -1), (1, -1),
 
-                (1,  1),          (-1,  1),
+                (-1,  1),          (1,  1),
             ]))
         ],
         Kin.UGOKI[0]
@@ -286,7 +286,7 @@ class Keima(Koma):
     UGOKI = [
         [
             (False, frozenset([
-                (1, -2),          (-1, -2)
+                (-1, -2),          (1, -2)
 
 
             ]))
@@ -376,46 +376,46 @@ class Masu:
         self.y = 8 - self.y
 
 HIRATE = [
-    (False, 'Kyosya', (8, 0), False),
-    (False, 'Keima',  (7, 0), False),
-    (False, 'Gin',    (6, 0), False),
-    (False, 'Kin',    (5, 0), False),
-    (False, 'Gyoku',  (4, 0), False),
-    (False, 'Kin',    (3, 0), False),
-    (False, 'Gin',    (2, 0), False),
-    (False, 'Keima',  (1, 0), False),
     (False, 'Kyosya', (0, 0), False),
-    (False, 'Hisya',  (7, 1), False),
-    (False, 'Kaku',   (1, 1), False),
-    (False, 'Fu',     (8, 2), False),
-    (False, 'Fu',     (7, 2), False),
-    (False, 'Fu',     (6, 2), False),
-    (False, 'Fu',     (5, 2), False),
-    (False, 'Fu',     (4, 2), False),
-    (False, 'Fu',     (3, 2), False),
-    (False, 'Fu',     (2, 2), False),
-    (False, 'Fu',     (1, 2), False),
+    (False, 'Keima',  (1, 0), False),
+    (False, 'Gin',    (2, 0), False),
+    (False, 'Kin',    (3, 0), False),
+    (False, 'Gyoku',  (4, 0), False),
+    (False, 'Kin',    (5, 0), False),
+    (False, 'Gin',    (6, 0), False),
+    (False, 'Keima',  (7, 0), False),
+    (False, 'Kyosya', (8, 0), False),
+    (False, 'Hisya',  (1, 1), False),
+    (False, 'Kaku',   (7, 1), False),
     (False, 'Fu',     (0, 2), False),
-    (True,  'Fu',     (8, 6), False),
-    (True,  'Fu',     (7, 6), False),
-    (True,  'Fu',     (6, 6), False),
-    (True,  'Fu',     (5, 6), False),
-    (True,  'Fu',     (4, 6), False),
-    (True,  'Fu',     (3, 6), False),
-    (True,  'Fu',     (2, 6), False),
-    (True,  'Fu',     (1, 6), False),
+    (False, 'Fu',     (1, 2), False),
+    (False, 'Fu',     (2, 2), False),
+    (False, 'Fu',     (3, 2), False),
+    (False, 'Fu',     (4, 2), False),
+    (False, 'Fu',     (5, 2), False),
+    (False, 'Fu',     (6, 2), False),
+    (False, 'Fu',     (7, 2), False),
+    (False, 'Fu',     (8, 2), False),
     (True,  'Fu',     (0, 6), False),
-    (True,  'Kaku',   (7, 7), False),
-    (True,  'Hisya',  (1, 7), False),
-    (True,  'Kyosya', (8, 8), False),
-    (True,  'Keima',  (7, 8), False),
-    (True,  'Gin',    (6, 8), False),
-    (True,  'Kin',    (5, 8), False),
-    (True,  'Gyoku',  (4, 8), False),
-    (True,  'Kin',    (3, 8), False),
-    (True,  'Gin',    (2, 8), False),
-    (True,  'Keima',  (1, 8), False),
+    (True,  'Fu',     (1, 6), False),
+    (True,  'Fu',     (2, 6), False),
+    (True,  'Fu',     (3, 6), False),
+    (True,  'Fu',     (4, 6), False),
+    (True,  'Fu',     (5, 6), False),
+    (True,  'Fu',     (6, 6), False),
+    (True,  'Fu',     (7, 6), False),
+    (True,  'Fu',     (8, 6), False),
+    (True,  'Kaku',   (1, 7), False),
+    (True,  'Hisya',  (7, 7), False),
     (True,  'Kyosya', (0, 8), False),
+    (True,  'Keima',  (1, 8), False),
+    (True,  'Gin',    (2, 8), False),
+    (True,  'Kin',    (3, 8), False),
+    (True,  'Gyoku',  (4, 8), False),
+    (True,  'Kin',    (5, 8), False),
+    (True,  'Gin',    (6, 8), False),
+    (True,  'Keima',  (7, 8), False),
+    (True,  'Kyosya', (8, 8), False),
 ]
 
 class Ban:
@@ -463,12 +463,12 @@ class Ban:
         row = ['一', '二', '三', '四', '五', '六', '七', '八', '九']
         '''
 
-        col = ' '.join(['   %s  ' % (n) for n in range(8, -1, -1)])
+        col = ' '.join(['   %s  ' % (n) for n in range(0, 9)])
         row = [str(n) for n in range(0, 9)]
 
         ban = [
             ' '.join([
-                str(self.masus[x][y].koma or ' ____ ') for x in range(8, -1, -1)
+                str(self.masus[x][y].koma or ' ____ ') for x in range(0, 9)
             ]) + ' ' + row[y] for y in range(9)
         ]
 
