@@ -10,13 +10,18 @@ import unittest
 
 class KikiTestCase(unittest.TestCase):
     def test_kiki(self):
-        ban = pyshogi.Ban([
-            (False, 'Gyoku', (4, 0), False),
-            (True,  'Kin',   (4, 1), False),
-            (True,  'Fu',    (4, 2), False),
-        ])
+        ban = pyshogi.ShogiBan(
+            [
+                0,
+                [
+                    (1, 'Gyoku', (4, 0), 0),
+                    (0, 'Kin',   (4, 1), 0),
+                    (0, 'Fu',    (4, 2), 0),
+                ]
+            ]
+        )
 
-        kiki = ban.kiki(True)
+        kiki = ban.kiki(0)
         self.assertEqual(
             kiki,
             frozenset([
@@ -30,7 +35,7 @@ class KikiTestCase(unittest.TestCase):
             ])
         )
 
-        kiki = ban.kiki(False)
+        kiki = ban.kiki(1)
         self.assertEqual(
             kiki,
             frozenset([

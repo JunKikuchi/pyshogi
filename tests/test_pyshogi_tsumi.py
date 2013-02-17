@@ -10,32 +10,44 @@ import unittest
 
 class TsumiTestCase(unittest.TestCase):
     def test_hirate(self):
-        ban = pyshogi.Ban()
+        ban = pyshogi.ShogiBan()
         self.assertFalse(ban.tsumi())
 
     def test_atamakin(self):
-        ban = pyshogi.Ban([
-            (False, 'Gyoku', (4, 0), False),
-            (True,  'Kin',   (4, 1), False),
-            (True,  'Fu',    (4, 2), False),
-            (True,  'Gyoku', (4, 8), False),
-        ])
-        ban.teban = True
+        ban = pyshogi.ShogiBan(
+            [
+                0,
+                [
+                    (1, 'Gyoku', (4, 0), 0),
+                    (0, 'Kin',   (4, 1), 0),
+                    (0, 'Fu',    (4, 2), 0),
+                    (0, 'Gyoku', (4, 8), 0),
+                ]
+            ]
+        )
+
+        ban.teban = 0
         self.assertFalse(ban.tsumi())
 
-        ban.teban = False
+        ban.teban = 1
         self.assertTrue(ban.tsumi())
 
     def test_not_atamakin(self):
-        ban = pyshogi.Ban([
-            (False, 'Gyoku', (4, 0), False),
-            (True,  'Kin',   (4, 1), False),
-            (True,  'Gyoku', (4, 8), False),
-        ])
-        ban.teban = True
+        ban = pyshogi.ShogiBan(
+            [
+                0,
+                [
+                    (1, 'Gyoku', (4, 0), 0),
+                    (0, 'Kin',   (4, 1), 0),
+                    (0, 'Gyoku', (4, 8), 0),
+                ]
+            ]
+        )
+
+        ban.teban = 0
         self.assertFalse(ban.tsumi())
 
-        ban.teban = False
+        ban.teban = 1
         self.assertFalse(ban.tsumi())
 
 if __name__ == '__main__': unittest.main()

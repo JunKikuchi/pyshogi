@@ -30,32 +30,29 @@ class Koma:
     YOMI  = [None, None]
     UGOKI = [None, None]
 
-    def __init__(self, ban, sente, masu=None, narikoma=False):
+    def __init__(self, ban, sengo, masu, nari):
         self.ban   = ban
-        self.sente = sente
+        self.sengo = sengo
 
         if masu:
-            if narikoma:
+            if nari == 1:
                 ugoki = frozenset([m for m in self.ban if masu.koma is None])
             else:
-                if not self.sente: self.ban.kaiten()
+                if self.sengo == 1: self.ban.kaiten()
                 ugoki = self._tegoma_ugoki()
-                if not self.sente: self.ban.kaiten()
+                if self.sengo == 1: self.ban.kaiten()
             if masu not in ugoki:
                 raise CanNotPlaceKomaError(self, masu)
             masu.koma = self
 
-        self.masu     = masu
-        self.narikoma = narikoma
-        self.index    = None
+        self.masu  = masu
+        self.nari  = nari
+        self.index = None
 
     def __str__(self):
-        if self.narikoma:
-            yomi = self.YOMI[1]
-        else:
-            yomi = self.YOMI[0]
+        yomi = self.YOMI[self.nari]
 
-        if self.sente:
+        if self.sengo == 0:
             xs = ('[', yomi, ']')
         else:
             xs = ('(', yomi, ')')
@@ -70,37 +67,39 @@ class Koma:
             masu = self.masu.dump()
         else:
             masu = None
-        return (self.sente, self.__class__.__name__, masu, self.narikoma)
+        return (self.sengo, self.__class__.__name__, masu, self.nari)
 
     def kiki(self):
-        if not self.sente: self.ban.kaiten()
+        if self.sengo == 1: self.ban.kaiten()
         kiki = self._banjyo_ugoki(True)
-        if not self.sente: self.ban.kaiten()
+        if self.sengo == 1: self.ban.kaiten()
 
         return kiki
 
     def ugoki(self):
-        if not self.sente: self.ban.kaiten()
+        if self.sengo == 1: self.ban.kaiten()
         if self.masu:
             ugoki = self._banjyo_ugoki()
         else:
             ugoki = self._tegoma_ugoki()
-        if not self.sente: self.ban.kaiten()
+        if self.sengo == 1: self.ban.kaiten()
 
         oute = set()
         for masu in ugoki:
             ban = self.ban.clone()
             ban.sakiyomi = True
             koma = ban.komas[self.index]
-            koma.move(ban.masu(masu.x, masu.y))
+            koma.move(masu.x, masu.y)
             ban.teban = self.ban.teban
             if ban.oute():
                 oute.add(masu)
 
         return ugoki.difference(oute)
 
-    def move(self, masu, naru=False):
-        if self.sente <> self.ban.teban:
+    def move(self, x, y, naru=False):
+        masu = self.ban.masu(x, y)
+
+        if self.sengo <> self.ban.teban:
             raise TebanError(self, masu)
 
         if (not self.ban.sakiyomi) and (masu not in self.ugoki()):
@@ -111,25 +110,21 @@ class Koma:
 
         koma = masu.koma
         if koma:
-            koma.masu     = None
-            koma.sente    = self.sente
-            koma.narikoma = False
+            koma.masu  = None
+            koma.sengo = self.sengo
+            koma.nari  = 0
 
         masu.koma = self
         self.masu = masu
 
         if naru and self.UGOKI[1]:
-            self.narikoma = True
+            self.nari = 1
 
         self.ban.teban = not self.ban.teban
 
     def _banjyo_ugoki(self, kiki=False):
-        masus = []
-
-        if self.narikoma:
-            ugokis = self.UGOKI[1]
-        else:
-            ugokis = self.UGOKI[0]
+        masus  = []
+        ugokis = self.UGOKI[self.nari]
 
         for hashiru, ugoki in ugokis:
             for mx, my in ugoki:
@@ -138,7 +133,7 @@ class Koma:
                 if hashiru:
                     while(masu):
                         masus.append(masu)
-                        if masu.koma and masu.koma.sente <> self.sente: break
+                        if masu.koma and masu.koma.sengo <> self.sengo: break
                         x += mx
                         y += my
                         masu = self._banjyo_ugoki_check(x, y, kiki)
@@ -157,19 +152,19 @@ class Koma:
             if masu:
                 if kiki:
                     return masu
-                if (masu.koma is None or masu.koma.sente <> self.sente):
+                if (masu.koma is None or masu.koma.sengo <> self.sengo):
                     return masu
         return None;
 
     def narikomi(self, masu):
-        if not self.sente: self.ban.kaiten()
+        if self.sengo == 1: self.ban.kaiten()
 
-        if self.narikoma or self.masu is None or self.UGOKI[1] is None:
+        if self.nari == 1 or self.masu is None or self.UGOKI[1] is None:
             narikomi = None
         else:
             narikomi = self._narikomi_check(masu)
 
-        if not self.sente: self.ban.kaiten()
+        if self.sengo == 1: self.ban.kaiten()
 
         return narikomi
 
@@ -260,7 +255,7 @@ class Kin(Koma):
             (False, frozenset([
                 (-1, -1), (0, -1), (1, -1),
                 (-1,  0),          (1,  0),
-                         (0,  1)
+                          (0,  1)
             ]))
         ],
         None
@@ -344,7 +339,7 @@ class Fu(Koma):
         fu_x = set([
             masu.x for masu in self.ban
                 if masu.koma and
-                   masu.koma.sente == self.sente and
+                   masu.koma.sengo == self.sengo and
                    isinstance(masu.koma, self.__class__)])
         return frozenset([
             masu for masu in self.ban
@@ -376,69 +371,76 @@ class Masu:
         self.y = 8 - self.y
 
 HIRATE = [
-    (False, 'Kyosya', (0, 0), False),
-    (False, 'Keima',  (1, 0), False),
-    (False, 'Gin',    (2, 0), False),
-    (False, 'Kin',    (3, 0), False),
-    (False, 'Gyoku',  (4, 0), False),
-    (False, 'Kin',    (5, 0), False),
-    (False, 'Gin',    (6, 0), False),
-    (False, 'Keima',  (7, 0), False),
-    (False, 'Kyosya', (8, 0), False),
-    (False, 'Hisya',  (1, 1), False),
-    (False, 'Kaku',   (7, 1), False),
-    (False, 'Fu',     (0, 2), False),
-    (False, 'Fu',     (1, 2), False),
-    (False, 'Fu',     (2, 2), False),
-    (False, 'Fu',     (3, 2), False),
-    (False, 'Fu',     (4, 2), False),
-    (False, 'Fu',     (5, 2), False),
-    (False, 'Fu',     (6, 2), False),
-    (False, 'Fu',     (7, 2), False),
-    (False, 'Fu',     (8, 2), False),
-    (True,  'Fu',     (0, 6), False),
-    (True,  'Fu',     (1, 6), False),
-    (True,  'Fu',     (2, 6), False),
-    (True,  'Fu',     (3, 6), False),
-    (True,  'Fu',     (4, 6), False),
-    (True,  'Fu',     (5, 6), False),
-    (True,  'Fu',     (6, 6), False),
-    (True,  'Fu',     (7, 6), False),
-    (True,  'Fu',     (8, 6), False),
-    (True,  'Kaku',   (1, 7), False),
-    (True,  'Hisya',  (7, 7), False),
-    (True,  'Kyosya', (0, 8), False),
-    (True,  'Keima',  (1, 8), False),
-    (True,  'Gin',    (2, 8), False),
-    (True,  'Kin',    (3, 8), False),
-    (True,  'Gyoku',  (4, 8), False),
-    (True,  'Kin',    (5, 8), False),
-    (True,  'Gin',    (6, 8), False),
-    (True,  'Keima',  (7, 8), False),
-    (True,  'Kyosya', (8, 8), False),
+    # 0:先手番, 1:後手番
+    0,
+    [
+        # (
+        #   0:先手, 1:後手,
+        #   駒クラス名文字列,
+        #   (列, 行):升目, None:手駒,
+        #   0:不成, 1:成駒
+        # )
+        (1, 'Kyosya', (0, 0), 0),
+        (1, 'Keima',  (1, 0), 0),
+        (1, 'Gin',    (2, 0), 0),
+        (1, 'Kin',    (3, 0), 0),
+        (1, 'Gyoku',  (4, 0), 0),
+        (1, 'Kin',    (5, 0), 0),
+        (1, 'Gin',    (6, 0), 0),
+        (1, 'Keima',  (7, 0), 0),
+        (1, 'Kyosya', (8, 0), 0),
+        (1, 'Hisya',  (1, 1), 0),
+        (1, 'Kaku',   (7, 1), 0),
+        (1, 'Fu',     (0, 2), 0),
+        (1, 'Fu',     (1, 2), 0),
+        (1, 'Fu',     (2, 2), 0),
+        (1, 'Fu',     (3, 2), 0),
+        (1, 'Fu',     (4, 2), 0),
+        (1, 'Fu',     (5, 2), 0),
+        (1, 'Fu',     (6, 2), 0),
+        (1, 'Fu',     (7, 2), 0),
+        (1, 'Fu',     (8, 2), 0),
+        (0, 'Fu',     (0, 6), 0),
+        (0, 'Fu',     (1, 6), 0),
+        (0, 'Fu',     (2, 6), 0),
+        (0, 'Fu',     (3, 6), 0),
+        (0, 'Fu',     (4, 6), 0),
+        (0, 'Fu',     (5, 6), 0),
+        (0, 'Fu',     (6, 6), 0),
+        (0, 'Fu',     (7, 6), 0),
+        (0, 'Fu',     (8, 6), 0),
+        (0, 'Kaku',   (1, 7), 0),
+        (0, 'Hisya',  (7, 7), 0),
+        (0, 'Kyosya', (0, 8), 0),
+        (0, 'Keima',  (1, 8), 0),
+        (0, 'Gin',    (2, 8), 0),
+        (0, 'Kin',    (3, 8), 0),
+        (0, 'Gyoku',  (4, 8), 0),
+        (0, 'Kin',    (5, 8), 0),
+        (0, 'Gin',    (6, 8), 0),
+        (0, 'Keima',  (7, 8), 0),
+        (0, 'Kyosya', (8, 8), 0),
+    ]
 ]
 
-class Ban:
+class ShogiBan:
     def __init__(self, data=HIRATE):
-        if isinstance(data, list):
-            data = {'TEBAN': True, 'KOMA':  data}
-
         self.sakiyomi = False
-        self.teban    = data['TEBAN']
+        self.teban    = data[0]
         self.masus    = [[Masu(x, y) for y in range(9)] for x in range(9)]
         self.komas    = []
         self.gyokus   = {}
 
-        koma_data = zip(data['KOMA'], range(0, len(data['KOMA'])))
-        for (sente, koma_class, masu, narikoma), (i) in koma_data:
+        koma_data = zip(data[1], range(0, len(data[1])))
+        for (sengo, koma_class, masu, nari), (i) in koma_data:
             if masu:
                 x, y = masu
                 masu = self.masus[x][y]
-            koma = eval(koma_class)(self, sente, masu, narikoma)
+            koma = eval(koma_class)(self, sengo, masu, nari)
             koma.index = i
             self.komas.append(koma)
             if koma_class == 'Gyoku':
-                self.gyokus[koma.sente] = koma
+                self.gyokus[koma.sengo] = koma
 
     def __iter__(self):
         for x in range(9):
@@ -446,14 +448,14 @@ class Ban:
                 yield self.masus[x][y]
 
     def __str__(self):
-        teban = {True: '', False: ''}
-        if self.teban:
+        teban = ['', '']
+        if self.teban == 0:
             teban[self.teban] = '先手番'
         else:
             teban[self.teban] = '後手番'
 
         gote  = '(後手)：' + ' '.join([str(a) for a in self.mochigoma(False)])
-        sente = '[先手]：' + ' '.join([str(a) for a in self.mochigoma(True)])
+        sengo = '[先手]：' + ' '.join([str(a) for a in self.mochigoma(True)])
 
         '''
         col = ' '.join([
@@ -473,14 +475,11 @@ class Ban:
         ]
 
         return "\n".join(
-            [teban[False]] + [gote] + [col] + ban + [sente] + [teban[True]]
+            [teban[False]] + [gote] + [col] + ban + [sengo] + [teban[True]]
         ) + "\n"
 
     def dump(self):
-        return {
-            'TEBAN': self.teban,
-            'KOMA':  [koma.dump() for koma in self.komas],
-        }
+        return [self.teban, [koma.dump() for koma in self.komas]]
 
     def clone(self):
         return self.__class__(self.dump())
@@ -498,14 +497,14 @@ class Ban:
                 masu.kaiten()
         self.masus.reverse()
 
-    def mochigoma(self, sente):
-        xs = [a for a in self.komas if a.sente == sente and a.masu is None]
+    def mochigoma(self, sengo):
+        xs = [a for a in self.komas if a.sengo == sengo and a.masu is None]
         xs.sort()
         return xs
 
-    def kiki(self, sente):
+    def kiki(self, sengo):
         kiki = []
-        for koma in [a for a in self.komas if a.sente == sente]:
+        for koma in [a for a in self.komas if a.sengo == sengo]:
             kiki += koma.kiki()
         return frozenset(kiki)
 
