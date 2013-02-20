@@ -87,22 +87,21 @@ class Koma:
         oute = set()
         for masu in ugoki:
             ban = self.ban.clone()
-            ban.sakiyomi = True
             koma = ban.komas[self.index]
-            koma.move(masu.x, masu.y)
+            koma.move(masu.x, masu.y, check_ugoki=False)
             ban.teban = self.ban.teban
             if ban.oute():
                 oute.add(masu)
 
         return ugoki.difference(oute)
 
-    def move(self, x, y, naru=False):
+    def move(self, x, y, naru=False, check_ugoki=True):
         masu = self.ban.masu(x, y)
 
         if self.sengo <> self.ban.teban:
             raise TebanError(self, masu)
 
-        if (not self.ban.sakiyomi) and (masu not in self.ugoki()):
+        if check_ugoki and (masu not in self.ugoki()):
             raise CanNotPlaceKomaError(self, masu)
 
         if self.masu and self.masu.koma:
@@ -425,7 +424,6 @@ HIRATE = [
 
 class ShogiBan:
     def __init__(self, data=HIRATE):
-        self.sakiyomi = False
         self.teban    = data[0]
         self.masus    = [[Masu(x, y) for y in range(9)] for x in range(9)]
         self.komas    = []
