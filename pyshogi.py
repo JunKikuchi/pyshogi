@@ -88,14 +88,14 @@ class Koma:
         for masu in ugoki:
             ban = self.ban.clone()
             koma = ban.komas[self.index]
-            koma.move(masu.x, masu.y, check_ugoki=False)
+            koma.idou(masu.x, masu.y, check_ugoki=False)
             ban.teban = self.ban.teban
             if ban.oute():
                 oute.add(masu)
 
         return ugoki.difference(oute)
 
-    def move(self, x, y, naru=0, check_ugoki=True):
+    def idou(self, x, y, naru=0, check_ugoki=True):
         masu = self.ban.masu(x, y)
 
         if self.sengo <> self.ban.teban:

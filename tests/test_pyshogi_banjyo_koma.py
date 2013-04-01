@@ -28,14 +28,14 @@ class BanjyoKomaTestCase:
             self.assertIn(masu, ugoki)
             self.assertEqual(self.koma.narikomi(masu), narikomi)
 
-    def test_move(self):
+    def test_idou(self):
         for (x, y), narikomi in self.ugoki:
             if narikomi is None:
                 self.setUp()
                 old_masu = self.koma.masu
                 masu = self.ban.masu(x, y)
                 self.ban.teban = self.koma.sengo
-                self.koma.move(x, y)
+                self.koma.idou(x, y)
                 self.assertEqual(masu.koma, self.koma)
                 self.assertEqual(self.koma.masu, masu)
                 self.assertIsNone(old_masu.koma)
@@ -45,13 +45,13 @@ class BanjyoKomaTestCase:
                     old_masu = self.koma.masu
                     masu = self.ban.masu(x, y)
                     self.ban.teban = self.koma.sengo
-                    self.koma.move(x, y, nari)
+                    self.koma.idou(x, y, nari)
                     self.assertEqual(masu.koma, self.koma)
                     self.assertEqual(self.koma.masu, masu)
                     self.assertEqual(self.koma.nari, nari)
                     self.assertIsNone(old_masu.koma)
 
-    def test_move_error(self):
+    def test_idou_error(self):
         ugoki = frozenset([
             apply(self.ban.masu, masume) for masume, narikomi in self.ugoki])
 
@@ -61,15 +61,15 @@ class BanjyoKomaTestCase:
                 if masu not in ugoki:
                     self.ban.teban = self.koma.sengo
                     with self.assertRaises(pyshogi.CanNotPlaceKomaError):
-                        self.koma.move(x, y)
+                        self.koma.idou(x, y)
 
         self.ban.teban = self.koma.sengo
         with self.assertRaises(pyshogi.CanNotPlaceKomaError):
-            self.koma.move(-1, -1)
+            self.koma.idou(-1, -1)
 
         self.ban.teban = self.koma.sengo
         with self.assertRaises(pyshogi.CanNotPlaceKomaError):
-            self.koma.move(9, 9)
+            self.koma.idou(9, 9)
 
 
 ### Fu

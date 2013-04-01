@@ -17,7 +17,7 @@ class MochiKomaTestCase:
             self.ugoki
         )
 
-    def test_move(self):
+    def test_idou(self):
         for m in self.ugoki.keys():
             self.setUp()
             masu = self.ban.masu(m.x, m.y)
@@ -26,14 +26,14 @@ class MochiKomaTestCase:
             self.assertEqual(self.koma.masu, None)
 
             self.ban.teban = self.koma.sengo
-            self.koma.move(m.x, m.y)
+            self.koma.idou(m.x, m.y)
 
             self.assertEqual(masu.koma, self.koma)
             self.assertEqual(self.koma.masu, masu)
             self.assertEqual([], self.ban.mochigoma(0))
             self.assertEqual([], self.ban.mochigoma(1))
 
-    def test_move_error(self):
+    def test_idou_error(self):
         ugokis = frozenset(self.ban).difference(frozenset(self.ugoki.keys()))
         for m in ugokis:
             self.setUp()
@@ -44,7 +44,7 @@ class MochiKomaTestCase:
 
             self.ban.teban = self.koma.sengo
             with self.assertRaises(pyshogi.CanNotPlaceKomaError):
-                self.koma.move(m.x, m.y)
+                self.koma.idou(m.x, m.y)
 
 ### Fu
 class SenteFu_TestCase(unittest.TestCase, MochiKomaTestCase):

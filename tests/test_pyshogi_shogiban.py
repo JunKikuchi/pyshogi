@@ -122,9 +122,9 @@ class ShogiBanTestCase(unittest.TestCase):
         self.assertEqual(shogiban.teban, 0)
 
         with self.assertRaises(pyshogi.TebanError):
-            shogiban.masu(1, 2).koma.move(1, 3)
+            shogiban.masu(1, 2).koma.idou(1, 3)
 
-        shogiban.masu(6, 6).koma.move(6, 5)
+        shogiban.masu(6, 6).koma.idou(6, 5)
         self.assertEqual(shogiban.teban, 1)
 
 if __name__ == '__main__': unittest.main()
