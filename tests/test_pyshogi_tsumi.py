@@ -11,11 +11,11 @@ import unittest
 
 class TsumiTestCase(unittest.TestCase):
     def test_hirate(self):
-        ban = pyshogi.ShogiBan()
+        ban = pyshogi.Shogiban()
         self.assertFalse(ban.tsumi())
 
     def test_atamakin(self):
-        ban = pyshogi.ShogiBan(
+        ban = pyshogi.Shogiban(
             [
                 0,
                 [
@@ -34,7 +34,7 @@ class TsumiTestCase(unittest.TestCase):
         self.assertTrue(ban.tsumi())
 
     def test_not_atamakin(self):
-        ban = pyshogi.ShogiBan(
+        ban = pyshogi.Shogiban(
             [
                 0,
                 [

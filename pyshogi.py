@@ -418,7 +418,7 @@ HIRATE = [
     ]
 ]
 
-class ShogiBan:
+class Shogiban:
     def __init__(self, data=HIRATE):
         self.teban    = data[0]
         self.masus    = [[Masu(x, y) for y in range(9)] for x in range(9)]

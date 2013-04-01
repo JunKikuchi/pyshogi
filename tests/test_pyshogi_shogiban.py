@@ -9,16 +9,16 @@ import pyshogi
 from pyshogi import Gyoku, Hisya, Kaku, Kin, Gin, Keima, Kyosya, Fu
 import unittest
 
-class ShogiBanTestCase(unittest.TestCase):
+class ShogibanTestCase(unittest.TestCase):
     def test_dump(self):
-        shogiban = pyshogi.ShogiBan()
+        shogiban = pyshogi.Shogiban()
         self.assertEqual(shogiban.dump(), pyshogi.HIRATE)
 
-        shogiban1 = pyshogi.ShogiBan(shogiban.dump())
+        shogiban1 = pyshogi.Shogiban(shogiban.dump())
         self.assertEqual(shogiban.dump(), shogiban1.dump())
 
     def test_clone(self):
-        shogiban = pyshogi.ShogiBan(
+        shogiban = pyshogi.Shogiban(
             [
                 0,
                 [
@@ -33,13 +33,13 @@ class ShogiBanTestCase(unittest.TestCase):
         self.assertEqual(shogiban.dump(), shogiban1.dump())
 
     def test_size(self):
-        shogiban = pyshogi.ShogiBan()
+        shogiban = pyshogi.Shogiban()
         self.assertEqual(len(shogiban.masus), 9)
         for xs in shogiban.masus:
             self.assertEqual(len(xs), 9)
 
     def test_masus(self):
-        shogiban = pyshogi.ShogiBan()
+        shogiban = pyshogi.Shogiban()
 
         for masu in shogiban:
             self.assertIsInstance(masu, pyshogi.Masu)
@@ -54,7 +54,7 @@ class ShogiBanTestCase(unittest.TestCase):
             self.assertIsNone(masu)
 
     def test_komas(self):
-        shogiban = pyshogi.ShogiBan()
+        shogiban = pyshogi.Shogiban()
 
         self.assertEqual(len(shogiban.komas), 9 * 4 + 4)
 
@@ -83,7 +83,7 @@ class ShogiBanTestCase(unittest.TestCase):
                 self.assertEqual(masu.koma.sengo, 0)
 
     def test_kaiten(self):
-        shogiban = pyshogi.ShogiBan()
+        shogiban = pyshogi.Shogiban()
         shogiban.kaiten()
 
         self.assertEqual(len(shogiban.komas), 9 * 4 + 4)
@@ -113,12 +113,12 @@ class ShogiBanTestCase(unittest.TestCase):
                 self.assertEqual(masu.koma.sengo, 1)
 
     def test_mochigoma(self):
-        shogiban = pyshogi.ShogiBan()
+        shogiban = pyshogi.Shogiban()
         self.assertEqual(shogiban.mochigoma(0), [])
         self.assertEqual(shogiban.mochigoma(1), [])
 
     def test_teban(self):
-        shogiban = pyshogi.ShogiBan()
+        shogiban = pyshogi.Shogiban()
         self.assertEqual(shogiban.teban, 0)
 
         with self.assertRaises(pyshogi.TebanError):

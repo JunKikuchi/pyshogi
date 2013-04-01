@@ -11,7 +11,7 @@ import unittest
 
 class OuteTestCase(unittest.TestCase):
     def test_oute(self):
-        ban = pyshogi.ShogiBan(
+        ban = pyshogi.Shogiban(
             [
                 0,
                 [
@@ -30,7 +30,7 @@ class OuteTestCase(unittest.TestCase):
         self.assertTrue(ban.oute())
 
     def test_sente_ugoki1(self):
-        ban = pyshogi.ShogiBan(
+        ban = pyshogi.Shogiban(
             [
                 0,
                 [
@@ -52,7 +52,7 @@ class OuteTestCase(unittest.TestCase):
         self.assertFalse(ban.oute())
 
     def test_gote_ugoki1(self):
-        ban = pyshogi.ShogiBan(
+        ban = pyshogi.Shogiban(
             [
                 0,
                 [
@@ -74,7 +74,7 @@ class OuteTestCase(unittest.TestCase):
         self.assertFalse(ban.oute())
 
     def test_sente_ugoki2(self):
-        ban = pyshogi.ShogiBan(
+        ban = pyshogi.Shogiban(
             [
                 0,
                 [
@@ -97,7 +97,7 @@ class OuteTestCase(unittest.TestCase):
         self.assertFalse(ban.oute())
 
     def test_gote_ugoki2(self):
-        ban = pyshogi.ShogiBan(
+        ban = pyshogi.Shogiban(
             [
                 0,
                 [

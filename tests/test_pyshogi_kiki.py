@@ -11,7 +11,7 @@ import unittest
 
 class KikiTestCase(unittest.TestCase):
     def test_kiki(self):
-        ban = pyshogi.ShogiBan(
+        ban = pyshogi.Shogiban(
             [
                 0,
                 [
