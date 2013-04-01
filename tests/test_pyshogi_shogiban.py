@@ -6,6 +6,7 @@
 #
 
 import pyshogi
+from pyshogi import Gyoku, Hisya, Kaku, Kin, Gin, Keima, Kyosya, Fu
 import unittest
 
 class ShogiBanTestCase(unittest.TestCase):
@@ -21,10 +22,10 @@ class ShogiBanTestCase(unittest.TestCase):
             [
                 0,
                 [
-                    (0, 'Gyoku', (4, 0), 0),
-                    (1, 'Kin',   (4, 1), 0),
-                    (1, 'Fu',    (4, 2), 0),
-                    (1, 'Gyoku', (4, 8), 0),
+                    (0, Gyoku, (4, 0), 0),
+                    (1, Kin,   (4, 1), 0),
+                    (1, Fu,    (4, 2), 0),
+                    (1, Gyoku, (4, 8), 0),
                 ]
             ]
         )
@@ -73,7 +74,7 @@ class ShogiBanTestCase(unittest.TestCase):
             masu = shogiban.masu(x, y)
             self.assertIsNotNone(masu.koma)
             self.assertEqual(masu.koma.sengo, sengo)
-            self.assertEqual(masu.koma.__class__.__name__, koma)
+            self.assertEqual(masu.koma.__class__, koma)
             self.assertEqual(masu.koma.nari, nari)
 
             if masu.y < 3:
@@ -103,7 +104,7 @@ class ShogiBanTestCase(unittest.TestCase):
             masu = shogiban.masu(x, y)
             self.assertIsNotNone(masu.koma)
             self.assertNotEqual(masu.koma.sengo, sengo)
-            self.assertEqual(masu.koma.__class__.__name__, koma)
+            self.assertEqual(masu.koma.__class__, koma)
             self.assertEqual(masu.koma.nari, nari)
 
             if masu.y < 3:

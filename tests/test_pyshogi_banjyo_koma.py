@@ -6,6 +6,7 @@
 #
 
 import pyshogi
+from pyshogi import Gyoku, Hisya, Kaku, Kin, Gin, Keima, Kyosya, Fu
 import unittest
 
 class BanjyoKomaTestCase:
@@ -75,14 +76,14 @@ class BanjyoKomaTestCase:
 class SenteFu44F_TestCase(unittest.TestCase, BanjyoKomaTestCase):
     def setUp(self):
         self.masume = (4, 4)
-        self.ban    = pyshogi.ShogiBan([0, [(0, 'Fu', self.masume, 0)]])
+        self.ban    = pyshogi.ShogiBan([0, [(0, Fu, self.masume, 0)]])
         self.koma   = apply(self.ban.masu, self.masume).koma
         self.ugoki  = [((4, 3), None)]
 
 class SenteFu44T_TestCase(unittest.TestCase, BanjyoKomaTestCase):
     def setUp(self):
         self.masume = (4, 4)
-        self.ban    = pyshogi.ShogiBan([0, [(0, 'Fu', self.masume, 1)]])
+        self.ban    = pyshogi.ShogiBan([0, [(0, Fu, self.masume, 1)]])
         self.koma   = apply(self.ban.masu, self.masume).koma
         self.ugoki  = [
                         ((5, 3), None), ((4, 3), None), ((3, 3), None),
@@ -93,7 +94,7 @@ class SenteFu44T_TestCase(unittest.TestCase, BanjyoKomaTestCase):
 class SenteFu80T_TestCase(unittest.TestCase, BanjyoKomaTestCase):
     def setUp(self):
         self.masume = (8, 0)
-        self.ban    = pyshogi.ShogiBan([0, [(0, 'Fu', self.masume, 1)]])
+        self.ban    = pyshogi.ShogiBan([0, [(0, Fu, self.masume, 1)]])
         self.koma   = apply(self.ban.masu, self.masume).koma
         self.ugoki  = [
                                         ((7, 0), None),
@@ -103,7 +104,7 @@ class SenteFu80T_TestCase(unittest.TestCase, BanjyoKomaTestCase):
 class SenteFu70T_TestCase(unittest.TestCase, BanjyoKomaTestCase):
     def setUp(self):
         self.masume = (7, 0)
-        self.ban    = pyshogi.ShogiBan([0, [(0, 'Fu', self.masume, 1)]])
+        self.ban    = pyshogi.ShogiBan([0, [(0, Fu, self.masume, 1)]])
         self.koma   = apply(self.ban.masu, self.masume).koma
         self.ugoki  = [
                         ((8, 0), None),                 ((6, 0), None),
@@ -113,7 +114,7 @@ class SenteFu70T_TestCase(unittest.TestCase, BanjyoKomaTestCase):
 class SenteFu10T_TestCase(unittest.TestCase, BanjyoKomaTestCase):
     def setUp(self):
         self.masume = (1, 0)
-        self.ban    = pyshogi.ShogiBan([0, [(0, 'Fu', self.masume, 1)]])
+        self.ban    = pyshogi.ShogiBan([0, [(0, Fu, self.masume, 1)]])
         self.koma   = apply(self.ban.masu, self.masume).koma
         self.ugoki  = [
                         ((2, 0), None),                 ((0, 0), None),
@@ -123,7 +124,7 @@ class SenteFu10T_TestCase(unittest.TestCase, BanjyoKomaTestCase):
 class SenteFu00T_TestCase(unittest.TestCase, BanjyoKomaTestCase):
     def setUp(self):
         self.masume = (0, 0)
-        self.ban    = pyshogi.ShogiBan([0, [(0, 'Fu', self.masume, 1)]])
+        self.ban    = pyshogi.ShogiBan([0, [(0, Fu, self.masume, 1)]])
         self.koma   = apply(self.ban.masu, self.masume).koma
         self.ugoki  = [
                         ((1, 0), None),
@@ -133,28 +134,28 @@ class SenteFu00T_TestCase(unittest.TestCase, BanjyoKomaTestCase):
 class SenteFu43F_TestCase(unittest.TestCase, BanjyoKomaTestCase):
     def setUp(self):
         self.masume = (4, 3)
-        self.ban    = pyshogi.ShogiBan([0, [(0, 'Fu', self.masume, 0)]])
+        self.ban    = pyshogi.ShogiBan([0, [(0, Fu, self.masume, 0)]])
         self.koma   = apply(self.ban.masu, self.masume).koma
         self.ugoki  = [((4, 2), [False, True])]
 
 class SenteFu41F_TestCase(unittest.TestCase, BanjyoKomaTestCase):
     def setUp(self):
         self.masume = (4, 1)
-        self.ban    = pyshogi.ShogiBan([0, [(0, 'Fu', self.masume, 0)]])
+        self.ban    = pyshogi.ShogiBan([0, [(0, Fu, self.masume, 0)]])
         self.koma   = apply(self.ban.masu, self.masume).koma
         self.ugoki  = [((4, 0), [True])]
 
 class GoteFu44F_TestCase(unittest.TestCase, BanjyoKomaTestCase):
     def setUp(self):
         self.masume = (4, 4)
-        self.ban    = pyshogi.ShogiBan([0, [(1, 'Fu', self.masume, 0)]])
+        self.ban    = pyshogi.ShogiBan([0, [(1, Fu, self.masume, 0)]])
         self.koma   = apply(self.ban.masu, self.masume).koma
         self.ugoki  = [((4, 5), None)]
 
 class GoteFu44T_TestCase(unittest.TestCase, BanjyoKomaTestCase):
     def setUp(self):
         self.masume = (4, 4)
-        self.ban    = pyshogi.ShogiBan([0, [(1, 'Fu', self.masume, 1)]])
+        self.ban    = pyshogi.ShogiBan([0, [(1, Fu, self.masume, 1)]])
         self.koma   = apply(self.ban.masu, self.masume).koma
         self.ugoki  = [
                                         ((4, 3), None),
@@ -165,7 +166,7 @@ class GoteFu44T_TestCase(unittest.TestCase, BanjyoKomaTestCase):
 class GoteFu88T_TestCase(unittest.TestCase, BanjyoKomaTestCase):
     def setUp(self):
         self.masume = (8, 8)
-        self.ban    = pyshogi.ShogiBan([0, [(1, 'Fu', self.masume, 1)]])
+        self.ban    = pyshogi.ShogiBan([0, [(1, Fu, self.masume, 1)]])
         self.koma   = apply(self.ban.masu, self.masume).koma
         self.ugoki  = [
                         ((8, 7), None),
@@ -175,7 +176,7 @@ class GoteFu88T_TestCase(unittest.TestCase, BanjyoKomaTestCase):
 class GoteFu78T_TestCase(unittest.TestCase, BanjyoKomaTestCase):
     def setUp(self):
         self.masume = (7, 8)
-        self.ban    = pyshogi.ShogiBan([0, [(1, 'Fu', self.masume, 1)]])
+        self.ban    = pyshogi.ShogiBan([0, [(1, Fu, self.masume, 1)]])
         self.koma   = apply(self.ban.masu, self.masume).koma
         self.ugoki  = [
                                         ((7, 7), None),
@@ -185,7 +186,7 @@ class GoteFu78T_TestCase(unittest.TestCase, BanjyoKomaTestCase):
 class GoteFu18T_TestCase(unittest.TestCase, BanjyoKomaTestCase):
     def setUp(self):
         self.masume = (1, 8)
-        self.ban    = pyshogi.ShogiBan([0, [(1, 'Fu', self.masume, 1)]])
+        self.ban    = pyshogi.ShogiBan([0, [(1, Fu, self.masume, 1)]])
         self.koma   = apply(self.ban.masu, self.masume).koma
         self.ugoki  = [
                                         ((1, 7), None),
@@ -195,7 +196,7 @@ class GoteFu18T_TestCase(unittest.TestCase, BanjyoKomaTestCase):
 class GoteFu08T_TestCase(unittest.TestCase, BanjyoKomaTestCase):
     def setUp(self):
         self.masume = (0, 8)
-        self.ban    = pyshogi.ShogiBan([0, [(1, 'Fu', self.masume, 1)]])
+        self.ban    = pyshogi.ShogiBan([0, [(1, Fu, self.masume, 1)]])
         self.koma   = apply(self.ban.masu, self.masume).koma
         self.ugoki  = [
                                         ((0, 7), None),
@@ -205,14 +206,14 @@ class GoteFu08T_TestCase(unittest.TestCase, BanjyoKomaTestCase):
 class GoteFu45F_TestCase(unittest.TestCase, BanjyoKomaTestCase):
     def setUp(self):
         self.masume = (4, 5)
-        self.ban    = pyshogi.ShogiBan([0, [(1, 'Fu', self.masume, 0)]])
+        self.ban    = pyshogi.ShogiBan([0, [(1, Fu, self.masume, 0)]])
         self.koma   = apply(self.ban.masu, self.masume).koma
         self.ugoki  = [((4, 6), [False, True])]
 
 class GoteFu47F_TestCase(unittest.TestCase, BanjyoKomaTestCase):
     def setUp(self):
         self.masume = (4, 7)
-        self.ban    = pyshogi.ShogiBan([0, [(1, 'Fu', self.masume, 0)]])
+        self.ban    = pyshogi.ShogiBan([0, [(1, Fu, self.masume, 0)]])
         self.koma   = apply(self.ban.masu, self.masume).koma
         self.ugoki  = [((4, 8), [True])]
 
@@ -221,7 +222,7 @@ class GoteFu47F_TestCase(unittest.TestCase, BanjyoKomaTestCase):
 class SenteKyosya44F_TestCase(unittest.TestCase, BanjyoKomaTestCase):
     def setUp(self):
         self.masume = (4, 4)
-        self.ban    = pyshogi.ShogiBan([0, [(0, 'Kyosya', self.masume, 0)]])
+        self.ban    = pyshogi.ShogiBan([0, [(0, Kyosya, self.masume, 0)]])
         self.koma   = apply(self.ban.masu, self.masume).koma
         self.ugoki  = [
                         ((4, 3), None),
@@ -233,7 +234,7 @@ class SenteKyosya44F_TestCase(unittest.TestCase, BanjyoKomaTestCase):
 class SenteKyosya43F_TestCase(unittest.TestCase, BanjyoKomaTestCase):
     def setUp(self):
         self.masume = (4, 3)
-        self.ban    = pyshogi.ShogiBan([0, [(0, 'Kyosya', self.masume, 0)]])
+        self.ban    = pyshogi.ShogiBan([0, [(0, Kyosya, self.masume, 0)]])
         self.koma   = apply(self.ban.masu, self.masume).koma
         self.ugoki  = [
                         ((4, 2), [False, True]),
@@ -244,14 +245,14 @@ class SenteKyosya43F_TestCase(unittest.TestCase, BanjyoKomaTestCase):
 class SenteKyosya41F_TestCase(unittest.TestCase, BanjyoKomaTestCase):
     def setUp(self):
         self.masume = (4, 1)
-        self.ban    = pyshogi.ShogiBan([0, [(0, 'Kyosya', self.masume, 0)]])
+        self.ban    = pyshogi.ShogiBan([0, [(0, Kyosya, self.masume, 0)]])
         self.koma   = apply(self.ban.masu, self.masume).koma
         self.ugoki  = [((4, 0), [True])]
 
 class SenteKyosya44T_TestCase(unittest.TestCase, BanjyoKomaTestCase):
     def setUp(self):
         self.masume = (4, 4)
-        self.ban    = pyshogi.ShogiBan([0, [(0, 'Kyosya', self.masume, 1)]])
+        self.ban    = pyshogi.ShogiBan([0, [(0, Kyosya, self.masume, 1)]])
         self.koma   = apply(self.ban.masu, self.masume).koma
         self.ugoki  = [
                         ((5, 3), None), ((4, 3), None), ((3, 3), None),
@@ -262,7 +263,7 @@ class SenteKyosya44T_TestCase(unittest.TestCase, BanjyoKomaTestCase):
 class SenteKyosya80T_TestCase(unittest.TestCase, BanjyoKomaTestCase):
     def setUp(self):
         self.masume = (8, 0)
-        self.ban    = pyshogi.ShogiBan([0, [(0, 'Kyosya', self.masume, 1)]])
+        self.ban    = pyshogi.ShogiBan([0, [(0, Kyosya, self.masume, 1)]])
         self.koma   = apply(self.ban.masu, self.masume).koma
         self.ugoki  = [
                                         ((7, 0), None),
@@ -272,7 +273,7 @@ class SenteKyosya80T_TestCase(unittest.TestCase, BanjyoKomaTestCase):
 class SenteKyosya70T_TestCase(unittest.TestCase, BanjyoKomaTestCase):
     def setUp(self):
         self.masume = (7, 0)
-        self.ban    = pyshogi.ShogiBan([0, [(0, 'Kyosya', self.masume, 1)]])
+        self.ban    = pyshogi.ShogiBan([0, [(0, Kyosya, self.masume, 1)]])
         self.koma   = apply(self.ban.masu, self.masume).koma
         self.ugoki  = [
                         ((8, 0), None),                 ((6, 0), None),
@@ -282,7 +283,7 @@ class SenteKyosya70T_TestCase(unittest.TestCase, BanjyoKomaTestCase):
 class SenteKyosya10T_TestCase(unittest.TestCase, BanjyoKomaTestCase):
     def setUp(self):
         self.masume = (1, 0)
-        self.ban    = pyshogi.ShogiBan([0, [(0, 'Kyosya', self.masume, 1)]])
+        self.ban    = pyshogi.ShogiBan([0, [(0, Kyosya, self.masume, 1)]])
         self.koma   = apply(self.ban.masu, self.masume).koma
         self.ugoki  = [
                         ((2, 0), None),                 ((0, 0), None),
@@ -292,7 +293,7 @@ class SenteKyosya10T_TestCase(unittest.TestCase, BanjyoKomaTestCase):
 class SenteKyosya00T_TestCase(unittest.TestCase, BanjyoKomaTestCase):
     def setUp(self):
         self.masume = (0, 0)
-        self.ban    = pyshogi.ShogiBan([0, [(0, 'Kyosya', self.masume, 1)]])
+        self.ban    = pyshogi.ShogiBan([0, [(0, Kyosya, self.masume, 1)]])
         self.koma   = apply(self.ban.masu, self.masume).koma
         self.ugoki  = [
                         ((1, 0), None),
@@ -302,7 +303,7 @@ class SenteKyosya00T_TestCase(unittest.TestCase, BanjyoKomaTestCase):
 class GoteKyosya44F_TestCase(unittest.TestCase, BanjyoKomaTestCase):
     def setUp(self):
         self.masume = (4, 4)
-        self.ban    = pyshogi.ShogiBan([0, [(1, 'Kyosya', self.masume, 0)]])
+        self.ban    = pyshogi.ShogiBan([0, [(1, Kyosya, self.masume, 0)]])
         self.koma   = apply(self.ban.masu, self.masume).koma
         self.ugoki  = [
                         ((4, 5), None),
@@ -314,7 +315,7 @@ class GoteKyosya44F_TestCase(unittest.TestCase, BanjyoKomaTestCase):
 class GoteKyosya45F_TestCase(unittest.TestCase, BanjyoKomaTestCase):
     def setUp(self):
         self.masume = (4, 5)
-        self.ban    = pyshogi.ShogiBan([0, [(1, 'Kyosya', self.masume, 0)]])
+        self.ban    = pyshogi.ShogiBan([0, [(1, Kyosya, self.masume, 0)]])
         self.koma   = apply(self.ban.masu, self.masume).koma
         self.ugoki  = [
                         ((4, 6), [False, True]),
@@ -325,14 +326,14 @@ class GoteKyosya45F_TestCase(unittest.TestCase, BanjyoKomaTestCase):
 class GoteKyosya47F_TestCase(unittest.TestCase, BanjyoKomaTestCase):
     def setUp(self):
         self.masume = (4, 7)
-        self.ban    = pyshogi.ShogiBan([0, [(1, 'Kyosya', self.masume, 0)]])
+        self.ban    = pyshogi.ShogiBan([0, [(1, Kyosya, self.masume, 0)]])
         self.koma   = apply(self.ban.masu, self.masume).koma
         self.ugoki  = [((4, 8), [True])]
 
 class GoteKyosya44T_TestCase(unittest.TestCase, BanjyoKomaTestCase):
     def setUp(self):
         self.masume = (4, 4)
-        self.ban    = pyshogi.ShogiBan([0, [(1, 'Kyosya', self.masume, 1)]])
+        self.ban    = pyshogi.ShogiBan([0, [(1, Kyosya, self.masume, 1)]])
         self.koma   = apply(self.ban.masu, self.masume).koma
         self.ugoki  = [
                                         ((4, 3), None),
@@ -343,7 +344,7 @@ class GoteKyosya44T_TestCase(unittest.TestCase, BanjyoKomaTestCase):
 class GoteKyosya88T_TestCase(unittest.TestCase, BanjyoKomaTestCase):
     def setUp(self):
         self.masume = (8, 8)
-        self.ban    = pyshogi.ShogiBan([0, [(1, 'Kyosya', self.masume, 1)]])
+        self.ban    = pyshogi.ShogiBan([0, [(1, Kyosya, self.masume, 1)]])
         self.koma   = apply(self.ban.masu, self.masume).koma
         self.ugoki  = [
                         ((8, 7), None),
@@ -353,7 +354,7 @@ class GoteKyosya88T_TestCase(unittest.TestCase, BanjyoKomaTestCase):
 class GoteKyosya78T_TestCase(unittest.TestCase, BanjyoKomaTestCase):
     def setUp(self):
         self.masume = (7, 8)
-        self.ban    = pyshogi.ShogiBan([0, [(1, 'Kyosya', self.masume, 1)]])
+        self.ban    = pyshogi.ShogiBan([0, [(1, Kyosya, self.masume, 1)]])
         self.koma   = apply(self.ban.masu, self.masume).koma
         self.ugoki  = [
                                         ((7, 7), None),
@@ -363,7 +364,7 @@ class GoteKyosya78T_TestCase(unittest.TestCase, BanjyoKomaTestCase):
 class GoteKyosya18T_TestCase(unittest.TestCase, BanjyoKomaTestCase):
     def setUp(self):
         self.masume = (1, 8)
-        self.ban    = pyshogi.ShogiBan([0, [(1, 'Kyosya', self.masume, 1)]])
+        self.ban    = pyshogi.ShogiBan([0, [(1, Kyosya, self.masume, 1)]])
         self.koma   = apply(self.ban.masu, self.masume).koma
         self.ugoki  = [
                                         ((1, 7), None),
@@ -373,7 +374,7 @@ class GoteKyosya18T_TestCase(unittest.TestCase, BanjyoKomaTestCase):
 class GoteKyosya08T_TestCase(unittest.TestCase, BanjyoKomaTestCase):
     def setUp(self):
         self.masume = (0, 8)
-        self.ban    = pyshogi.ShogiBan([0, [(1, 'Kyosya', self.masume, 1)]])
+        self.ban    = pyshogi.ShogiBan([0, [(1, Kyosya, self.masume, 1)]])
         self.koma   = apply(self.ban.masu, self.masume).koma
         self.ugoki  = [
                                         ((0, 7), None),
@@ -385,28 +386,28 @@ class GoteKyosya08T_TestCase(unittest.TestCase, BanjyoKomaTestCase):
 class SenteKeima44F_TestCase(unittest.TestCase, BanjyoKomaTestCase):
     def setUp(self):
         self.masume = (4, 4)
-        self.ban    = pyshogi.ShogiBan([0, [(0, 'Keima', self.masume, 0)]])
+        self.ban    = pyshogi.ShogiBan([0, [(0, Keima, self.masume, 0)]])
         self.koma   = apply(self.ban.masu, self.masume).koma
         self.ugoki  = [((5, 2), [False, True]), ((3, 2), [False, True])]
 
 class SenteKeima42F_TestCase(unittest.TestCase, BanjyoKomaTestCase):
     def setUp(self):
         self.masume = (4, 2)
-        self.ban    = pyshogi.ShogiBan([0, [(0, 'Keima', self.masume, 0)]])
+        self.ban    = pyshogi.ShogiBan([0, [(0, Keima, self.masume, 0)]])
         self.koma   = apply(self.ban.masu, self.masume).koma
         self.ugoki  = [((5, 0), [True]), ((3, 0), [True])]
 
 class GoteKeima44F_TestCase(unittest.TestCase, BanjyoKomaTestCase):
     def setUp(self):
         self.masume = (4, 4)
-        self.ban    = pyshogi.ShogiBan([0, [(1, 'Keima', self.masume, 0)]])
+        self.ban    = pyshogi.ShogiBan([0, [(1, Keima, self.masume, 0)]])
         self.koma   = apply(self.ban.masu, self.masume).koma
         self.ugoki  = [((5, 6), [False, True]), ((3, 6), [False, True])]
 
 class SenteKeima44T_TestCase(unittest.TestCase, BanjyoKomaTestCase):
     def setUp(self):
         self.masume = (4, 4)
-        self.ban    = pyshogi.ShogiBan([0, [(0, 'Keima', self.masume, 1)]])
+        self.ban    = pyshogi.ShogiBan([0, [(0, Keima, self.masume, 1)]])
         self.koma   = apply(self.ban.masu, self.masume).koma
         self.ugoki  = [
                         ((5, 3), None), ((4, 3), None), ((3, 3), None),
@@ -417,7 +418,7 @@ class SenteKeima44T_TestCase(unittest.TestCase, BanjyoKomaTestCase):
 class SenteKeima80T_TestCase(unittest.TestCase, BanjyoKomaTestCase):
     def setUp(self):
         self.masume = (8, 0)
-        self.ban    = pyshogi.ShogiBan([0, [(0, 'Keima', self.masume, 1)]])
+        self.ban    = pyshogi.ShogiBan([0, [(0, Keima, self.masume, 1)]])
         self.koma   = apply(self.ban.masu, self.masume).koma
         self.ugoki  = [
                                         ((7, 0), None),
@@ -427,7 +428,7 @@ class SenteKeima80T_TestCase(unittest.TestCase, BanjyoKomaTestCase):
 class SenteKeima70T_TestCase(unittest.TestCase, BanjyoKomaTestCase):
     def setUp(self):
         self.masume = (7, 0)
-        self.ban    = pyshogi.ShogiBan([0, [(0, 'Keima', self.masume, 1)]])
+        self.ban    = pyshogi.ShogiBan([0, [(0, Keima, self.masume, 1)]])
         self.koma   = apply(self.ban.masu, self.masume).koma
         self.ugoki  = [
                         ((8, 0), None),                 ((6, 0), None),
@@ -437,7 +438,7 @@ class SenteKeima70T_TestCase(unittest.TestCase, BanjyoKomaTestCase):
 class SenteKeima10T_TestCase(unittest.TestCase, BanjyoKomaTestCase):
     def setUp(self):
         self.masume = (1, 0)
-        self.ban    = pyshogi.ShogiBan([0, [(0, 'Keima', self.masume, 1)]])
+        self.ban    = pyshogi.ShogiBan([0, [(0, Keima, self.masume, 1)]])
         self.koma   = apply(self.ban.masu, self.masume).koma
         self.ugoki  = [
                         ((2, 0), None),                 ((0, 0), None),
@@ -447,7 +448,7 @@ class SenteKeima10T_TestCase(unittest.TestCase, BanjyoKomaTestCase):
 class SenteKeima00T_TestCase(unittest.TestCase, BanjyoKomaTestCase):
     def setUp(self):
         self.masume = (0, 0)
-        self.ban    = pyshogi.ShogiBan([0, [(0, 'Keima', self.masume, 1)]])
+        self.ban    = pyshogi.ShogiBan([0, [(0, Keima, self.masume, 1)]])
         self.koma   = apply(self.ban.masu, self.masume).koma
         self.ugoki  = [
                         ((1, 0), None),
@@ -457,14 +458,14 @@ class SenteKeima00T_TestCase(unittest.TestCase, BanjyoKomaTestCase):
 class GoteKeima46F_TestCase(unittest.TestCase, BanjyoKomaTestCase):
     def setUp(self):
         self.masume = (4, 6)
-        self.ban    = pyshogi.ShogiBan([0, [(1, 'Keima', self.masume, 0)]])
+        self.ban    = pyshogi.ShogiBan([0, [(1, Keima, self.masume, 0)]])
         self.koma   = apply(self.ban.masu, self.masume).koma
         self.ugoki  = [((5, 8), [True]), ((3, 8), [True])]
 
 class GoteKeima44T_TestCase(unittest.TestCase, BanjyoKomaTestCase):
     def setUp(self):
         self.masume = (4, 4)
-        self.ban    = pyshogi.ShogiBan([0, [(1, 'Keima', self.masume, 1)]])
+        self.ban    = pyshogi.ShogiBan([0, [(1, Keima, self.masume, 1)]])
         self.koma   = apply(self.ban.masu, self.masume).koma
         self.ugoki  = [
                                         ((4, 3), None),
@@ -475,7 +476,7 @@ class GoteKeima44T_TestCase(unittest.TestCase, BanjyoKomaTestCase):
 class GoteKeima88T_TestCase(unittest.TestCase, BanjyoKomaTestCase):
     def setUp(self):
         self.masume = (8, 8)
-        self.ban    = pyshogi.ShogiBan([0, [(1, 'Keima', self.masume, 1)]])
+        self.ban    = pyshogi.ShogiBan([0, [(1, Keima, self.masume, 1)]])
         self.koma   = apply(self.ban.masu, self.masume).koma
         self.ugoki  = [
                         ((8, 7), None),
@@ -485,7 +486,7 @@ class GoteKeima88T_TestCase(unittest.TestCase, BanjyoKomaTestCase):
 class GoteKeima78T_TestCase(unittest.TestCase, BanjyoKomaTestCase):
     def setUp(self):
         self.masume = (7, 8)
-        self.ban    = pyshogi.ShogiBan([0, [(1, 'Keima', self.masume, 1)]])
+        self.ban    = pyshogi.ShogiBan([0, [(1, Keima, self.masume, 1)]])
         self.koma   = apply(self.ban.masu, self.masume).koma
         self.ugoki  = [
                                         ((7, 7), None),
@@ -495,7 +496,7 @@ class GoteKeima78T_TestCase(unittest.TestCase, BanjyoKomaTestCase):
 class GoteKeima18T_TestCase(unittest.TestCase, BanjyoKomaTestCase):
     def setUp(self):
         self.masume = (1, 8)
-        self.ban    = pyshogi.ShogiBan([0, [(1, 'Keima', self.masume, 1)]])
+        self.ban    = pyshogi.ShogiBan([0, [(1, Keima, self.masume, 1)]])
         self.koma   = apply(self.ban.masu, self.masume).koma
         self.ugoki  = [
                                         ((1, 7), None),
@@ -505,7 +506,7 @@ class GoteKeima18T_TestCase(unittest.TestCase, BanjyoKomaTestCase):
 class GoteKeima08T_TestCase(unittest.TestCase, BanjyoKomaTestCase):
     def setUp(self):
         self.masume = (0, 8)
-        self.ban    = pyshogi.ShogiBan([0, [(1, 'Keima', self.masume, 1)]])
+        self.ban    = pyshogi.ShogiBan([0, [(1, Keima, self.masume, 1)]])
         self.koma   = apply(self.ban.masu, self.masume).koma
         self.ugoki  = [
                                         ((0, 7), None),
@@ -517,7 +518,7 @@ class GoteKeima08T_TestCase(unittest.TestCase, BanjyoKomaTestCase):
 class SenteGin44F_TestCase(unittest.TestCase, BanjyoKomaTestCase):
     def setUp(self):
         self.masume = (4, 4)
-        self.ban    = pyshogi.ShogiBan([0, [(0, 'Gin', self.masume, 0)]])
+        self.ban    = pyshogi.ShogiBan([0, [(0, Gin, self.masume, 0)]])
         self.koma   = apply(self.ban.masu, self.masume).koma
         self.ugoki  = [
                         ((5, 3), None), ((4, 3), None), ((3, 3), None),
@@ -528,7 +529,7 @@ class SenteGin44F_TestCase(unittest.TestCase, BanjyoKomaTestCase):
 class SenteGin43F_TestCase(unittest.TestCase, BanjyoKomaTestCase):
     def setUp(self):
         self.masume = (4, 3)
-        self.ban    = pyshogi.ShogiBan([0, [(0, 'Gin', self.masume, 0)]])
+        self.ban    = pyshogi.ShogiBan([0, [(0, Gin, self.masume, 0)]])
         self.koma   = apply(self.ban.masu, self.masume).koma
         self.ugoki  = [
                         ((5, 2), [False, True]),
@@ -542,7 +543,7 @@ class SenteGin43F_TestCase(unittest.TestCase, BanjyoKomaTestCase):
 class SenteGin42F_TestCase(unittest.TestCase, BanjyoKomaTestCase):
     def setUp(self):
         self.masume = (4, 2)
-        self.ban    = pyshogi.ShogiBan([0, [(0, 'Gin', self.masume, 0)]])
+        self.ban    = pyshogi.ShogiBan([0, [(0, Gin, self.masume, 0)]])
         self.koma   = apply(self.ban.masu, self.masume).koma
         self.ugoki  = [
                         ((5, 1), [False, True]),
@@ -556,7 +557,7 @@ class SenteGin42F_TestCase(unittest.TestCase, BanjyoKomaTestCase):
 class SenteGin41F_TestCase(unittest.TestCase, BanjyoKomaTestCase):
     def setUp(self):
         self.masume = (4, 1)
-        self.ban    = pyshogi.ShogiBan([0, [(0, 'Gin', self.masume, 0)]])
+        self.ban    = pyshogi.ShogiBan([0, [(0, Gin, self.masume, 0)]])
         self.koma   = apply(self.ban.masu, self.masume).koma
         self.ugoki  = [
                         ((5, 0), [False, True]),
@@ -570,7 +571,7 @@ class SenteGin41F_TestCase(unittest.TestCase, BanjyoKomaTestCase):
 class SenteGin40F_TestCase(unittest.TestCase, BanjyoKomaTestCase):
     def setUp(self):
         self.masume = (4, 0)
-        self.ban    = pyshogi.ShogiBan([0, [(0, 'Gin', self.masume, 0)]])
+        self.ban    = pyshogi.ShogiBan([0, [(0, Gin, self.masume, 0)]])
         self.koma   = apply(self.ban.masu, self.masume).koma
         self.ugoki  = [
                         ((5, 1), [False, True]),
@@ -580,7 +581,7 @@ class SenteGin40F_TestCase(unittest.TestCase, BanjyoKomaTestCase):
 class SenteGin44T_TestCase(unittest.TestCase, BanjyoKomaTestCase):
     def setUp(self):
         self.masume = (4, 4)
-        self.ban    = pyshogi.ShogiBan([0, [(0, 'Gin', self.masume, 1)]])
+        self.ban    = pyshogi.ShogiBan([0, [(0, Gin, self.masume, 1)]])
         self.koma   = apply(self.ban.masu, self.masume).koma
         self.ugoki  = [
                         ((5, 3), None), ((4, 3), None), ((3, 3), None),
@@ -591,7 +592,7 @@ class SenteGin44T_TestCase(unittest.TestCase, BanjyoKomaTestCase):
 class SenteGin80T_TestCase(unittest.TestCase, BanjyoKomaTestCase):
     def setUp(self):
         self.masume = (8, 0)
-        self.ban    = pyshogi.ShogiBan([0, [(0, 'Gin', self.masume, 1)]])
+        self.ban    = pyshogi.ShogiBan([0, [(0, Gin, self.masume, 1)]])
         self.koma   = apply(self.ban.masu, self.masume).koma
         self.ugoki  = [
                                         ((7, 0), None),
@@ -601,7 +602,7 @@ class SenteGin80T_TestCase(unittest.TestCase, BanjyoKomaTestCase):
 class SenteGin70T_TestCase(unittest.TestCase, BanjyoKomaTestCase):
     def setUp(self):
         self.masume = (7, 0)
-        self.ban    = pyshogi.ShogiBan([0, [(0, 'Gin', self.masume, 1)]])
+        self.ban    = pyshogi.ShogiBan([0, [(0, Gin, self.masume, 1)]])
         self.koma   = apply(self.ban.masu, self.masume).koma
         self.ugoki  = [
                         ((8, 0), None),                 ((6, 0), None),
@@ -611,7 +612,7 @@ class SenteGin70T_TestCase(unittest.TestCase, BanjyoKomaTestCase):
 class SenteGin10T_TestCase(unittest.TestCase, BanjyoKomaTestCase):
     def setUp(self):
         self.masume = (1, 0)
-        self.ban    = pyshogi.ShogiBan([0, [(0, 'Gin', self.masume, 1)]])
+        self.ban    = pyshogi.ShogiBan([0, [(0, Gin, self.masume, 1)]])
         self.koma   = apply(self.ban.masu, self.masume).koma
         self.ugoki  = [
                         ((2, 0), None),                 ((0, 0), None),
@@ -621,7 +622,7 @@ class SenteGin10T_TestCase(unittest.TestCase, BanjyoKomaTestCase):
 class SenteGin00T_TestCase(unittest.TestCase, BanjyoKomaTestCase):
     def setUp(self):
         self.masume = (0, 0)
-        self.ban    = pyshogi.ShogiBan([0, [(0, 'Gin', self.masume, 1)]])
+        self.ban    = pyshogi.ShogiBan([0, [(0, Gin, self.masume, 1)]])
         self.koma   = apply(self.ban.masu, self.masume).koma
         self.ugoki  = [
                         ((1, 0), None),
@@ -631,7 +632,7 @@ class SenteGin00T_TestCase(unittest.TestCase, BanjyoKomaTestCase):
 class GoteGin44F_TestCase(unittest.TestCase, BanjyoKomaTestCase):
     def setUp(self):
         self.masume = (4, 4)
-        self.ban    = pyshogi.ShogiBan([0, [(1, 'Gin', self.masume, 0)]])
+        self.ban    = pyshogi.ShogiBan([0, [(1, Gin, self.masume, 0)]])
         self.koma   = apply(self.ban.masu, self.masume).koma
         self.ugoki  = [
                         ((5, 3), None),                 ((3, 3), None),
@@ -642,7 +643,7 @@ class GoteGin44F_TestCase(unittest.TestCase, BanjyoKomaTestCase):
 class GoteGin45F_TestCase(unittest.TestCase, BanjyoKomaTestCase):
     def setUp(self):
         self.masume = (4, 5)
-        self.ban    = pyshogi.ShogiBan([0, [(1, 'Gin', self.masume, 0)]])
+        self.ban    = pyshogi.ShogiBan([0, [(1, Gin, self.masume, 0)]])
         self.koma   = apply(self.ban.masu, self.masume).koma
         self.ugoki  = [
                         ((5, 4), None),
@@ -656,7 +657,7 @@ class GoteGin45F_TestCase(unittest.TestCase, BanjyoKomaTestCase):
 class GoteGin46F_TestCase(unittest.TestCase, BanjyoKomaTestCase):
     def setUp(self):
         self.masume = (4, 6)
-        self.ban    = pyshogi.ShogiBan([0, [(1, 'Gin', self.masume, 0)]])
+        self.ban    = pyshogi.ShogiBan([0, [(1, Gin, self.masume, 0)]])
         self.koma   = apply(self.ban.masu, self.masume).koma
         self.ugoki  = [
                         ((5, 5), [False, True]),
@@ -670,7 +671,7 @@ class GoteGin46F_TestCase(unittest.TestCase, BanjyoKomaTestCase):
 class GoteGin47F_TestCase(unittest.TestCase, BanjyoKomaTestCase):
     def setUp(self):
         self.masume = (4, 7)
-        self.ban    = pyshogi.ShogiBan([0, [(1, 'Gin', self.masume, 0)]])
+        self.ban    = pyshogi.ShogiBan([0, [(1, Gin, self.masume, 0)]])
         self.koma   = apply(self.ban.masu, self.masume).koma
         self.ugoki  = [
                         ((5, 6), [False, True]),
@@ -684,7 +685,7 @@ class GoteGin47F_TestCase(unittest.TestCase, BanjyoKomaTestCase):
 class GoteGin48F_TestCase(unittest.TestCase, BanjyoKomaTestCase):
     def setUp(self):
         self.masume = (4, 8)
-        self.ban    = pyshogi.ShogiBan([0, [(1, 'Gin', self.masume, 0)]])
+        self.ban    = pyshogi.ShogiBan([0, [(1, Gin, self.masume, 0)]])
         self.koma   = apply(self.ban.masu, self.masume).koma
         self.ugoki  = [
                         ((5, 7), [False, True]),
@@ -694,7 +695,7 @@ class GoteGin48F_TestCase(unittest.TestCase, BanjyoKomaTestCase):
 class GoteGin44T_TestCase(unittest.TestCase, BanjyoKomaTestCase):
     def setUp(self):
         self.masume = (4, 4)
-        self.ban    = pyshogi.ShogiBan([0, [(1, 'Gin', self.masume, 1)]])
+        self.ban    = pyshogi.ShogiBan([0, [(1, Gin, self.masume, 1)]])
         self.koma   = apply(self.ban.masu, self.masume).koma
         self.ugoki  = [
                                         ((4, 3), None),
@@ -705,7 +706,7 @@ class GoteGin44T_TestCase(unittest.TestCase, BanjyoKomaTestCase):
 class GoteGin88T_TestCase(unittest.TestCase, BanjyoKomaTestCase):
     def setUp(self):
         self.masume = (8, 8)
-        self.ban    = pyshogi.ShogiBan([0, [(1, 'Gin', self.masume, 1)]])
+        self.ban    = pyshogi.ShogiBan([0, [(1, Gin, self.masume, 1)]])
         self.koma   = apply(self.ban.masu, self.masume).koma
         self.ugoki  = [
                         ((8, 7), None),
@@ -715,7 +716,7 @@ class GoteGin88T_TestCase(unittest.TestCase, BanjyoKomaTestCase):
 class GoteGin78T_TestCase(unittest.TestCase, BanjyoKomaTestCase):
     def setUp(self):
         self.masume = (7, 8)
-        self.ban    = pyshogi.ShogiBan([0, [(1, 'Gin', self.masume, 1)]])
+        self.ban    = pyshogi.ShogiBan([0, [(1, Gin, self.masume, 1)]])
         self.koma   = apply(self.ban.masu, self.masume).koma
         self.ugoki  = [
                                         ((7, 7), None),
@@ -725,7 +726,7 @@ class GoteGin78T_TestCase(unittest.TestCase, BanjyoKomaTestCase):
 class GoteGin18T_TestCase(unittest.TestCase, BanjyoKomaTestCase):
     def setUp(self):
         self.masume = (1, 8)
-        self.ban    = pyshogi.ShogiBan([0, [(1, 'Gin', self.masume, 1)]])
+        self.ban    = pyshogi.ShogiBan([0, [(1, Gin, self.masume, 1)]])
         self.koma   = apply(self.ban.masu, self.masume).koma
         self.ugoki  = [
                                         ((1, 7), None),
@@ -735,7 +736,7 @@ class GoteGin18T_TestCase(unittest.TestCase, BanjyoKomaTestCase):
 class GoteGin08T_TestCase(unittest.TestCase, BanjyoKomaTestCase):
     def setUp(self):
         self.masume = (0, 8)
-        self.ban    = pyshogi.ShogiBan([0, [(1, 'Gin', self.masume, 1)]])
+        self.ban    = pyshogi.ShogiBan([0, [(1, Gin, self.masume, 1)]])
         self.koma   = apply(self.ban.masu, self.masume).koma
         self.ugoki  = [
                                         ((0, 7), None),
@@ -747,7 +748,7 @@ class GoteGin08T_TestCase(unittest.TestCase, BanjyoKomaTestCase):
 class SenteKin44F_TestCase(unittest.TestCase, BanjyoKomaTestCase):
     def setUp(self):
         self.masume = (4, 4)
-        self.ban    = pyshogi.ShogiBan([0, [(0, 'Kin', self.masume, 0)]])
+        self.ban    = pyshogi.ShogiBan([0, [(0, Kin, self.masume, 0)]])
         self.koma   = apply(self.ban.masu, self.masume).koma
         self.ugoki  = [
                         ((5, 3), None), ((4, 3), None), ((3, 3), None),
@@ -758,7 +759,7 @@ class SenteKin44F_TestCase(unittest.TestCase, BanjyoKomaTestCase):
 class SenteKin43F_TestCase(unittest.TestCase, BanjyoKomaTestCase):
     def setUp(self):
         self.masume = (4, 3)
-        self.ban    = pyshogi.ShogiBan([0, [(0, 'Kin', self.masume, 0)]])
+        self.ban    = pyshogi.ShogiBan([0, [(0, Kin, self.masume, 0)]])
         self.koma   = apply(self.ban.masu, self.masume).koma
         self.ugoki  = [
                         ((5, 2), None), ((4, 2), None), ((3, 2), None),
@@ -769,7 +770,7 @@ class SenteKin43F_TestCase(unittest.TestCase, BanjyoKomaTestCase):
 class SenteKin42F_TestCase(unittest.TestCase, BanjyoKomaTestCase):
     def setUp(self):
         self.masume = (4, 2)
-        self.ban    = pyshogi.ShogiBan([0, [(0, 'Kin', self.masume, 0)]])
+        self.ban    = pyshogi.ShogiBan([0, [(0, Kin, self.masume, 0)]])
         self.koma   = apply(self.ban.masu, self.masume).koma
         self.ugoki  = [
                         ((5, 1), None), ((4, 1), None), ((3, 1), None),
@@ -780,7 +781,7 @@ class SenteKin42F_TestCase(unittest.TestCase, BanjyoKomaTestCase):
 class SenteKin41F_TestCase(unittest.TestCase, BanjyoKomaTestCase):
     def setUp(self):
         self.masume = (4, 1)
-        self.ban    = pyshogi.ShogiBan([0, [(0, 'Kin', self.masume, 0)]])
+        self.ban    = pyshogi.ShogiBan([0, [(0, Kin, self.masume, 0)]])
         self.koma   = apply(self.ban.masu, self.masume).koma
         self.ugoki  = [
                         ((5, 0), None), ((4, 0), None), ((3, 0), None),
@@ -791,7 +792,7 @@ class SenteKin41F_TestCase(unittest.TestCase, BanjyoKomaTestCase):
 class SenteKin40F_TestCase(unittest.TestCase, BanjyoKomaTestCase):
     def setUp(self):
         self.masume = (4, 0)
-        self.ban    = pyshogi.ShogiBan([0, [(0, 'Kin', self.masume, 0)]])
+        self.ban    = pyshogi.ShogiBan([0, [(0, Kin, self.masume, 0)]])
         self.koma   = apply(self.ban.masu, self.masume).koma
         self.ugoki  = [
                         ((5, 0), None),                 ((3, 0), None),
@@ -801,7 +802,7 @@ class SenteKin40F_TestCase(unittest.TestCase, BanjyoKomaTestCase):
 class GoteKin44F_TestCase(unittest.TestCase, BanjyoKomaTestCase):
     def setUp(self):
         self.masume = (4, 4)
-        self.ban    = pyshogi.ShogiBan([0, [(1, 'Kin', self.masume, 0)]])
+        self.ban    = pyshogi.ShogiBan([0, [(1, Kin, self.masume, 0)]])
         self.koma   = apply(self.ban.masu, self.masume).koma
         self.ugoki  = [
                                         ((4, 3), None),
@@ -812,7 +813,7 @@ class GoteKin44F_TestCase(unittest.TestCase, BanjyoKomaTestCase):
 class GoteKin45F_TestCase(unittest.TestCase, BanjyoKomaTestCase):
     def setUp(self):
         self.masume = (4, 5)
-        self.ban    = pyshogi.ShogiBan([0, [(1, 'Kin', self.masume, 0)]])
+        self.ban    = pyshogi.ShogiBan([0, [(1, Kin, self.masume, 0)]])
         self.koma   = apply(self.ban.masu, self.masume).koma
         self.ugoki  = [
                                         ((4, 4), None),
@@ -823,7 +824,7 @@ class GoteKin45F_TestCase(unittest.TestCase, BanjyoKomaTestCase):
 class GoteKin46F_TestCase(unittest.TestCase, BanjyoKomaTestCase):
     def setUp(self):
         self.masume = (4, 6)
-        self.ban    = pyshogi.ShogiBan([0, [(1, 'Kin', self.masume, 0)]])
+        self.ban    = pyshogi.ShogiBan([0, [(1, Kin, self.masume, 0)]])
         self.koma   = apply(self.ban.masu, self.masume).koma
         self.ugoki  = [
                                         ((4, 5), None),
@@ -834,7 +835,7 @@ class GoteKin46F_TestCase(unittest.TestCase, BanjyoKomaTestCase):
 class GoteKin47F_TestCase(unittest.TestCase, BanjyoKomaTestCase):
     def setUp(self):
         self.masume = (4, 7)
-        self.ban    = pyshogi.ShogiBan([0, [(1, 'Kin', self.masume, 0)]])
+        self.ban    = pyshogi.ShogiBan([0, [(1, Kin, self.masume, 0)]])
         self.koma   = apply(self.ban.masu, self.masume).koma
         self.ugoki  = [
                                         ((4, 6), None),
@@ -845,7 +846,7 @@ class GoteKin47F_TestCase(unittest.TestCase, BanjyoKomaTestCase):
 class GoteKin48F_TestCase(unittest.TestCase, BanjyoKomaTestCase):
     def setUp(self):
         self.masume = (4, 8)
-        self.ban    = pyshogi.ShogiBan([0, [(1, 'Kin', self.masume, 0)]])
+        self.ban    = pyshogi.ShogiBan([0, [(1, Kin, self.masume, 0)]])
         self.koma   = apply(self.ban.masu, self.masume).koma
         self.ugoki  = [
                                         ((4, 7), None),
@@ -857,7 +858,7 @@ class GoteKin48F_TestCase(unittest.TestCase, BanjyoKomaTestCase):
 class SenteKaku44F_TestCase(unittest.TestCase, BanjyoKomaTestCase):
     def setUp(self):
         self.masume = (4, 4)
-        self.ban    = pyshogi.ShogiBan([0, [(0, 'Kaku', self.masume, 0)]])
+        self.ban    = pyshogi.ShogiBan([0, [(0, Kaku, self.masume, 0)]])
         self.koma   = apply(self.ban.masu, self.masume).koma
         self.ugoki  = [
                         ((8, 0), [False, True]), ((0, 0), [False, True]),
@@ -874,7 +875,7 @@ class SenteKaku44F_TestCase(unittest.TestCase, BanjyoKomaTestCase):
 class SenteKaku44T_TestCase(unittest.TestCase, BanjyoKomaTestCase):
     def setUp(self):
         self.masume = (4, 4)
-        self.ban    = pyshogi.ShogiBan([0, [(0, 'Kaku', self.masume, 1)]])
+        self.ban    = pyshogi.ShogiBan([0, [(0, Kaku, self.masume, 1)]])
         self.koma   = apply(self.ban.masu, self.masume).koma
         self.ugoki  = [
                         ((8, 0), None),                 ((0, 0), None),
@@ -891,7 +892,7 @@ class SenteKaku44T_TestCase(unittest.TestCase, BanjyoKomaTestCase):
 class GoteKaku44F_TestCase(unittest.TestCase, BanjyoKomaTestCase):
     def setUp(self):
         self.masume = (4, 4)
-        self.ban    = pyshogi.ShogiBan([0, [(1, 'Kaku', self.masume, 0)]])
+        self.ban    = pyshogi.ShogiBan([0, [(1, Kaku, self.masume, 0)]])
         self.koma   = apply(self.ban.masu, self.masume).koma
         self.ugoki  = [
                         ((8, 0), None),          ((0, 0), None),
@@ -908,7 +909,7 @@ class GoteKaku44F_TestCase(unittest.TestCase, BanjyoKomaTestCase):
 class GoteKaku44T_TestCase(unittest.TestCase, BanjyoKomaTestCase):
     def setUp(self):
         self.masume = (4, 4)
-        self.ban    = pyshogi.ShogiBan([0, [(1, 'Kaku', self.masume, 1)]])
+        self.ban    = pyshogi.ShogiBan([0, [(1, Kaku, self.masume, 1)]])
         self.koma   = apply(self.ban.masu, self.masume).koma
         self.ugoki  = [
                         ((8, 0), None),                 ((0, 0), None),
@@ -927,7 +928,7 @@ class GoteKaku44T_TestCase(unittest.TestCase, BanjyoKomaTestCase):
 class SenteHisya44F_TestCase(unittest.TestCase, BanjyoKomaTestCase):
     def setUp(self):
         self.masume = (4, 4)
-        self.ban    = pyshogi.ShogiBan([0, [(0, 'Hisya', self.masume, 0)]])
+        self.ban    = pyshogi.ShogiBan([0, [(0, Hisya, self.masume, 0)]])
         self.koma   = apply(self.ban.masu, self.masume).koma
         self.ugoki  = [
                         ((4, 0), [False, True]),
@@ -954,7 +955,7 @@ class SenteHisya44F_TestCase(unittest.TestCase, BanjyoKomaTestCase):
 class SenteHisya44T_TestCase(unittest.TestCase, BanjyoKomaTestCase):
     def setUp(self):
         self.masume = (4, 4)
-        self.ban    = pyshogi.ShogiBan([0, [(0, 'Hisya', self.masume, 1)]])
+        self.ban    = pyshogi.ShogiBan([0, [(0, Hisya, self.masume, 1)]])
         self.koma   = apply(self.ban.masu, self.masume).koma
         self.ugoki  = [
                         ((4, 0), None),
@@ -987,7 +988,7 @@ class SenteHisya44T_TestCase(unittest.TestCase, BanjyoKomaTestCase):
 class GoteHisya44F_TestCase(unittest.TestCase, BanjyoKomaTestCase):
     def setUp(self):
         self.masume = (4, 4)
-        self.ban    = pyshogi.ShogiBan([0, [(1, 'Hisya', self.masume, 0)]])
+        self.ban    = pyshogi.ShogiBan([0, [(1, Hisya, self.masume, 0)]])
         self.koma   = apply(self.ban.masu, self.masume).koma
         self.ugoki  = [
                         ((4, 0), None),
@@ -1014,7 +1015,7 @@ class GoteHisya44F_TestCase(unittest.TestCase, BanjyoKomaTestCase):
 class GoteHisya44T_TestCase(unittest.TestCase, BanjyoKomaTestCase):
     def setUp(self):
         self.masume = (4, 4)
-        self.ban    = pyshogi.ShogiBan([0, [(1, 'Hisya', self.masume, 1)]])
+        self.ban    = pyshogi.ShogiBan([0, [(1, Hisya, self.masume, 1)]])
         self.koma   = apply(self.ban.masu, self.masume).koma
         self.ugoki  = [
                         ((4, 0), None),
@@ -1049,7 +1050,7 @@ class GoteHisya44T_TestCase(unittest.TestCase, BanjyoKomaTestCase):
 class SenteGyoku44T_TestCase(unittest.TestCase, BanjyoKomaTestCase):
     def setUp(self):
         self.masume = (4, 4)
-        self.ban    = pyshogi.ShogiBan([0, [(0, 'Gyoku', self.masume, 0)]])
+        self.ban    = pyshogi.ShogiBan([0, [(0, Gyoku, self.masume, 0)]])
         self.koma   = apply(self.ban.masu, self.masume).koma
         self.ugoki  = [
                         ((5, 3), None), ((4, 3), None), ((3, 3), None),
@@ -1060,7 +1061,7 @@ class SenteGyoku44T_TestCase(unittest.TestCase, BanjyoKomaTestCase):
 class GoteGyoku44T_TestCase(unittest.TestCase, BanjyoKomaTestCase):
     def setUp(self):
         self.masume = (4, 4)
-        self.ban    = pyshogi.ShogiBan([0, [(1, 'Gyoku', self.masume, 0)]])
+        self.ban    = pyshogi.ShogiBan([0, [(1, Gyoku, self.masume, 0)]])
         self.koma   = apply(self.ban.masu, self.masume).koma
         self.ugoki  = [
                         ((5, 3), None), ((4, 3), None), ((3, 3), None),

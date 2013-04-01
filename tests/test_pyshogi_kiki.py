@@ -6,6 +6,7 @@
 #
 
 import pyshogi
+from pyshogi import Gyoku, Hisya, Kaku, Kin, Gin, Keima, Kyosya, Fu
 import unittest
 
 class KikiTestCase(unittest.TestCase):
@@ -14,9 +15,9 @@ class KikiTestCase(unittest.TestCase):
             [
                 0,
                 [
-                    (1, 'Gyoku', (4, 0), 0),
-                    (0, 'Kin',   (4, 1), 0),
-                    (0, 'Fu',    (4, 2), 0),
+                    (1, Gyoku, (4, 0), 0),
+                    (0, Kin,   (4, 1), 0),
+                    (0, Fu,    (4, 2), 0),
                 ]
             ]
         )

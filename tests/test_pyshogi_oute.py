@@ -6,6 +6,7 @@
 #
 
 import pyshogi
+from pyshogi import Gyoku, Hisya, Kaku, Kin, Gin, Keima, Kyosya, Fu
 import unittest
 
 class OuteTestCase(unittest.TestCase):
@@ -14,10 +15,10 @@ class OuteTestCase(unittest.TestCase):
             [
                 0,
                 [
-                    (1, 'Gyoku', (4, 0), 0),
-                    (0, 'Kin',   (4, 1), 0),
-                    (0, 'Fu',    (4, 2), 0),
-                    (0, 'Gyoku', (4, 8), 0),
+                    (1, Gyoku, (4, 0), 0),
+                    (0, Kin,   (4, 1), 0),
+                    (0, Fu,    (4, 2), 0),
+                    (0, Gyoku, (4, 8), 0),
                 ]
             ]
         )
@@ -33,10 +34,10 @@ class OuteTestCase(unittest.TestCase):
             [
                 0,
                 [
-                    (1, 'Gyoku', (4, 0), 0),
-                    (1, 'Hisya', (4, 1), 0),
-                    (0, 'Kin',   (4, 7), 0),
-                    (0, 'Gyoku', (4, 8), 0),
+                    (1, Gyoku, (4, 0), 0),
+                    (1, Hisya, (4, 1), 0),
+                    (0, Kin,   (4, 7), 0),
+                    (0, Gyoku, (4, 8), 0),
                 ]
             ]
         )
@@ -55,10 +56,10 @@ class OuteTestCase(unittest.TestCase):
             [
                 0,
                 [
-                    (1, 'Gyoku', (4, 0), 0),
-                    (1, 'Kin',   (4, 1), 0),
-                    (0, 'Hisya', (4, 7), 0),
-                    (0, 'Gyoku', (4, 8), 0),
+                    (1, Gyoku, (4, 0), 0),
+                    (1, Kin,   (4, 1), 0),
+                    (0, Hisya, (4, 7), 0),
+                    (0, Gyoku, (4, 8), 0),
                 ]
             ]
         )
@@ -77,10 +78,10 @@ class OuteTestCase(unittest.TestCase):
             [
                 0,
                 [
-                    (1, 'Gyoku', (4, 0), 0),
-                    (1, 'Hisya', (4, 1), 0),
-                    (0, 'Kin',   (3, 7), 0),
-                    (0, 'Gyoku', (4, 8), 0),
+                    (1, Gyoku, (4, 0), 0),
+                    (1, Hisya, (4, 1), 0),
+                    (0, Kin,   (3, 7), 0),
+                    (0, Gyoku, (4, 8), 0),
                 ]
             ]
         )
@@ -100,10 +101,10 @@ class OuteTestCase(unittest.TestCase):
             [
                 0,
                 [
-                    (1, 'Gyoku', (4, 0), 0),
-                    (1, 'Kin',   (3, 1), 0),
-                    (0, 'Hisya', (4, 7), 0),
-                    (0, 'Gyoku', (4, 8), 0),
+                    (1, Gyoku, (4, 0), 0),
+                    (1, Kin,   (3, 1), 0),
+                    (0, Hisya, (4, 7), 0),
+                    (0, Gyoku, (4, 8), 0),
                 ]
             ]
         )
