@@ -175,15 +175,17 @@ class Koma:
             return [0, 1]
         return None
 
-# 0 1 2 3 4 5 6 7 8
-#                 1
-#                 2
-#                 3
-#                 4
-#                 5
-#                 6
-#                 7
-#                 8
+'''
+0 1 2 3 4 5 6 7 8
+1
+2
+3
+4
+5
+6
+7
+8
+'''
 
 class Gyoku(Koma):
     KACHI = 1
@@ -371,7 +373,7 @@ HIRATE = [
     [
         # (
         #   0:先手, 1:後手,
-        #   駒クラス名文字列,
+        #   駒クラス名,
         #   (列, 行):升目, None:手駒,
         #   0:不成, 1:成駒
         # )
@@ -445,32 +447,6 @@ class Shogiban:
 
     def dump(self, string_class_name=False):
         return [self.teban, [koma.dump(string_class_name) for koma in self.komas]]
-
-    def xdump(self, teban):
-        shogiban  = []
-        mochigoma = [[], []]
-
-        for koma in self.komas:
-            if koma.masu:
-                shogiban.append(
-                    koma.dump(True) + tuple([
-                        [(masu.x, masu.y, koma.narikomi(masu)) for masu in koma.ugoki(teban)]
-                    ])
-                )
-            else:
-                mochigoma[koma.sengo].append(koma)
-
-        mochigoma = [
-            [
-                koma.dump(True) + tuple([
-                    [(masu.x, masu.y) for masu in koma.ugoki(teban)]
-                ]) + tuple([
-                    len(list(g))
-                ]) for koma, g in itertools.groupby(sorted(komas))
-            ] for komas in mochigoma
-        ]
-
-        return [self.teban, shogiban, mochigoma[0] + mochigoma[1]]
 
     def clone(self):
         return self.__class__(self.dump())
