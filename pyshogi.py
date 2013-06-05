@@ -480,11 +480,11 @@ class Shogiban:
             return None
 
         gyoku = self.gyokus[self.teban]
-        return gyoku.masu in self.kiki(not self.teban)
+        return gyoku.masu in self.kiki(1 if self.teban == 0 else 0)
 
     def tsumi(self):
         if self.teban not in self.gyokus:
             return None
 
         gyoku = self.gyokus[self.teban]
-        return self.oute() and gyoku.ugoki().issubset(self.kiki(not self.teban))
+        return self.oute() and gyoku.ugoki().issubset(self.kiki(1 if self.teban == 0 else 0))
