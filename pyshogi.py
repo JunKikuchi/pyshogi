@@ -28,7 +28,7 @@ class TebanError(Error):
     def __str__(self):
         return "%s %s %s" % (self.__class__.__name__, self.koma, self.masu)
 
-class Koma:
+class Koma(object):
     KACHI = None
     UGOKI = [None, None]
 
@@ -86,12 +86,16 @@ class Koma:
 
         oute = set()
         for masu in ugoki:
-            ban = self.ban.clone()
+            ban  = self.ban.clone()
             koma = ban.komas[self.index]
             koma.idou(masu.x, masu.y, check_ugoki=False)
             ban.teban = self.ban.teban
             if ban.oute():
                 oute.add(masu)
+            if isinstance(self, Fu) and self.masu == None:
+                ban.teban = 1 if self.ban.teban == 0 else 0
+                if ban.tsumi():
+                    oute.add(masu)
 
         return ugoki.difference(oute)
 
@@ -119,10 +123,7 @@ class Koma:
         if naru == 1 and self.UGOKI[1]:
             self.nari = 1
 
-        if self.ban.teban == 0:
-            self.ban.teban = 1
-        else:
-            self.ban.teban = 0
+        self.ban.teban = 1 if self.ban.teban == 0 else 0
 
     def _banjyo_ugoki(self, kiki=False):
         masus  = []
@@ -338,6 +339,7 @@ class Fu(Koma):
                    masu.koma.sengo == self.sengo and
                    isinstance(masu.koma, self.__class__) and
                    (not masu.koma.nari)])
+
         return frozenset([
             masu for masu in self.ban
                 if masu.koma is None and
@@ -351,7 +353,7 @@ class Fu(Koma):
             return [0, 1]
         return None
 
-class Masu:
+class Masu(object):
     def __init__(self, x, y):
         self.x = x
         self.y = y
@@ -420,7 +422,7 @@ HIRATE = [
     ]
 ]
 
-class Shogiban:
+class Shogiban(object):
     def __init__(self, data=HIRATE):
         self.teban    = data[0]
         self.masus    = [[Masu(x, y) for y in range(9)] for x in range(9)]
