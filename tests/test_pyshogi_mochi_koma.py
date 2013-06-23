@@ -30,8 +30,8 @@ class MochiKomaTestCase:
 
             self.assertEqual(masu.koma, self.koma)
             self.assertEqual(self.koma.masu, masu)
-            self.assertEqual([], self.ban.mochigoma(0))
-            self.assertEqual([], self.ban.mochigoma(1))
+            self.assertEqual([], self.ban.mochigoma(True))
+            self.assertEqual([], self.ban.mochigoma(False))
 
     def test_idou_error(self):
         ugokis = frozenset(self.ban).difference(frozenset(self.ugoki.keys()))
@@ -49,8 +49,8 @@ class MochiKomaTestCase:
 ### Fu
 class SenteFu_TestCase(unittest.TestCase, MochiKomaTestCase):
     def setUp(self):
-        self.ban  = pyshogi.Shogiban([0, [(0, Fu, None, 0)]])
-        self.koma = self.ban.mochigoma(0)[0]
+        self.ban  = pyshogi.Shogiban([True, [(True, Fu, None, False)]])
+        self.koma = self.ban.mochigoma(True)[0]
 
         masus = set(self.ban)
         for x in range(0, 9):
@@ -59,8 +59,8 @@ class SenteFu_TestCase(unittest.TestCase, MochiKomaTestCase):
 
 class GoteFu_TestCase(unittest.TestCase, MochiKomaTestCase):
     def setUp(self):
-        self.ban  = pyshogi.Shogiban([0, [(1, Fu, None, 0)]])
-        self.koma = self.ban.mochigoma(1)[0]
+        self.ban  = pyshogi.Shogiban([True, [(False, Fu, None, False)]])
+        self.koma = self.ban.mochigoma(False)[0]
 
         masus = set(self.ban)
         for x in range(0, 9):
@@ -70,8 +70,8 @@ class GoteFu_TestCase(unittest.TestCase, MochiKomaTestCase):
 # Kyosya
 class SenteKyosya_TestCase(unittest.TestCase, MochiKomaTestCase):
     def setUp(self):
-        self.ban  = pyshogi.Shogiban([0, [(0, Kyosya, None, 0)]])
-        self.koma = self.ban.mochigoma(0)[0]
+        self.ban  = pyshogi.Shogiban([True, [(True, Kyosya, None, False)]])
+        self.koma = self.ban.mochigoma(True)[0]
 
         masus = set(self.ban)
         for x in range(0, 9):
@@ -80,8 +80,8 @@ class SenteKyosya_TestCase(unittest.TestCase, MochiKomaTestCase):
 
 class GoteKyosya_TestCase(unittest.TestCase, MochiKomaTestCase):
     def setUp(self):
-        self.ban  = pyshogi.Shogiban([0, [(1, Kyosya, None, 0)]])
-        self.koma = self.ban.mochigoma(1)[0]
+        self.ban  = pyshogi.Shogiban([True, [(False, Kyosya, None, False)]])
+        self.koma = self.ban.mochigoma(False)[0]
 
         masus = set(self.ban)
         for x in range(0, 9):
@@ -91,8 +91,8 @@ class GoteKyosya_TestCase(unittest.TestCase, MochiKomaTestCase):
 # Keima
 class SenteKeima_TestCase(unittest.TestCase, MochiKomaTestCase):
     def setUp(self):
-        self.ban  = pyshogi.Shogiban([0, [(0, Keima, None, 0)]])
-        self.koma = self.ban.mochigoma(0)[0]
+        self.ban  = pyshogi.Shogiban([True, [(True, Keima, None, False)]])
+        self.koma = self.ban.mochigoma(True)[0]
 
         masus = set(self.ban)
         for x in range(0, 9):
@@ -102,8 +102,8 @@ class SenteKeima_TestCase(unittest.TestCase, MochiKomaTestCase):
 
 class GoteKeima_TestCase(unittest.TestCase, MochiKomaTestCase):
     def setUp(self):
-        self.ban   = pyshogi.Shogiban([0, [(1, Keima, None, 0)]])
-        self.koma  = self.ban.mochigoma(1)[0]
+        self.ban   = pyshogi.Shogiban([True, [(False, Keima, None, False)]])
+        self.koma  = self.ban.mochigoma(False)[0]
 
         masus = set(self.ban)
         for x in range(0, 9):
@@ -114,53 +114,53 @@ class GoteKeima_TestCase(unittest.TestCase, MochiKomaTestCase):
 # Gin
 class SenteGin_TestCase(unittest.TestCase, MochiKomaTestCase):
     def setUp(self):
-        self.ban   = pyshogi.Shogiban([0, [(0, Gin, None, 0)]])
-        self.koma  = self.ban.mochigoma(0)[0]
+        self.ban   = pyshogi.Shogiban([True, [(True, Gin, None, False)]])
+        self.koma  = self.ban.mochigoma(True)[0]
         self.ugoki = dict([(masu, None) for masu in self.ban])
 
 class GoteGin_TestCase(unittest.TestCase, MochiKomaTestCase):
     def setUp(self):
-        self.ban   = pyshogi.Shogiban([0, [(1, Gin, None, 0)]])
-        self.koma  = self.ban.mochigoma(1)[0]
+        self.ban   = pyshogi.Shogiban([True, [(False, Gin, None, False)]])
+        self.koma  = self.ban.mochigoma(False)[0]
         self.ugoki = dict([(masu, None) for masu in self.ban])
 
 # Kin
 class SenteKin_TestCase(unittest.TestCase, MochiKomaTestCase):
     def setUp(self):
-        self.ban   = pyshogi.Shogiban([0, [(0, Kin, None, 0)]])
-        self.koma  = self.ban.mochigoma(0)[0]
+        self.ban   = pyshogi.Shogiban([True, [(True, Kin, None, False)]])
+        self.koma  = self.ban.mochigoma(True)[0]
         self.ugoki = dict([(masu, None) for masu in self.ban])
 
 class GoteKin_TestCase(unittest.TestCase, MochiKomaTestCase):
     def setUp(self):
-        self.ban   = pyshogi.Shogiban([0, [(1, Kin, None, 0)]])
-        self.koma  = self.ban.mochigoma(1)[0]
+        self.ban   = pyshogi.Shogiban([True, [(False, Kin, None, False)]])
+        self.koma  = self.ban.mochigoma(False)[0]
         self.ugoki = dict([(masu, None) for masu in self.ban])
 
 # Kaku
 class SenteKaku_TestCase(unittest.TestCase, MochiKomaTestCase):
     def setUp(self):
-        self.ban   = pyshogi.Shogiban([0, [(0, Kaku, None, 0)]])
-        self.koma  = self.ban.mochigoma(0)[0]
+        self.ban   = pyshogi.Shogiban([True, [(True, Kaku, None, False)]])
+        self.koma  = self.ban.mochigoma(True)[0]
         self.ugoki = dict([(masu, None) for masu in self.ban])
 
 class GoteKaku_TestCase(unittest.TestCase, MochiKomaTestCase):
     def setUp(self):
-        self.ban   = pyshogi.Shogiban([0, [(1, Kaku, None, 0)]])
-        self.koma  = self.ban.mochigoma(1)[0]
+        self.ban   = pyshogi.Shogiban([True, [(False, Kaku, None, False)]])
+        self.koma  = self.ban.mochigoma(False)[0]
         self.ugoki = dict([(masu, None) for masu in self.ban])
 
 # Hisya
 class SenteHisya_TestCase(unittest.TestCase, MochiKomaTestCase):
     def setUp(self):
-        self.ban   = pyshogi.Shogiban([0, [(0, Hisya, None, 0)]])
-        self.koma  = self.ban.mochigoma(0)[0]
+        self.ban   = pyshogi.Shogiban([True, [(True, Hisya, None, False)]])
+        self.koma  = self.ban.mochigoma(True)[0]
         self.ugoki = dict([(masu, None) for masu in self.ban])
 
 class GoteHisya_TestCase(unittest.TestCase, MochiKomaTestCase):
     def setUp(self):
-        self.ban   = pyshogi.Shogiban([0, [(1, Hisya, None, 0)]])
-        self.koma  = self.ban.mochigoma(1)[0]
+        self.ban   = pyshogi.Shogiban([True, [(False, Hisya, None, False)]])
+        self.koma  = self.ban.mochigoma(False)[0]
         self.ugoki = dict([(masu, None) for masu in self.ban])
 
 if __name__ == '__main__': unittest.main()

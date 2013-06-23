@@ -19,16 +19,16 @@ class SenteTestCase(unittest.TestCase):
         '''
         ban = pyshogi.Shogiban(
             [
-                0,
+                True,
                 [
-                    (1, Fu,    (7, 0), 0),
-                    (1, Gyoku, (8, 0), 0),
-                    (0, Kin,   (7, 2), 0),
-                    (0, Fu,    None,   0),
+                    (False, Fu,    (7, 0), False),
+                    (False, Gyoku, (8, 0), False),
+                    (True,  Kin,   (7, 2), False),
+                    (True,  Fu,    None,   False),
                 ]
             ]
         )
-        fu = ban.mochigoma(0)[0]
+        fu = ban.mochigoma(True)[0]
 
         masus = set(ban)
         for x in range(0, 9):
@@ -51,12 +51,12 @@ class SenteTestCase(unittest.TestCase):
         '''
         ban = pyshogi.Shogiban(
             [
-                0,
+                True,
                 [
-                    (1, Fu,    (7, 0), 0),
-                    (1, Gyoku, (8, 0), 0),
-                    (0, Kin,   (7, 2), 0),
-                    (0, Fu,    (8, 2), 0),
+                    (False, Fu,    (7, 0), False),
+                    (False, Gyoku, (8, 0), False),
+                    (True,  Kin,   (7, 2), False),
+                    (True,  Fu,    (8, 2), False),
                 ]
             ]
         )

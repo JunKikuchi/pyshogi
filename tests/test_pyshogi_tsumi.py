@@ -17,38 +17,38 @@ class TsumiTestCase(unittest.TestCase):
     def test_atamakin(self):
         ban = pyshogi.Shogiban(
             [
-                0,
+                True,
                 [
-                    (1, Gyoku, (4, 0), 0),
-                    (0, Kin,   (4, 1), 0),
-                    (0, Fu,    (4, 2), 0),
-                    (0, Gyoku, (4, 8), 0),
+                    (False, Gyoku, (4, 0), False),
+                    (True,  Kin,   (4, 1), False),
+                    (True,  Fu,    (4, 2), False),
+                    (True,  Gyoku, (4, 8), False),
                 ]
             ]
         )
 
-        ban.teban = 0
+        ban.teban = True
         self.assertFalse(ban.tsumi())
 
-        ban.teban = 1
+        ban.teban = False
         self.assertTrue(ban.tsumi())
 
     def test_not_atamakin(self):
         ban = pyshogi.Shogiban(
             [
-                0,
+                True,
                 [
-                    (1, Gyoku, (4, 0), 0),
-                    (0, Kin,   (4, 1), 0),
-                    (0, Gyoku, (4, 8), 0),
+                    (False, Gyoku, (4, 0), False),
+                    (True,  Kin,   (4, 1), False),
+                    (True,  Gyoku, (4, 8), False),
                 ]
             ]
         )
 
-        ban.teban = 0
+        ban.teban = True
         self.assertFalse(ban.tsumi())
 
-        ban.teban = 1
+        ban.teban = False
         self.assertFalse(ban.tsumi())
 
 if __name__ == '__main__': unittest.main()
