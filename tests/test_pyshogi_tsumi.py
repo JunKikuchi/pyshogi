@@ -51,4 +51,44 @@ class TsumiTestCase(unittest.TestCase):
         ban.teban = False
         self.assertFalse(ban.tsumi())
 
+    def test_aigoma(self):
+        ban = pyshogi.Shogiban(
+            [
+                True,
+                [
+                    (False, Gyoku, (0, 0), False),
+                    (False, Fu,    None,   False),
+                    (True,  Kin,   (0, 2), False),
+                    (True,  Hisya, (2, 0), False),
+                    (True,  Gyoku, (0, 8), False),
+                ]
+            ]
+        )
+
+        ban.teban = True
+        self.assertFalse(ban.tsumi())
+
+        ban.teban = False
+        self.assertFalse(ban.tsumi())
+
+    def test_aigoma_ng(self):
+        ban = pyshogi.Shogiban(
+            [
+                True,
+                [
+                    (False, Gyoku, (0, 0), False),
+                    (False, Fu,    None,   False),
+                    (True,  Hisya, (2, 1), True),
+                    (True,  Keima, (1, 2), False),
+                    (True,  Gyoku, (0, 8), False),
+                ]
+            ]
+        )
+
+        ban.teban = True
+        self.assertFalse(ban.tsumi())
+
+        ban.teban = False
+        self.assertTrue(ban.tsumi())
+
 if __name__ == '__main__': unittest.main()

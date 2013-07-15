@@ -10,7 +10,6 @@ from pyshogi import Gyoku, Hisya, Kaku, Kin, Gin, Keima, Kyosya, Fu
 import unittest
 
 class OuteTestCase(unittest.TestCase):
-    '''
     def test_oute(self):
         ban = pyshogi.Shogiban(
             [
@@ -96,7 +95,6 @@ class OuteTestCase(unittest.TestCase):
 
         ban.teban = False
         self.assertFalse(ban.oute())
-    '''
 
     def test_sente_ugoki3(self):
         ban = pyshogi.Shogiban(
@@ -113,7 +111,6 @@ class OuteTestCase(unittest.TestCase):
         ban.teban = True
         self.assertFalse(ban.oute())
 
-    '''
     def test_gote_ugoki2(self):
         ban = pyshogi.Shogiban(
             [
@@ -136,6 +133,5 @@ class OuteTestCase(unittest.TestCase):
 
         ban.teban = True
         self.assertFalse(ban.oute())
-    '''
 
 if __name__ == '__main__': unittest.main()
