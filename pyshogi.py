@@ -488,10 +488,7 @@ class Shogiban(object):
 
         gyoku = self.gyokus[self.teban]
         if self.oute() and gyoku.ugoki().issubset(self.kiki(not self.teban)):
-            komas = self.mochigoma(self.teban)
-            if len(komas) <= 0:
-                return True
-            for aigoma in komas:
+            for aigoma in self.mochigoma(self.teban):
                 if len(aigoma.ugoki()) > 0:
                     return False
             return True
